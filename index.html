@@ -9,20 +9,24 @@
     <!-- 引入 PapaParse 用於讀取 CSV -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
-        html { scroll-behavior: smooth; } /* 讓錨點跳轉有平滑滑動效果 */
+        html { scroll-behavior: smooth; }
+        /* 自訂滾動條樣式，讓左側列表更美觀 */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-100 text-gray-800 font-sans">
 
     <!-- 導覽列 -->
-    <nav class="bg-blue-900 text-white p-4 shadow-md">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">AI 情報站</h1>
+    <nav class="bg-blue-900 text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wider">AI 情報站</h1>
             <!-- Desktop nav -->
-            <div class="hidden md:flex space-x-4">
+            <div class="hidden md:flex space-x-6 font-medium">
                 <a href="index.html" class="hover:text-blue-300 border-b-2 border-white pb-1">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-blue-300">Global Financial AI Watch</a>
-                <a href="docs.html" class="hover:text-blue-300">AI Model Docs</a>
+                <a href="watch.html" class="hover:text-blue-300 transition-colors">Global Financial AI Watch</a>
+                <a href="docs.html" class="hover:text-blue-300 transition-colors">AI Model Docs</a>
             </div>
             <!-- Hamburger button -->
             <button id="menuToggle" class="md:hidden flex flex-col space-y-1.5 p-2" aria-label="Menu">
@@ -33,7 +37,7 @@
         </div>
         <!-- Mobile dropdown -->
         <div id="mobileMenu" class="hidden md:hidden mt-3 pb-2 border-t border-blue-700">
-            <div class="max-w-6xl mx-auto flex flex-col space-y-3 pt-3">
+            <div class="max-w-7xl mx-auto flex flex-col space-y-3 pt-3 px-2">
                 <a href="index.html" class="hover:text-blue-300 border-b-2 border-white pb-1 inline-block">AI Trend Weekly</a>
                 <a href="watch.html" class="hover:text-blue-300">Global Financial AI Watch</a>
                 <a href="docs.html" class="hover:text-blue-300">AI Model Docs</a>
@@ -42,109 +46,71 @@
     </nav>
 
     <!-- 主要內容區 -->
-    <main class="max-w-6xl mx-auto p-6 mt-6">
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 my-6">
 
-        <div class="flex gap-6 items-start">
-
-            <!-- 左側文章導覽欄 (桌面版 lg+) -->
-            <aside class="hidden lg:block w-52 flex-shrink-0">
-                <div id="sidebarInner" class="sticky top-6 bg-white rounded-xl shadow-sm border border-gray-200 p-4 max-h-[calc(100vh-5rem)] overflow-y-auto">
-                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                        <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h8"></path>
-                        </svg>
-                        本頁導覽
-                    </h3>
-                    <nav id="articleNavList" class="space-y-0.5">
-                        <p class="text-xs text-gray-400 italic">載入中...</p>
-                    </nav>
-                </div>
-            </aside>
-
-            <!-- 主要內容 -->
-            <div class="flex-1 min-w-0">
-
-        <!-- 控制區：選擇週次 -->
-        <div class="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <h2 class="text-xl font-semibold text-gray-700">AI Trend Weekly</h2>
-            <div>
-                <label for="weekSelector" class="mr-2 font-medium text-gray-600">選擇週次：</label>
-                <select id="weekSelector" class="border border-gray-300 rounded p-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <!-- 頂部 Header Banner (對齊參考圖的紅色 Banner，但使用你的藍色系) -->
+        <div class="bg-gradient-to-r from-blue-900 to-indigo-800 text-white p-8 rounded-xl shadow-lg mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center relative overflow-hidden">
+            <!-- 裝飾用背景 -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mt-20 -mr-20 pointer-events-none"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-4xl font-extrabold tracking-widest uppercase mb-2">AI Trend Weekly</h2>
+                <p class="text-blue-200 text-sm tracking-wide" id="headerSubtitle">洞察·趨勢 | 載入中...</p>
+            </div>
+            <div class="mt-6 sm:mt-0 relative z-10 w-full sm:w-auto">
+                <select id="weekSelector" class="w-full sm:w-auto border-0 rounded-lg p-3 bg-white/10 text-white font-medium focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm cursor-pointer [&>option]:text-gray-800">
                     <option value="">載入中...</option>
                 </select>
             </div>
         </div>
 
         <!-- 搜尋列 -->
-        <div class="mb-4 relative">
-            <input type="text" id="newsSearchInput" placeholder="搜尋新聞標題或摘要關鍵字..."
-                   class="w-full pl-12 pr-10 py-3 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm text-sm">
-            <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="mb-6 relative max-w-2xl mx-auto">
+            <input type="text" id="newsSearchInput" placeholder="搜尋本週新聞標題或摘要關鍵字..."
+                   class="w-full pl-12 pr-10 py-3.5 rounded-full border border-gray-200 bg-white focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none shadow-sm text-sm transition-shadow">
+            <svg class="w-5 h-5 text-gray-400 absolute left-5 top-3.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
-            <button id="clearSearch" class="hidden absolute right-3 top-3 text-gray-400 hover:text-gray-600 p-0.5" aria-label="清除搜尋">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button id="clearSearch" class="hidden absolute right-4 top-3.5 text-gray-400 hover:text-gray-600 p-0.5" aria-label="清除搜尋">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
         </div>
-        <div id="searchResultCount" class="hidden mb-4 text-sm text-gray-500"></div>
+        <div id="searchResultCount" class="hidden mb-6 text-center text-sm text-gray-500 font-medium"></div>
 
-        <!-- 區塊一：本週總結 (AI_weekly_summary_text) -->
-        <div id="section-summary" class="scroll-mt-20"></div>
-        <div id="summarySection" class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl shadow-sm border border-blue-100 mb-10">
-            <h3 class="text-lg font-bold text-blue-800 mb-3 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
-                本週總結
+        <!-- 區塊一：本週總結 (對齊參考圖的寬版 Summary) -->
+        <div id="summarySection" class="bg-white p-6 sm:p-8 rounded-xl shadow-sm border-t-4 border-blue-600 mb-8">
+            <h3 class="text-xl font-bold text-blue-900 mb-4 flex items-center">
+                <span class="text-2xl mr-2">📋</span>
+                本週趨勢摘要 (Executive Summary)
             </h3>
-            <p id="summaryText" class="text-gray-700 leading-relaxed text-lg">資料載入中...</p>
+            <p id="summaryText" class="text-gray-700 leading-relaxed text-base sm:text-lg">資料載入中...</p>
         </div>
 
-        <!-- 區塊二：新聞亮點 (AI_Weekly_related_news) -->
-        <h3 id="section-news" class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-blue-600 pl-3 scroll-mt-20">Related News</h3>
+        <!-- 區塊二：新聞亮點 (對齊參考圖的 3 欄卡片設計) -->
         <div id="relatedNewsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             <!-- 卡片會由 JS 動態生成 -->
         </div>
 
-        <!-- 區塊三：深度文章區 (AI_Weekly_articles) -->
-        <h3 id="section-articles" class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-indigo-600 pl-3 scroll-mt-20">Articles & Insights</h3>
-        <div id="articlesContainer" class="space-y-8 mb-20">
-            <!-- 文章詳細內容會由 JS 動態生成 -->
-        </div>
-
-            </div><!-- end 主要內容 -->
-        </div><!-- end flex wrapper -->
-    </main>
-
-    <!-- 手機版浮動導覽按鈕 (FAB) -->
-    <button id="mobileNavFab" class="lg:hidden fixed bottom-6 right-6 z-40 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full w-14 h-14 shadow-lg flex items-center justify-center transition-colors" aria-label="文章導覽">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h8"></path>
-        </svg>
-    </button>
-
-    <!-- 手機版抽屜 -->
-    <div id="mobileNavDrawer" class="lg:hidden fixed inset-0 z-50 hidden">
-        <div id="mobileNavOverlay" class="absolute inset-0 bg-black/50"></div>
-        <div class="absolute left-0 top-0 h-full w-72 bg-white shadow-xl flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b border-gray-200 flex-shrink-0">
-                <h3 class="font-bold text-gray-800 flex items-center gap-2">
-                    <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h8"></path>
-                    </svg>
-                    本頁導覽
-                </h3>
-                <button id="closeNavDrawer" class="text-gray-400 hover:text-gray-600 p-1" aria-label="關閉">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+        <!-- 區塊三：深度文章區 - 左右分割設計 (對齊參考圖下半部) -->
+        <div class="flex flex-col lg:flex-row gap-6 mb-20" id="articlesSplitView">
+            
+            <!-- 左側：文章列表選單 -->
+            <div class="w-full lg:w-1/3 flex flex-col gap-3 max-h-[800px] overflow-y-auto custom-scrollbar pr-2 pb-4" id="articleListPane">
+                <p class="text-gray-500 text-center py-4">載入中...</p>
             </div>
-            <nav id="mobileArticleNavList" class="flex-1 overflow-y-auto p-4 space-y-0.5">
-                <p class="text-xs text-gray-400 italic">載入中...</p>
-            </nav>
+
+            <!-- 右側：文章詳細內容 -->
+            <div class="w-full lg:w-2/3 bg-white p-6 sm:p-8 rounded-xl shadow-sm border border-gray-200" id="articleDetailPane">
+                <div class="h-full flex items-center justify-center text-gray-400">
+                    點擊左側文章標題查看詳細分析
+                </div>
+            </div>
+
         </div>
-    </div>
+
+    </main>
 
     <script>
         // === 請將以下三個網址替換為你真實發佈的 CSV 網址 ===
@@ -156,6 +122,7 @@
         let availableDates = [];
         let currentSearchTerm = '';
         let currentWeekNews = [];
+        let currentWeekArticles = [];
         let currentSelectedDate = '';
 
         // Hamburger menu
@@ -167,34 +134,88 @@
         const newsSearchInput = document.getElementById('newsSearchInput');
         const clearSearch = document.getElementById('clearSearch');
 
+        // newsSearchInput.addEventListener('input', (e) => {
+        //     currentSearchTerm = e.target.value;
+        //     clearSearch.classList.toggle('hidden', !currentSearchTerm);
+        //     const newsSource = currentSearchTerm ? allData.news : currentWeekNews;
+        //     renderNewsCards(newsSource, currentSelectedDate, currentSearchTerm);
+        // });
+
+        // clearSearch.addEventListener('click', () => {
+        //     newsSearchInput.value = '';
+        //     currentSearchTerm = '';
+        //     clearSearch.classList.add('hidden');
+        //     renderNewsCards(currentWeekNews, currentSelectedDate, '');
+        // });
+
+        // 監聽搜尋輸入
         newsSearchInput.addEventListener('input', (e) => {
             currentSearchTerm = e.target.value;
             clearSearch.classList.toggle('hidden', !currentSearchTerm);
-            const newsSource = currentSearchTerm ? allData.news : currentWeekNews;
-            renderNewsCards(newsSource, currentSelectedDate, currentSearchTerm);
+            
+            // 取得需要操作的區塊
+            const summarySection = document.getElementById('summarySection');
+            const relatedNewsContainer = document.getElementById('relatedNewsContainer');
+            const searchResultCount = document.getElementById('searchResultCount');
+
+            if (currentSearchTerm) {
+                // 搜尋時：隱藏本週摘要與 Related News，專注顯示「所有深度文章」的搜尋結果
+                summarySection.style.display = 'none';
+                relatedNewsContainer.style.display = 'none';
+                searchResultCount.classList.remove('hidden');
+
+                const term = currentSearchTerm.toLowerCase();
+                // 從所有深度文章 (allData.articles) 中進行跨週次全局搜尋
+                currentWeekArticles = allData.articles.filter(art => {
+                    // 擴大搜尋範圍：標題、亮點、細節、PM Insight 都納入搜尋
+                    const content = `${art['title'] || ''} ${art['highlight'] || ''} ${art['detail_points'] || ''} ${art['pm_insight'] || ''}`.toLowerCase();
+                    return content.includes(term);
+                });
+                
+                searchResultCount.textContent = `在所有深度文章中找到 ${currentWeekArticles.length} 筆結果`;
+
+            } else {
+                // 清空搜尋時：恢復顯示本週摘要與 Related News
+                summarySection.style.display = 'block';
+                relatedNewsContainer.style.display = 'grid'; // 恢復網格排版
+                searchResultCount.classList.add('hidden');
+                
+                // 恢復顯示當週深度文章
+                currentWeekArticles = allData.articles.filter(row => row['日期'] === currentSelectedDate);
+            }
+
+            // 重新渲染左側文章列表
+            renderArticleList();
+            
+            // 自動顯示搜尋結果的第一篇文章，或顯示無結果提示
+            if (currentWeekArticles.length > 0) {
+                showArticleDetail(0);
+            } else {
+                document.getElementById('articleDetailPane').innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-gray-400 py-20">
+                        <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        <p>找不到符合「${currentSearchTerm}」的深度文章</p>
+                    </div>`;
+            }
         });
 
+        // 監聽清除搜尋按鈕
         clearSearch.addEventListener('click', () => {
             newsSearchInput.value = '';
-            currentSearchTerm = '';
-            clearSearch.classList.add('hidden');
-            renderNewsCards(currentWeekNews, currentSelectedDate, '');
+            // 手動觸發 input 事件，讓上面的邏輯自動幫我們恢復預設狀態
+            newsSearchInput.dispatchEvent(new Event('input')); 
         });
 
-        // 使用 Promise 包裝 PapaParse 以確保三個檔案都讀取完畢
+        
+
         function fetchCSV(url) {
             return new Promise((resolve, reject) => {
                 Papa.parse(url, {
                     download: true,
                     header: true,
                     skipEmptyLines: true,
-                    complete: function(results) {
-                        resolve(results.data);
-                    },
-                    error: function(err) {
-                        console.error("CSV 讀取錯誤:", err);
-                        reject(err);
-                    }
+                    complete: function(results) { resolve(results.data); },
+                    error: function(err) { console.error("CSV 讀取錯誤:", err); reject(err); }
                 });
             });
         }
@@ -207,36 +228,31 @@
                 }
 
                 const [summaryData, newsData, articlesData] = await Promise.all([
-                    fetchCSV(URL_SUMMARY),
-                    fetchCSV(URL_NEWS),
-                    fetchCSV(URL_ARTICLES)
+                    fetchCSV(URL_SUMMARY), fetchCSV(URL_NEWS), fetchCSV(URL_ARTICLES)
                 ]);
 
                 allData.summary = summaryData;
                 allData.news = newsData;
                 allData.articles = articlesData;
 
-                // 提取所有不重複的日期並排序 (大到小，最新的在最上面)
                 let dateSet = new Set();
                 summaryData.forEach(row => dateSet.add(row['日期']));
                 availableDates = Array.from(dateSet).sort((a, b) => b.localeCompare(a));
 
-                // 建立下拉選單
                 const selector = document.getElementById('weekSelector');
                 selector.innerHTML = '';
                 availableDates.forEach(date => {
                     const option = document.createElement('option');
                     option.value = date;
-                    option.textContent = `${date.substring(0,4)}-${date.substring(4,6)}-${date.substring(6,8)} 週次`;
+                    const y = date.substring(0,4), m = date.substring(4,6), d = date.substring(6,8);
+                    option.textContent = `${y} 年 ${m} 月 ${d} 日 當週`;
                     selector.appendChild(option);
                 });
 
-                // 監聽下拉選單改變事件
                 selector.addEventListener('change', (e) => {
                     renderPage(e.target.value);
                 });
 
-                // 預設渲染最新的一週
                 if (availableDates.length > 0) {
                     renderPage(availableDates[0]);
                 } else {
@@ -248,22 +264,22 @@
             }
         }
 
-        // 解析 impact_analysis 欄位 (說明: ... 標的: ...)
+        // 格式化日期顯示輔助
+        function formatSubtitle(dateStr) {
+            if(!dateStr || dateStr.length < 8) return "洞察·趨勢";
+            return `洞察·趨勢 | ${dateStr.substring(0,4)} 年 ${dateStr.substring(4,6)} 月`;
+        }
+
+        // 解析 impact_analysis
         function parseImpactField(text) {
             if (!text) return { description: '', targets: [] };
             const parts = text.split('標的:');
             const description = parts[0].replace(/^說明[:：]\s*/, '').trim();
-            const targets = parts[1]
-                ? parts[1].split(/[、,，]/).map(t => t.trim()).filter(Boolean)
-                : [];
+            const targets = parts[1] ? parts[1].split(/[、,，]/).map(t => t.trim()).filter(Boolean) : [];
             return { description, targets };
         }
 
-        // 搜尋文字高亮輔助函數
-        function escapeRegExp(string) {
-            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        }
-
+        function escapeRegExp(string) { return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
         function highlightText(text, searchTerm) {
             if (!searchTerm || !text) return text || '';
             const escaped = escapeRegExp(searchTerm);
@@ -271,62 +287,52 @@
             return text.replace(regex, '<mark class="bg-yellow-200 rounded px-0.5">$1</mark>');
         }
 
-        // 渲染新聞卡片（支援搜尋過濾與高亮）
+        // 渲染上方的新聞卡片 (3欄設計)
         function renderNewsCards(weekNews, selectedDate, searchTerm) {
             const newsContainer = document.getElementById('relatedNewsContainer');
             const searchResultCount = document.getElementById('searchResultCount');
             newsContainer.innerHTML = '';
 
             const isGlobalSearch = searchTerm && weekNews === allData.news;
-
             let filtered = weekNews;
+
             if (searchTerm) {
                 const term = searchTerm.toLowerCase();
-                filtered = weekNews.filter(news => {
-                    const haystack = `${news['title']} ${news['summary']}`.toLowerCase();
-                    return haystack.includes(term);
-                });
+                filtered = weekNews.filter(news => `${news['title']} ${news['summary']}`.toLowerCase().includes(term));
                 searchResultCount.classList.remove('hidden');
-                if (isGlobalSearch) {
-                    searchResultCount.textContent = `找到 ${filtered.length} 筆結果（共 ${allData.news.length} 則新聞，跨所有週次）`;
-                } else {
-                    searchResultCount.textContent = `找到 ${filtered.length} 筆結果（共 ${weekNews.length} 則新聞）`;
-                }
+                searchResultCount.textContent = isGlobalSearch 
+                    ? `找到 ${filtered.length} 筆結果（跨所有週次）` 
+                    : `找到 ${filtered.length} 筆結果（本週）`;
             } else {
                 searchResultCount.classList.add('hidden');
             }
 
-            if (filtered.length === 0 && searchTerm) {
-                newsContainer.innerHTML = `<div class="col-span-full text-center text-gray-500 py-8">找不到符合「${searchTerm}」的新聞</div>`;
+            if (filtered.length === 0) {
+                newsContainer.innerHTML = `<div class="col-span-full text-center text-gray-500 py-8">無相關新聞資料</div>`;
                 return;
             }
 
             filtered.forEach((news) => {
-                const originalIndex = weekNews.indexOf(news);
-                const newsDate = news['日期'];
-                const targetArticleId = `article-${newsDate}-${originalIndex}`;
-
                 const title = highlightText(news['title'], searchTerm);
                 const summary = highlightText(news['summary'], searchTerm);
-
-                const dateBadgeHtml = isGlobalSearch && newsDate
-                    ? `<div class="mb-2"><span class="inline-block bg-gray-100 text-gray-500 text-xs px-2 py-0.5 rounded">${newsDate.substring(0,4)}-${newsDate.substring(4,6)}-${newsDate.substring(6,8)}</span></div>`
-                    : '';
-
-                const learnMoreHtml = (!isGlobalSearch || newsDate === selectedDate)
-                    ? `<button onclick="expandArticle('${targetArticleId}')" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-1.5 px-4 rounded transition-colors">瞭解更多 ↓</button>`
-                    : '';
+                
+                // 完全依照要求補上的閱讀原文 HTML 結構
+                // const exactReadMoreHtml = news['url'] ? `<a href="${news['url']}" target="_blank" class="text-xs text-blue-500 hover:underline mt-1 inline-block">閱讀原文 &rarr;</a>` : '';
+                // 取得該筆新聞在當週陣列中的原始索引，用來對應下方的深度文章
+                const originalIndex = weekNews.indexOf(news);
+                
+                // 將「閱讀原文」改成「了解更多」，並加上點擊切換文章與滾動的動作
+                const exactReadMoreHtml = `<button onclick="showArticleDetail(${originalIndex}); document.getElementById('articlesSplitView').scrollIntoView({ behavior: 'smooth', block: 'start' });" class="text-xs text-blue-500 hover:underline mt-1 inline-block text-left cursor-pointer transition-colors">了解更多 &rarr;</button>`;
 
                 const newsCard = `
-                    <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300 p-5 border border-gray-100 flex flex-col justify-between">
-                        <div>
-                            ${dateBadgeHtml}
-                            <h4 class="text-lg font-bold text-gray-800 mb-2">${title}</h4>
-                            <p class="text-gray-600 text-sm mb-4">${summary}</p>
-                        </div>
-                        <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
-                            <a href="${news['url']}" target="_blank" class="text-xs text-blue-500 hover:underline">原文連結</a>
-                            ${learnMoreHtml}
+                    <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-200 flex flex-col h-full relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-300 to-indigo-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                        <h4 class="text-base font-bold text-gray-800 mb-3 leading-snug">${title}</h4>
+                        <ul class="text-gray-600 text-sm mb-4 space-y-1.5 flex-1 list-disc pl-4">
+                            <li>${summary}</li>
+                        </ul>
+                        <div class="mt-auto pt-3 border-t border-gray-100">
+                            ${exactReadMoreHtml}
                         </div>
                     </div>
                 `;
@@ -334,274 +340,251 @@
             });
         }
 
+        // 主頁面渲染
         function renderPage(selectedDate) {
-            // 重設搜尋狀態
             currentSelectedDate = selectedDate;
             newsSearchInput.value = '';
             currentSearchTerm = '';
             clearSearch.classList.add('hidden');
             document.getElementById('searchResultCount').classList.add('hidden');
 
-            // 1. 渲染 Summary
+            // Header 副標題更新
+            document.getElementById('headerSubtitle').innerText = formatSubtitle(selectedDate);
+
+            // 1. Summary
             const weekSummary = allData.summary.find(row => row['日期'] === selectedDate);
             document.getElementById('summaryText').innerText = weekSummary ? weekSummary['summary_text'] : "本週無總結資料。";
 
-            // 2. 渲染 Related News 卡片
+            // 2. News Cards
             const weekNews = allData.news.filter(row => row['日期'] === selectedDate);
             currentWeekNews = weekNews;
             renderNewsCards(weekNews, selectedDate, '');
 
-            // 3. 渲染 Articles 深度文章
-            const weekArticles = allData.articles.filter(row => row['日期'] === selectedDate);
-            const articlesContainer = document.getElementById('articlesContainer');
-            articlesContainer.innerHTML = '';
-
-            weekArticles.forEach((article, index) => {
-                const articleId = `article-${selectedDate}-${index}`;
-
-                // 處理 Hashtags — 白色半透明 pill（放在漸層標頭中）
-                let hashtagsHtml = '';
-                if(article['hashtags']) {
-                    const tags = article['hashtags'].split(',').map(tag => tag.trim());
-                    hashtagsHtml = tags.map(tag =>
-                        `<span class="inline-block bg-white/20 border border-white/30 text-white rounded-full px-3 py-1 text-xs font-semibold">${tag}</span>`
-                    ).join('');
-                }
-
-                // 細節重點 — SVG checkmark icon
-                const detailPointsFormatted = article['detail_points']
-                    ? article['detail_points'].split('\n').filter(p => p.trim()).map(point => `
-                        <li class="flex items-start gap-2 text-sm text-gray-700">
-                            <svg class="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span>${point}</span>
-                        </li>
-                    `).join('')
-                    : '';
-
-                const articleBlock = `
-                    <div id="${articleId}" class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 scroll-mt-24">
-
-                        <!-- 漸層標頭 (可點擊展開/收起) -->
-                        <div class="bg-gradient-to-r from-indigo-700 to-blue-600 p-5 relative overflow-hidden cursor-pointer select-none" onclick="toggleArticle('${articleId}')">
-                            <!-- 裝飾圓形 -->
-                            <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-white/10 -mr-10 -mt-10 pointer-events-none"></div>
-                            <div class="absolute bottom-0 right-20 w-20 h-20 rounded-full bg-white/10 -mb-8 pointer-events-none"></div>
-                            <!-- 編號 + 標題 -->
-                            <div class="flex items-start gap-3 relative">
-                                <span class="flex-shrink-0 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white font-bold text-sm">${index + 1}</span>
-                                <h3 class="text-xl font-bold text-white leading-snug flex-1">${article['title']}</h3>
-                                <span class="article-chevron flex-shrink-0 mt-1 text-white/80" style="transition: transform 0.3s;">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </span>
-                            </div>
-                            ${hashtagsHtml ? `<div class="mt-3 flex flex-wrap gap-2 relative">${hashtagsHtml}</div>` : ''}
-                        </div>
-
-                        <div class="article-body hidden">
-                        <div class="p-6">
-                            <!-- 新聞摘要 + 細節重點 -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-3">
-                                        <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                            </svg>
-                                        </div>
-                                        <h4 class="font-bold text-gray-800">新聞摘要 (Highlight)</h4>
-                                    </div>
-                                    <p class="text-gray-700 text-sm leading-relaxed">${article['highlight']}</p>
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-2 mb-3">
-                                        <div class="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
-                                            </svg>
-                                        </div>
-                                        <h4 class="font-bold text-gray-800">細節重點 (Detail Points)</h4>
-                                    </div>
-                                    <ul class="space-y-2">
-                                        ${detailPointsFormatted}
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- PM Insight：左邊框 + 漸層背景 -->
-                            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-5 mb-6 border-l-4 border-blue-500">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div class="w-7 h-7 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <span class="text-white text-sm leading-none">💡</span>
-                                    </div>
-                                    <h4 class="font-bold text-blue-800">PM Insight</h4>
-                                </div>
-                                <p class="text-gray-700 text-sm leading-relaxed">${article['pm_insight']}</p>
-                            </div>
-
-                            <!-- 受惠 / 受損分析 -->
-                            ${(() => {
-                                const benefited = parseImpactField(article['impact_analysis_benefited']);
-                                const damaged = parseImpactField(article['impact_analysis_damaged']);
-                                const benefitedChips = benefited.targets.map(t =>
-                                    `<span class="inline-block bg-green-100 text-green-800 border border-green-300 rounded-full px-3 py-0.5 text-xs font-medium mr-1 mb-1">${t}</span>`
-                                ).join('');
-                                const damagedChips = damaged.targets.map(t =>
-                                    `<span class="inline-block bg-red-100 text-red-800 border border-red-300 rounded-full px-3 py-0.5 text-xs font-medium mr-1 mb-1">${t}</span>`
-                                ).join('');
-                                return `
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div class="bg-green-50 rounded-lg p-4">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div class="w-7 h-7 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                            </svg>
-                                        </div>
-                                        <h4 class="font-bold text-green-800">受惠分析 (Benefited)</h4>
-                                    </div>
-                                    <p class="text-sm text-green-900 mb-2">${benefited.description}</p>
-                                    ${benefitedChips ? `<div class="flex flex-wrap mt-1"><span class="text-xs text-green-700 font-semibold mr-2 mt-1">標的</span>${benefitedChips}</div>` : ''}
-                                </div>
-                                <div class="bg-red-50 rounded-lg p-4">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div class="w-7 h-7 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                            </svg>
-                                        </div>
-                                        <h4 class="font-bold text-red-800">受損分析 (Damaged)</h4>
-                                    </div>
-                                    <p class="text-sm text-red-900 mb-2">${damaged.description}</p>
-                                    ${damagedChips ? `<div class="flex flex-wrap mt-1"><span class="text-xs text-red-700 font-semibold mr-2 mt-1">標的</span>${damagedChips}</div>` : ''}
-                                </div>
-                            </div>`;
-                            })()}
-                        </div>
-                        </div>
-                    </div>
-                `;
-                articlesContainer.innerHTML += articleBlock;
-            });
-
-            // 更新左側 / 手機版導覽選單
-            updateArticleNav(weekArticles, selectedDate);
+            // 3. Articles (Split View)
+            currentWeekArticles = allData.articles.filter(row => row['日期'] === selectedDate);
+            renderArticleList();
+            
+            if(currentWeekArticles.length > 0) {
+                showArticleDetail(0);
+            } else {
+                document.getElementById('articleDetailPane').innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-gray-400 py-20">
+                        <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                        <p>本週尚無深度文章資料</p>
+                    </div>`;
+            }
         }
 
-        // === 文章導覽選單 ===
-        const NAV_SECTIONS = [
-            { id: 'section-summary', label: '本週總結', icon: '📋' },
-            { id: 'section-news',    label: 'Related News', icon: '📰' },
-            { id: 'section-articles', label: 'Articles & Insights', icon: '📝' },
-        ];
+        // 渲染左側文章列表
+        // function renderArticleList() {
+        //     const pane = document.getElementById('articleListPane');
+        //     if(!currentWeekArticles.length) {
+        //         pane.innerHTML = '';
+        //         return;
+        //     }
 
-        function buildNavHtml(weekArticles, selectedDate) {
-            const sectionLinks = NAV_SECTIONS.map(s =>
-                `<a href="#${s.id}" class="nav-section-link flex items-center gap-1.5 text-xs py-1.5 px-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors font-medium">
-                    <span>${s.icon}</span><span>${s.label}</span>
-                </a>`
+        //     pane.innerHTML = currentWeekArticles.map((art, index) => {
+        //         const num = String(index + 1).padStart(2, '0');
+        //         return `
+        //         <div class="article-list-item cursor-pointer p-4 bg-white rounded-xl border border-gray-200 hover:border-blue-400 hover:shadow-md transition-all flex flex-col gap-2 relative overflow-hidden group" data-index="${index}" onclick="showArticleDetail(${index})">
+        //             <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 opacity-0 group-[.active]:opacity-100 transition-opacity"></div>
+        //             <div class="text-blue-600 font-extrabold text-lg">${num}.</div>
+        //             <h4 class="font-bold text-gray-800 text-sm leading-snug group-[.active]:text-blue-800 transition-colors">${art['title']}</h4>
+        //             <p class="text-xs text-gray-500 line-clamp-2 mt-1 leading-relaxed">${art['highlight'] || ''}</p>
+        //         </div>
+        //         `;
+        //     }).join('');
+        // }
+
+// 渲染左側文章列表 (加入搜尋關鍵字高亮)
+        function renderArticleList() {
+            const pane = document.getElementById('articleListPane');
+            if(!currentWeekArticles.length) {
+                pane.innerHTML = '';
+                return;
+            }
+
+            pane.innerHTML = currentWeekArticles.map((art, index) => {
+                const num = String(index + 1).padStart(2, '0');
+                
+                // 套用高亮函式
+                const displayTitle = highlightText(art['title'], currentSearchTerm);
+                const displayHighlightText = highlightText(art['highlight'], currentSearchTerm);
+
+                return `
+                <div class="article-list-item cursor-pointer p-4 bg-white rounded-xl border border-gray-200 hover:border-blue-400 hover:shadow-md transition-all flex flex-col gap-2 relative overflow-hidden group flex-shrink-0 h-auto" data-index="${index}" onclick="showArticleDetail(${index})">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 opacity-0 group-[.active]:opacity-100 transition-opacity"></div>
+                    <div class="text-blue-600 font-extrabold text-lg">${num}.</div>
+                    <h4 class="font-bold text-gray-800 text-sm leading-snug group-[.active]:text-blue-800 transition-colors">${displayTitle}</h4>
+                    <p class="text-xs text-gray-500 line-clamp-2 mt-1 leading-relaxed">${displayHighlightText}</p>
+                </div>
+                `;
+            }).join('');
+        }
+
+// 渲染右側文章詳細內容 (加入搜尋關鍵字高亮與發布日期)
+        function showArticleDetail(index) {
+            // 更新左側 Active 狀態
+            document.querySelectorAll('.article-list-item').forEach(el => {
+                const isMatch = parseInt(el.dataset.index) === index;
+                el.classList.toggle('active', isMatch);
+                el.classList.toggle('ring-1', isMatch);
+                el.classList.toggle('ring-blue-500', isMatch);
+                el.classList.toggle('bg-blue-50/50', isMatch);
+                el.classList.toggle('border-blue-300', isMatch);
+            });
+
+            const article = currentWeekArticles[index];
+            if (!article) return;
+
+            // 套用高亮到各個主要文字區塊
+            const displayTitle = highlightText(article['title'], currentSearchTerm);
+            const displayHighlightText = highlightText(article['highlight'], currentSearchTerm);
+            const displayPmInsight = highlightText(article['pm_insight'], currentSearchTerm);
+
+            // 處理日期格式 (優先找 '發布日期'，若無則用 '日期')
+            let rawDate = article['發布日期'] || article['日期'] || '';
+            let formattedDate = rawDate;
+            // 如果日期是 8 碼數字 (例如 20240520)，自動格式化為 2024-05-20
+            if (/^\d{8}$/.test(rawDate)) {
+                formattedDate = `${rawDate.substring(0,4)}-${rawDate.substring(4,6)}-${rawDate.substring(6,8)}`;
+            }
+
+            // Hashtags
+            let hashtagsHtml = '';
+            if(article['hashtags']) {
+                hashtagsHtml = article['hashtags'].split(',').map(tag => 
+                    `<span class="inline-block bg-blue-100 text-blue-700 rounded-full px-3 py-1 text-xs font-semibold">${tag.trim()}</span>`
+                ).join('');
+            }
+
+            // Detail Points (針對每一點套用高亮)
+            const detailPointsFormatted = article['detail_points']
+                ? article['detail_points'].split('\n').filter(p => p.trim()).map(point => `
+                    <li class="flex items-start gap-2 text-sm text-gray-700 leading-relaxed mb-3">
+                        <svg class="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>${highlightText(point, currentSearchTerm)}</span>
+                    </li>
+                `).join('') : '';
+
+            // Impact Analysis
+            const benefited = parseImpactField(article['impact_analysis_benefited']);
+            const damaged = parseImpactField(article['impact_analysis_damaged']);
+            
+            const renderChips = (targets, typeClass) => targets.map(t => 
+                `<span class="inline-block bg-white ${typeClass} rounded-full px-3 py-1 text-xs font-semibold mr-1.5 mb-1.5 shadow-sm">${t}</span>`
             ).join('');
 
-            const divider = weekArticles.length
-                ? `<div class="my-2 border-t border-gray-100"></div>
-                   <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-2 mb-1">文章列表</p>`
-                : '';
+            const detailPaneHtml = `
+                <div class="animate-fade-in">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2 leading-tight">${displayTitle}</h2>
+                    
+                    <!-- 新增：新聞發布日期 -->
+                    ${formattedDate ? `
+                    <div class="flex items-center text-sm text-gray-500 mb-5 font-medium">
+                        <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        發布日期：${formattedDate}
+                    </div>` : ''}
 
-            const articleLinks = weekArticles.map((article, index) => {
-                const articleId = `article-${selectedDate}-${index}`;
-                return `<a href="#${articleId}"
-                           class="article-nav-link flex items-start gap-1.5 text-xs py-1.5 px-2 rounded-lg text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
-                           data-article-id="${articleId}"
-                           onclick="event.preventDefault(); expandArticle('${articleId}')">
-                            <span class="text-gray-400 font-mono flex-shrink-0 mt-0.5">${index + 1}.</span>
-                            <span class="line-clamp-2 leading-snug">${article['title']}</span>
-                        </a>`;
-            }).join('');
+                    ${hashtagsHtml ? `<div class="mb-8 flex flex-wrap gap-2">${hashtagsHtml}</div>` : ''}
 
-            return sectionLinks + divider + articleLinks;
-        }
+                    <!-- 重點速報 -->
+                    <div class="mb-8">
+                        <h3 class="flex items-center text-gray-800 font-bold text-base mb-3">
+                            <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center mr-2 flex-shrink-0">
+                                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            重點速報 (Highlight)
+                        </h3>
+                        <div class="text-gray-700 text-sm leading-relaxed">
+                            ${displayHighlightText}
+                        </div>
+                    </div>
 
-        function updateArticleNav(weekArticles, selectedDate) {
-            const html = buildNavHtml(weekArticles, selectedDate);
-            document.getElementById('articleNavList').innerHTML = html || '<p class="text-xs text-gray-400 italic">本週無文章</p>';
-            document.getElementById('mobileArticleNavList').innerHTML = html || '<p class="text-xs text-gray-400 italic">本週無文章</p>';
+                    <!-- 關鍵細節 -->
+                    <div class="mb-8">
+                        <h3 class="flex items-center text-gray-800 font-bold text-base mb-3">
+                            <div class="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center mr-2 flex-shrink-0">
+                                <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                                </svg>
+                            </div>
+                            關鍵細節 (Detail Points)
+                        </h3>
+                        <ul class="space-y-1">
+                            ${detailPointsFormatted}
+                        </ul>
+                    </div>
 
-            // 手機版：點擊連結後關閉抽屜
-            document.getElementById('mobileArticleNavList').querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    document.getElementById('mobileNavDrawer').classList.add('hidden');
-                });
-            });
+                    <!-- 策略解讀 -->
+                    <div class="mb-8 bg-blue-50 rounded-xl p-5 border-l-4 border-blue-500">
+                        <h3 class="flex items-center text-blue-800 font-bold text-base mb-3">
+                            <div class="w-7 h-7 bg-blue-500 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                <span class="text-white text-sm leading-none">💡</span>
+                            </div>
+                            PM Insight
+                        </h3>
+                        <div class="text-gray-700 text-sm leading-relaxed">
+                            ${displayPmInsight}
+                        </div>
+                    </div>
 
-            setupScrollSpy();
-        }
+                    <!-- 產業連動與標的 -->
+                    <div class="mb-8">
+                        <h3 class="flex items-center text-gray-800 font-bold text-base mb-4">
+                            產業連動與標的 <span class="text-xs text-gray-500 font-normal ml-2 uppercase">(Impact Analysis)</span>
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- 受惠 -->
+                            <div class="bg-green-50 rounded-xl p-5">
+                                <h4 class="flex items-center text-sm font-bold text-green-800 mb-3">
+                                    <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                        <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                    </div>
+                                    受惠分析 (Benefited)
+                                </h4>
+                                <p class="text-sm text-green-900 mb-4">${benefited.description}</p>
+                                ${benefited.targets.length ? `<div class="flex flex-wrap items-center"><span class="text-xs text-green-700 font-bold mr-2">標的</span>${renderChips(benefited.targets, 'text-green-700 border border-green-200')}</div>` : ''}
+                            </div>
+                            <!-- 受損 -->
+                            <div class="bg-red-50 rounded-xl p-5">
+                                <h4 class="flex items-center text-sm font-bold text-red-800 mb-3">
+                                    <div class="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                        <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                                    </div>
+                                    受損分析 (Damaged)
+                                </h4>
+                                <p class="text-sm text-red-900 mb-4">${damaged.description}</p>
+                                ${damaged.targets.length ? `<div class="flex flex-wrap items-center"><span class="text-xs text-red-700 font-bold mr-2">標的</span>${renderChips(damaged.targets, 'text-red-700 border border-red-200')}</div>` : ''}
+                            </div>
+                        </div>
+                    </div>
 
-        // Scroll Spy：追蹤目前閱讀到的文章
-        let scrollObserver = null;
-        function setupScrollSpy() {
-            if (scrollObserver) scrollObserver.disconnect();
-            const allNavLinks = document.querySelectorAll('.article-nav-link');
-            if (!allNavLinks.length) return;
+                    <!-- 閱讀原始文章按鈕 -->
+                    ${article['url'] ? `
+                    <div class="text-right pt-4 border-t border-gray-100 mt-auto">
+                        <a href="${article['url']}" target="_blank" class="inline-flex items-center justify-center border border-gray-300 text-gray-600 hover:text-blue-600 hover:border-blue-400 hover:bg-blue-50 px-5 py-2.5 rounded-lg text-sm font-medium transition-all shadow-sm">
+                            閱讀原始文章 
+                            <svg class="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </a>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            document.getElementById('articleDetailPane').innerHTML = detailPaneHtml;
 
-            scrollObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.id;
-                        allNavLinks.forEach(link => {
-                            const isActive = link.dataset.articleId === id;
-                            link.classList.toggle('bg-indigo-50', isActive);
-                            link.classList.toggle('text-indigo-700', isActive);
-                            link.classList.toggle('font-semibold', isActive);
-                        });
-                    }
-                });
-            }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
-
-            document.querySelectorAll('[id^="article-"]').forEach(el => scrollObserver.observe(el));
-        }
-
-        // 手機版抽屜控制
-        document.getElementById('mobileNavFab').addEventListener('click', () => {
-            document.getElementById('mobileNavDrawer').classList.remove('hidden');
-        });
-        document.getElementById('closeNavDrawer').addEventListener('click', () => {
-            document.getElementById('mobileNavDrawer').classList.add('hidden');
-        });
-        document.getElementById('mobileNavOverlay').addEventListener('click', () => {
-            document.getElementById('mobileNavDrawer').classList.add('hidden');
-        });
-
-        // === 文章展開/收起 ===
-        function toggleArticle(articleId) {
-            const articleEl = document.getElementById(articleId);
-            if (!articleEl) return;
-            const body = articleEl.querySelector('.article-body');
-            const chevron = articleEl.querySelector('.article-chevron');
-            if (body) {
-                const isHidden = body.classList.contains('hidden');
-                body.classList.toggle('hidden');
-                if (chevron) chevron.style.transform = isHidden ? 'rotate(180deg)' : '';
+            if(window.innerWidth < 1024) {
+                document.getElementById('articlesSplitView').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
-        function expandArticle(articleId) {
-            const articleEl = document.getElementById(articleId);
-            if (!articleEl) return;
-            const body = articleEl.querySelector('.article-body');
-            const chevron = articleEl.querySelector('.article-chevron');
-            if (body && body.classList.contains('hidden')) {
-                body.classList.remove('hidden');
-                if (chevron) chevron.style.transform = 'rotate(180deg)';
-            }
-            setTimeout(() => {
-                articleEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 80);
-        }
-
-        // 啟動程式
         window.addEventListener('DOMContentLoaded', initData);
 
     </script>
