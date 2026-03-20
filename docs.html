@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 情報站 - AI Model Docs</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 PapaParse -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <!-- 導覽列 -->
+    <nav class="bg-blue-900 text-white p-4 shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">AI 情報站</h1>
+            <div class="space-x-4">
+                <a href="index.html" class="hover:text-blue-300">AI Trend Weekly</a>
+                <a href="watch.html" class="hover:text-blue-300">Global Financial AI Watch</a>
+                <a href="docs.html" class="hover:text-blue-300 border-b-2 border-white pb-1">AI Model Docs</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 頁面頭部 / 搜尋區 -->
+    <header class="bg-gradient-to-r from-indigo-800 to-blue-700 text-white py-12 shadow-inner">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-extrabold mb-4">AI Model Navigator</h2>
+            <p class="text-blue-100 mb-8 text-lg">快速檢索最新商業與開源模型情報</p>
+            
+            <!-- 搜尋框 -->
+            <div class="max-w-2xl mx-auto relative">
+                <input type="text" id="searchInput" placeholder="搜尋模型名稱、開發商或功能關鍵字..." 
+                       class="w-full pl-12 pr-4 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg">
+                <svg class="w-6 h-6 text-gray-400 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="max-w-7xl mx-auto p-6 flex-grow w-full mt-4">
+        
+        <!-- 分類過濾按鈕 (對應 type 欄位) -->
+        <div class="flex flex-wrap justify-center gap-3 mb-10" id="filterContainer">
+            <button class="filter-btn active bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-sm transition" data-filter="ALL">全部顯示</button>
+            <button class="filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-6 py-2 rounded-full text-sm font-semibold transition" data-filter="commercial">商業模型 (Commercial)</button>
+            <button class="filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-6 py-2 rounded-full text-sm font-semibold transition" data-filter="open-source">開源模型 (Open Source)</button>
+        </div>
+
+        <!-- 模型卡片網格 -->
+        <div id="modelsContainer" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 pb-20">
+            <!-- 載入中提示 -->
+            <div class="col-span-full text-center text-gray-500 py-10" id="loadingText">
+                <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                正在讀取 AI 模型資料...
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // === 記得再次填入你 ai_models_guide 的 CSV 網址哦！ ===
+        const URL_MODELS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRR9-fSj7w0hofgshYNJ7t3O1uGrC4tG0i9bdhzxAAT2sa_-y74V6dEKrsrO7S2Uafwcxz4-GSxORve/pub?output=csv'; 
+
+        let allModelsData = [];
+        let currentFilter = 'ALL';
+        let currentSearchTerm = '';
+
+        function fetchCSV(url) {
+            return new Promise((resolve, reject) => {
+                Papa.parse(url, { download: true, header: true, skipEmptyLines: true,
+                    complete: results => resolve(results.data),
+                    error: err => reject(err)
+                });
+            });
+        }
+
+        async function initData() {
+            try {
+                if(URL_MODELS.includes('YOUR_')) {
+                    document.getElementById('loadingText').innerHTML = "請先替換真實的 Google Sheet CSV 網址！";
+                    return;
+                }
+
+                allModelsData = await fetchCSV(URL_MODELS);
+                document.getElementById('loadingText').remove();
+                
+                // 綁定過濾按鈕事件
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.filter-btn').forEach(b => {
+                            b.classList.remove('bg-blue-600', 'text-white');
+                            b.classList.add('bg-white', 'text-gray-600');
+                        });
+                        e.target.classList.remove('bg-white', 'text-gray-600');
+                        e.target.classList.add('bg-blue-600', 'text-white');
+
+                        currentFilter = e.target.dataset.filter;
+                        renderCards();
+                    });
+                });
+
+                // 綁定搜尋事件
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    currentSearchTerm = e.target.value.toLowerCase();
+                    renderCards();
+                });
+
+                // 初次渲染
+                renderCards();
+
+            } catch (error) {
+                document.getElementById('loadingText').innerHTML = "讀取資料失敗，請檢查網址與網路連線。";
+            }
+        }
+
+        // 輔助函數：將換行文字轉換為列表
+        function formatList(text, iconSVG) {
+            if(!text) return '';
+            const items = text.split('\n').filter(i => i.trim() !== '');
+            return items.map(item => `
+                <li class="flex items-start text-sm text-gray-600 mb-1">
+                    <span class="mr-1.5 flex-shrink-0 mt-0.5">${iconSVG}</span>
+                    <span>${item}</span>
+                </li>
+            `).join('');
+        }
+
+        function renderCards() {
+            const container = document.getElementById('modelsContainer');
+            container.innerHTML = '';
+
+            // 雙重過濾
+            let filteredData = allModelsData.filter(model => {
+                const searchString = `${model['model_name']} ${model['company']} ${model['description']} ${model['key_features']}`.toLowerCase();
+                const matchesSearch = searchString.includes(currentSearchTerm);
+                const matchesFilter = currentFilter === 'ALL' || model['type'] === currentFilter;
+                return matchesSearch && matchesFilter;
+            });
+
+            if(filteredData.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的模型 🥲</div>`;
+                return;
+            }
+
+            filteredData.forEach(model => {
+                // 依據 type 決定標籤顏色
+                const isCommercial = model['type'] === 'commercial';
+                const typeBadge = isCommercial 
+                    ? `<span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded">Commercial</span>`
+                    : `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded">Open Source</span>`;
+
+                // 格式化 Features 標籤
+                let featuresHtml = '';
+                if(model['key_features']) {
+                    const features = model['key_features'].split('\n').filter(f => f.trim() !== '');
+                    featuresHtml = features.map(f => `<span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-sm mr-1.5 mb-1.5">${f}</span>`).join('');
+                }
+
+                // 處理優缺點列表
+                const prosIcon = `<svg class="w-4 h-4 text-green-500 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+                const consIcon = `<svg class="w-4 h-4 text-red-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+                
+                const prosHtml = formatList(model['pros'], prosIcon);
+                const consHtml = formatList(model['cons'], consIcon);
+
+                const cardHTML = `
+                    <div class="bg-white rounded-2xl shadow border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
+                        <div class="p-6 border-b border-gray-100">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">${model['company']}</p>
+                                    <h3 class="text-xl font-bold text-gray-900 mt-1">${model['model_name']}</h3>
+                                </div>
+                                ${typeBadge}
+                            </div>
+                            <p class="text-xs text-gray-400 mb-4">發布日期: ${model['release_date']}</p>
+                            <p class="text-gray-700 text-sm leading-relaxed line-clamp-3">${model['description']}</p>
+                        </div>
+                        
+                        <div class="p-5 flex-grow bg-gray-50/50">
+                            <div class="mb-4">
+                                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Key Features</h4>
+                                <div>${featuresHtml}</div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Pros 優點</h4>
+                                    <ul>${prosHtml}</ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Cons 限制</h4>
+                                    <ul>${consHtml}</ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-5 bg-blue-50/30 border-t border-gray-100 mt-auto">
+                            <div class="mb-3">
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">🎯 Best For (最適合)</span>
+                                <p class="text-sm text-gray-800 font-medium">${model['best_for']}</p>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">💰 Pricing (計費方式)</span>
+                                <p class="text-sm text-blue-800 bg-blue-100 inline-block px-2 py-0.5 rounded">${model['pricing']}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', initData);
+    </script>
+</body>
+</html>
