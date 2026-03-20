@@ -15,10 +15,25 @@
     <nav class="bg-blue-900 text-white p-4 shadow-md">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold">AI 情報站</h1>
-            <div class="space-x-4">
+            <!-- Desktop nav -->
+            <div class="hidden md:flex space-x-4">
                 <a href="index.html" class="hover:text-blue-300">AI Trend Weekly</a>
                 <a href="watch.html" class="hover:text-blue-300">Global Financial AI Watch</a>
                 <a href="docs.html" class="hover:text-blue-300 border-b-2 border-white pb-1">AI Model Docs</a>
+            </div>
+            <!-- Hamburger button -->
+            <button id="menuToggle" class="md:hidden flex flex-col space-y-1.5 p-2" aria-label="Menu">
+                <span class="block w-6 h-0.5 bg-white"></span>
+                <span class="block w-6 h-0.5 bg-white"></span>
+                <span class="block w-6 h-0.5 bg-white"></span>
+            </button>
+        </div>
+        <!-- Mobile dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden mt-3 pb-2 border-t border-blue-700">
+            <div class="max-w-6xl mx-auto flex flex-col space-y-3 pt-3">
+                <a href="index.html" class="hover:text-blue-300">AI Trend Weekly</a>
+                <a href="watch.html" class="hover:text-blue-300">Global Financial AI Watch</a>
+                <a href="docs.html" class="hover:text-blue-300 border-b-2 border-white pb-1 inline-block">AI Model Docs</a>
             </div>
         </div>
     </nav>
@@ -28,10 +43,10 @@
         <div class="max-w-6xl mx-auto px-6 text-center">
             <h2 class="text-4xl font-extrabold mb-4">AI Model Navigator</h2>
             <p class="text-blue-100 mb-8 text-lg">快速檢索最新商業與開源模型情報</p>
-            
+
             <!-- 搜尋框 -->
             <div class="max-w-2xl mx-auto relative">
-                <input type="text" id="searchInput" placeholder="搜尋模型名稱、開發商或功能關鍵字..." 
+                <input type="text" id="searchInput" placeholder="搜尋模型名稱、開發商或功能關鍵字..."
                        class="w-full pl-12 pr-4 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg">
                 <svg class="w-6 h-6 text-gray-400 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
@@ -40,32 +55,52 @@
 
     <!-- 主要內容區 -->
     <main class="max-w-7xl mx-auto p-6 flex-grow w-full mt-4">
-        
-        <!-- 分類過濾按鈕 (對應 type 欄位) -->
+
+        <!-- 分類過濾按鈕 -->
         <div class="flex flex-wrap justify-center gap-3 mb-10" id="filterContainer">
             <button class="filter-btn active bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-sm transition" data-filter="ALL">全部顯示</button>
             <button class="filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-6 py-2 rounded-full text-sm font-semibold transition" data-filter="commercial">商業模型 (Commercial)</button>
             <button class="filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-6 py-2 rounded-full text-sm font-semibold transition" data-filter="open-source">開源模型 (Open Source)</button>
+            <button class="filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-purple-50 px-6 py-2 rounded-full text-sm font-semibold transition" data-filter="ai_concept">AI 基礎概念</button>
         </div>
 
-        <!-- 模型卡片網格 -->
-        <div id="modelsContainer" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 pb-20">
-            <!-- 載入中提示 -->
-            <div class="col-span-full text-center text-gray-500 py-10" id="loadingText">
-                <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                正在讀取 AI 模型資料...
+        <!-- 載入中提示 -->
+        <div class="text-center text-gray-500 py-10" id="loadingText">
+            <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            正在讀取資料...
+        </div>
+
+        <!-- AI 概念區塊 -->
+        <div id="conceptsSection" class="hidden mb-14">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-1 h-8 bg-purple-500 rounded-full"></div>
+                <h3 class="text-2xl font-bold text-gray-800">AI 基礎概念</h3>
+                <span class="text-sm text-gray-400 ml-1">— 快速掌握關鍵術語</span>
             </div>
+            <div id="conceptsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+        </div>
+
+        <!-- 模型區塊 -->
+        <div id="modelsSection">
+            <div class="flex items-center gap-3 mb-6" id="modelsSectionHeader">
+                <div class="w-1 h-8 bg-blue-500 rounded-full"></div>
+                <h3 class="text-2xl font-bold text-gray-800">AI 模型</h3>
+            </div>
+            <div id="modelsContainer" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 pb-20"></div>
         </div>
 
     </main>
 
     <script>
-        // === 記得再次填入你 ai_models_guide 的 CSV 網址哦！ ===
-        const URL_MODELS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRR9-fSj7w0hofgshYNJ7t3O1uGrC4tG0i9bdhzxAAT2sa_-y74V6dEKrsrO7S2Uafwcxz4-GSxORve/pub?output=csv'; 
+        const URL_MODELS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRR9-fSj7w0hofgshYNJ7t3O1uGrC4tG0i9bdhzxAAT2sa_-y74V6dEKrsrO7S2Uafwcxz4-GSxORve/pub?output=csv';
 
-        let allModelsData = [];
+        let allData = [];
         let currentFilter = 'ALL';
         let currentSearchTerm = '';
+
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
 
         function fetchCSV(url) {
             return new Promise((resolve, reject) => {
@@ -78,44 +113,35 @@
 
         async function initData() {
             try {
-                if(URL_MODELS.includes('YOUR_')) {
-                    document.getElementById('loadingText').innerHTML = "請先替換真實的 Google Sheet CSV 網址！";
-                    return;
-                }
+                allData = await fetchCSV(URL_MODELS);
+                document.getElementById('loadingText').classList.add('hidden');
 
-                allModelsData = await fetchCSV(URL_MODELS);
-                document.getElementById('loadingText').remove();
-                
-                // 綁定過濾按鈕事件
                 document.querySelectorAll('.filter-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         document.querySelectorAll('.filter-btn').forEach(b => {
-                            b.classList.remove('bg-blue-600', 'text-white');
+                            b.classList.remove('bg-blue-600', 'bg-purple-600', 'text-white');
                             b.classList.add('bg-white', 'text-gray-600');
                         });
+                        const isConceptFilter = e.target.dataset.filter === 'ai_concept';
                         e.target.classList.remove('bg-white', 'text-gray-600');
-                        e.target.classList.add('bg-blue-600', 'text-white');
+                        e.target.classList.add(isConceptFilter ? 'bg-purple-600' : 'bg-blue-600', 'text-white');
 
                         currentFilter = e.target.dataset.filter;
-                        renderCards();
+                        renderAll();
                     });
                 });
 
-                // 綁定搜尋事件
                 document.getElementById('searchInput').addEventListener('input', (e) => {
                     currentSearchTerm = e.target.value.toLowerCase();
-                    renderCards();
+                    renderAll();
                 });
 
-                // 初次渲染
-                renderCards();
-
+                renderAll();
             } catch (error) {
                 document.getElementById('loadingText').innerHTML = "讀取資料失敗，請檢查網址與網路連線。";
             }
         }
 
-        // 輔助函數：將換行文字轉換為列表
         function formatList(text, iconSVG) {
             if(!text) return '';
             const items = text.split('\n').filter(i => i.trim() !== '');
@@ -127,90 +153,167 @@
             `).join('');
         }
 
-        function renderCards() {
-            const container = document.getElementById('modelsContainer');
-            container.innerHTML = '';
+        function renderConceptCard(concept) {
+            // Deduplicate related models (same concept appears in multiple weeks)
+            const relatedModels = concept['key_features']
+                ? [...new Set(concept['key_features'].split('\n').map(m => m.trim()).filter(Boolean))]
+                : [];
+            const relatedChips = relatedModels.map(m =>
+                `<span class="inline-block bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded-full mr-1 mb-1">${m}</span>`
+            ).join('');
 
-            // 雙重過濾
-            let filteredData = allModelsData.filter(model => {
-                const searchString = `${model['model_name']} ${model['company']} ${model['description']} ${model['key_features']}`.toLowerCase();
-                const matchesSearch = searchString.includes(currentSearchTerm);
-                const matchesFilter = currentFilter === 'ALL' || model['type'] === currentFilter;
-                return matchesSearch && matchesFilter;
-            });
+            return `
+                <div class="bg-white rounded-2xl shadow border border-purple-100 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col h-full">
+                    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-5">
+                        <div class="flex items-start justify-between gap-2">
+                            <h3 class="text-lg font-bold text-white leading-snug">${concept['model_name']}</h3>
+                            <span class="flex-shrink-0 bg-white/20 text-white text-xs font-semibold px-2.5 py-1 rounded-full">概念</span>
+                        </div>
+                        <p class="text-purple-100 text-xs mt-2 leading-relaxed">${concept['best_for']}</p>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col">
+                        <p class="text-gray-700 text-sm leading-relaxed mb-4">${concept['description']}</p>
+                        ${concept['cons'] ? `
+                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+                            <div class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1.5">💡 實際範例</div>
+                            <p class="text-sm text-gray-700 leading-relaxed">${concept['cons']}</p>
+                        </div>
+                        ` : ''}
+                        ${relatedChips ? `
+                        <div class="mt-auto pt-3 border-t border-gray-100">
+                            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">相關模型</div>
+                            <div class="flex flex-wrap">${relatedChips}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
 
-            if(filteredData.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的模型 🥲</div>`;
-                return;
+        function renderModelCard(model) {
+            const isCommercial = model['type'] === 'commercial';
+            const typeBadge = isCommercial
+                ? `<span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded">Commercial</span>`
+                : `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded">Open Source</span>`;
+
+            let featuresHtml = '';
+            if(model['key_features']) {
+                const features = model['key_features'].split('\n').filter(f => f.trim() !== '');
+                featuresHtml = features.map(f => `<span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-sm mr-1.5 mb-1.5">${f}</span>`).join('');
             }
 
-            filteredData.forEach(model => {
-                // 依據 type 決定標籤顏色
-                const isCommercial = model['type'] === 'commercial';
-                const typeBadge = isCommercial 
-                    ? `<span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded">Commercial</span>`
-                    : `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded">Open Source</span>`;
+            const prosIcon = `<svg class="w-4 h-4 text-green-500 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+            const consIcon = `<svg class="w-4 h-4 text-red-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
 
-                // 格式化 Features 標籤
-                let featuresHtml = '';
-                if(model['key_features']) {
-                    const features = model['key_features'].split('\n').filter(f => f.trim() !== '');
-                    featuresHtml = features.map(f => `<span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-sm mr-1.5 mb-1.5">${f}</span>`).join('');
-                }
-
-                // 處理優缺點列表
-                const prosIcon = `<svg class="w-4 h-4 text-green-500 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
-                const consIcon = `<svg class="w-4 h-4 text-red-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
-                
-                const prosHtml = formatList(model['pros'], prosIcon);
-                const consHtml = formatList(model['cons'], consIcon);
-
-                const cardHTML = `
-                    <div class="bg-white rounded-2xl shadow border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
-                        <div class="p-6 border-b border-gray-100">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">${model['company']}</p>
-                                    <h3 class="text-xl font-bold text-gray-900 mt-1">${model['model_name']}</h3>
-                                </div>
-                                ${typeBadge}
+            return `
+                <div class="bg-white rounded-2xl shadow border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
+                    <div class="p-6 border-b border-gray-100">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">${model['company']}</p>
+                                <h3 class="text-xl font-bold text-gray-900 mt-1">${model['model_name']}</h3>
                             </div>
-                            <p class="text-xs text-gray-400 mb-4">發布日期: ${model['release_date']}</p>
-                            <p class="text-gray-700 text-sm leading-relaxed line-clamp-3">${model['description']}</p>
+                            ${typeBadge}
                         </div>
-                        
-                        <div class="p-5 flex-grow bg-gray-50/50">
-                            <div class="mb-4">
-                                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Key Features</h4>
-                                <div>${featuresHtml}</div>
-                            </div>
-                            
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Pros 優點</h4>
-                                    <ul>${prosHtml}</ul>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Cons 限制</h4>
-                                    <ul>${consHtml}</ul>
-                                </div>
-                            </div>
+                        <p class="text-xs text-gray-400 mb-4">發布日期: ${model['release_date']}</p>
+                        <p class="text-gray-700 text-sm leading-relaxed">${model['description']}</p>
+                    </div>
+                    <div class="p-5 flex-grow bg-gray-50/50">
+                        <div class="mb-4">
+                            <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Key Features</h4>
+                            <div>${featuresHtml}</div>
                         </div>
-
-                        <div class="p-5 bg-blue-50/30 border-t border-gray-100 mt-auto">
-                            <div class="mb-3">
-                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">🎯 Best For (最適合)</span>
-                                <p class="text-sm text-gray-800 font-medium">${model['best_for']}</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Pros 優點</h4>
+                                <ul>${formatList(model['pros'], prosIcon)}</ul>
                             </div>
                             <div>
-                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">💰 Pricing (計費方式)</span>
-                                <p class="text-sm text-blue-800 bg-blue-100 inline-block px-2 py-0.5 rounded">${model['pricing']}</p>
+                                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Cons 限制</h4>
+                                <ul>${formatList(model['cons'], consIcon)}</ul>
                             </div>
                         </div>
                     </div>
-                `;
-                container.innerHTML += cardHTML;
+                    <div class="p-5 bg-blue-50/30 border-t border-gray-100 mt-auto">
+                        <div class="mb-3">
+                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">🎯 Best For (最適合)</span>
+                            <p class="text-sm text-gray-800 font-medium">${model['best_for']}</p>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">💰 Pricing (計費方式)</span>
+                            <p class="text-sm text-blue-800 bg-blue-100 inline-block px-2 py-0.5 rounded">${model['pricing']}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAll() {
+            const conceptsSection = document.getElementById('conceptsSection');
+            const modelsSection = document.getElementById('modelsSection');
+            const conceptsContainer = document.getElementById('conceptsContainer');
+            const modelsContainer = document.getElementById('modelsContainer');
+
+            const showConcepts = currentFilter === 'ALL' || currentFilter === 'ai_concept';
+            const showModels = currentFilter === 'ALL' || currentFilter === 'commercial' || currentFilter === 'open-source';
+
+            // Filter data
+            const filteredConcepts = allData.filter(row => {
+                if (row['record_type'] !== 'ai_concept') return false;
+                if (currentFilter !== 'ALL' && currentFilter !== 'ai_concept') return false;
+                if (currentSearchTerm) {
+                    const h = `${row['model_name']} ${row['description']} ${row['best_for']} ${row['cons']}`.toLowerCase();
+                    return h.includes(currentSearchTerm);
+                }
+                return true;
             });
+
+            // Deduplicate concepts by name (keep first occurrence)
+            const seenConcepts = new Set();
+            const uniqueConcepts = filteredConcepts.filter(c => {
+                if (seenConcepts.has(c['model_name'])) return false;
+                seenConcepts.add(c['model_name']);
+                return true;
+            });
+
+            const filteredModels = allData.filter(row => {
+                if (row['record_type'] !== 'model') return false;
+                if (!showModels) return false;
+                if (currentFilter === 'commercial' || currentFilter === 'open-source') {
+                    if (row['type'] !== currentFilter) return false;
+                }
+                if (currentSearchTerm) {
+                    const h = `${row['model_name']} ${row['company']} ${row['description']} ${row['key_features']}`.toLowerCase();
+                    return h.includes(currentSearchTerm);
+                }
+                return true;
+            });
+
+            // Render concepts
+            if (showConcepts && uniqueConcepts.length > 0) {
+                conceptsSection.classList.remove('hidden');
+                conceptsContainer.innerHTML = uniqueConcepts.map(renderConceptCard).join('');
+            } else {
+                conceptsSection.classList.add('hidden');
+            }
+
+            // Render models
+            if (showModels) {
+                modelsSection.classList.remove('hidden');
+                if (filteredModels.length === 0) {
+                    modelsContainer.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的模型 🥲</div>`;
+                } else {
+                    modelsContainer.innerHTML = filteredModels.map(renderModelCard).join('');
+                }
+            } else {
+                modelsSection.classList.add('hidden');
+            }
+
+            // If nothing at all
+            if (!showConcepts && !showModels) {
+                modelsSection.classList.remove('hidden');
+                modelsContainer.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的內容 🥲</div>`;
+            }
         }
 
         window.addEventListener('DOMContentLoaded', initData);
