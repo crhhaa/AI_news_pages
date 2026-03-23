@@ -4,107 +4,163 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 情報站 - AI Model Docs</title>
-    <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入 PapaParse -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .line-clamp-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+        .comparison-table td:first-child,
+        .comparison-table th:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 1;
+            background: #f9fafb;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
 
     <!-- 導覽列 -->
-    <nav class="bg-blue-900 text-white p-4 shadow-md">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">AI 情報站</h1>
-            <!-- Desktop nav -->
-            <div class="hidden md:flex space-x-4">
-                <a href="index.html" class="hover:text-blue-300">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-blue-300">Global Financial AI Watch</a>
-                <a href="docs.html" class="hover:text-blue-300 border-b-2 border-white pb-1">AI Model Docs</a>
-            </div>
-            <!-- Hamburger button -->
-            <button id="menuToggle" class="md:hidden flex flex-col space-y-1.5 p-2" aria-label="Menu">
-                <span class="block w-6 h-0.5 bg-white"></span>
-                <span class="block w-6 h-0.5 bg-white"></span>
-                <span class="block w-6 h-0.5 bg-white"></span>
-            </button>
-        </div>
-        <!-- Mobile dropdown -->
-        <div id="mobileMenu" class="hidden md:hidden mt-3 pb-2 border-t border-blue-700">
-            <div class="max-w-6xl mx-auto flex flex-col space-y-3 pt-3">
-                <a href="index.html" class="hover:text-blue-300">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-blue-300">Global Financial AI Watch</a>
-                <a href="docs.html" class="hover:text-blue-300 border-b-2 border-white pb-1 inline-block">AI Model Docs</a>
+    <nav class="bg-blue-900 text-white p-3 shadow-md">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <h1 class="text-xl sm:text-2xl font-bold">AI 情報站</h1>
+            <div class="flex flex-wrap gap-x-3 gap-y-1 text-sm sm:text-base">
+                <a href="index.html" class="hover:text-orange-300">AI Trend Weekly</a>
+                <a href="watch.html" class="hover:text-orange-300">Global Financial AI Watch</a>
+                <a href="docs.html" class="hover:text-orange-300 border-b-2 border-white pb-0.5">AI Model Docs</a>
             </div>
         </div>
     </nav>
 
     <!-- 頁面頭部 / 搜尋區 -->
-    <header class="bg-gradient-to-r from-indigo-800 to-blue-700 text-white py-12 shadow-inner">
-        <div class="max-w-6xl mx-auto px-6 text-center">
-            <h2 class="text-4xl font-extrabold mb-4">AI Model Navigator</h2>
-            <p class="text-blue-100 mb-8 text-lg">快速檢索最新商業與開源模型情報</p>
+    <header class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-8 sm:py-12 shadow-inner">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">AI Model Navigator</h2>
+            <p class="text-orange-100 mb-6 text-base sm:text-lg">快速檢索最新商業與開源模型情報</p>
 
             <!-- 搜尋框 -->
-            <div class="max-w-2xl mx-auto relative">
-                <input type="text" id="searchInput" placeholder="搜尋模型名稱、開發商或功能關鍵字..."
-                       class="w-full pl-12 pr-4 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg">
-                <svg class="w-6 h-6 text-gray-400 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <div class="max-w-2xl mx-auto relative mb-6">
+                <input type="text" id="searchInput" placeholder="搜尋關鍵字..."
+                       class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-full text-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg text-sm sm:text-base">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 absolute left-3 sm:left-4 top-3 sm:top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+
+            <!-- Tab 切換列 -->
+            <div class="max-w-lg mx-auto bg-white/20 rounded-xl p-1 flex">
+                <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 bg-white text-blue-900 shadow" data-tab="models">
+                    <span class="hidden sm:inline">AI 模型</span>
+                    <span class="sm:hidden">模型</span>
+                </button>
+                <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 text-white hover:bg-white/20" data-tab="concepts">
+                    <span class="hidden sm:inline">AI 相關名詞</span>
+                    <span class="sm:hidden">名詞</span>
+                </button>
+                <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 text-white hover:bg-white/20" data-tab="comparisons">
+                    <span class="hidden sm:inline">相似名詞比較</span>
+                    <span class="sm:hidden">比較</span>
+                </button>
             </div>
         </div>
     </header>
 
     <!-- 主要內容區 -->
-    <main class="max-w-7xl mx-auto p-6 flex-grow w-full mt-4">
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 flex-grow w-full mt-2 sm:mt-4">
 
-        <!-- 分類過濾按鈕 -->
-        <div class="flex flex-wrap justify-center gap-3 mb-10" id="filterContainer">
-            <button class="filter-btn active bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-sm transition" data-filter="ALL">全部顯示</button>
-            <button class="filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-6 py-2 rounded-full text-sm font-semibold transition" data-filter="commercial">商業模型 (Commercial)</button>
-            <button class="filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-6 py-2 rounded-full text-sm font-semibold transition" data-filter="open-source">開源模型 (Open Source)</button>
-            <button class="filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-purple-50 px-6 py-2 rounded-full text-sm font-semibold transition" data-filter="ai_concept">AI 基礎概念</button>
-        </div>
-
-        <!-- 載入中提示 -->
-        <div class="text-center text-gray-500 py-10" id="loadingText">
-            <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-            正在讀取資料...
-        </div>
-
-        <!-- AI 概念區塊 -->
-        <div id="conceptsSection" class="hidden mb-14">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="w-1 h-8 bg-purple-500 rounded-full"></div>
-                <h3 class="text-2xl font-bold text-gray-800">AI 基礎概念</h3>
-                <span class="text-sm text-gray-400 ml-1">— 快速掌握關鍵術語</span>
+        <!-- ===== Tab 1: AI 模型 ===== -->
+        <div id="tab-models">
+            <!-- 分類過濾按鈕群組 -->
+            <div class="mb-6 sm:mb-8 space-y-3">
+                <!-- 類型 (單選) -->
+                <div class="overflow-x-auto pb-1">
+                    <div class="flex items-center gap-2 min-w-max px-1">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap w-10 shrink-0">類型</span>
+                        <button class="type-filter-btn active bg-orange-500 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold shadow-sm transition whitespace-nowrap" data-filter-type="ALL">全部</button>
+                        <button class="type-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-type="commercial">商業模型</button>
+                        <button class="type-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-type="open-source">開源模型</button>
+                    </div>
+                </div>
+                <!-- 分類 (單選) -->
+                <div class="overflow-x-auto pb-1">
+                    <div class="flex items-center gap-2 min-w-max px-1">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap w-10 shrink-0">分類</span>
+                        <button class="cat-filter-btn active bg-orange-500 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold shadow-sm transition whitespace-nowrap" data-filter-cat="ALL">全部</button>
+                        <button class="cat-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-cat="chat">💬 Chat 對話</button>
+                        <button class="cat-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-cat="image-gen">🖼 圖片生成</button>
+                        <button class="cat-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-cat="video-gen">🎬 影片生成</button>
+                        <button class="cat-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-cat="audio">🎵 音樂/語音</button>
+                        <button class="cat-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-cat="agent">🤖 AI Agent</button>
+                        <button class="cat-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-cat="search">🔍 搜尋</button>
+                    </div>
+                </div>
+                <!-- 公司 (單選，動態生成) -->
+                <div class="overflow-x-auto pb-1" id="companyFilterRow">
+                    <div class="flex items-center gap-2 min-w-max px-1" id="companyFilterBtns">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap w-10 shrink-0">公司</span>
+                        <button class="company-filter-btn active bg-orange-500 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold shadow-sm transition whitespace-nowrap" data-filter-company="ALL">全部</button>
+                    </div>
+                </div>
+                <!-- 輸入模態 (多選) -->
+                <div class="overflow-x-auto pb-1">
+                    <div class="flex items-center gap-2 min-w-max px-1">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap w-10 shrink-0">模態</span>
+                        <span class="text-xs text-gray-400 whitespace-nowrap">(可多選)</span>
+                        <button class="mod-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-mod="text">📝 文字</button>
+                        <button class="mod-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-mod="vision">👁 視覺</button>
+                        <button class="mod-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-mod="audio">🔊 音訊</button>
+                        <button class="mod-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-mod="video">🎞 影片</button>
+                    </div>
+                </div>
             </div>
-            <div id="conceptsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+
+            <!-- 模型卡片網格 -->
+            <div id="modelsContainer" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 pb-20">
+                <div class="col-span-full text-center text-gray-500 py-10" id="loadingText">
+                    <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    正在讀取 AI 模型資料...
+                </div>
+            </div>
         </div>
 
-        <!-- 模型區塊 -->
-        <div id="modelsSection">
-            <div class="flex items-center gap-3 mb-6" id="modelsSectionHeader">
-                <div class="w-1 h-8 bg-blue-500 rounded-full"></div>
-                <h3 class="text-2xl font-bold text-gray-800">AI 模型</h3>
+        <!-- ===== Tab 2: AI 相關名詞 ===== -->
+        <div id="tab-concepts" class="hidden">
+            <div id="conceptsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 pb-20">
+                <div class="col-span-full text-center text-gray-500 py-10" id="loadingConcepts">
+                    <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    正在讀取 AI 名詞資料...
+                </div>
             </div>
-            <div id="modelsContainer" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 pb-20"></div>
+        </div>
+
+        <!-- ===== Tab 3: 相似名詞比較 ===== -->
+        <div id="tab-comparisons" class="hidden">
+            <div id="comparisonsContainer" class="flex flex-col pb-20">
+                <div class="col-span-full text-center text-gray-500 py-10" id="loadingComparisons">
+                    <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    正在讀取比較資料...
+                </div>
+            </div>
         </div>
 
     </main>
 
     <script>
         const URL_MODELS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRR9-fSj7w0hofgshYNJ7t3O1uGrC4tG0i9bdhzxAAT2sa_-y74V6dEKrsrO7S2Uafwcxz4-GSxORve/pub?output=csv';
+        const URL_COMPARISONS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ42IpI7XqI3KkLaprtqIaeK91mj7JvkXrXfyGmDStnNkrCvmDCFoYufGYbBoyoivklC0VhZRfMmU5O/pub?output=csv';
 
-        let allData = [];
-        let currentFilter = 'ALL';
+        let allModelsData = [];
+        let allConceptsData = [];
+        let allComparisonsData = [];
+        let currentTab = 'models';
+        let currentTypeFilter = 'ALL';
+        let currentCategoryFilter = 'ALL';
+        let currentCompanyFilter = 'ALL';
+        let selectedModalities = new Set();
         let currentSearchTerm = '';
-
-        document.getElementById('menuToggle').addEventListener('click', () => {
-            document.getElementById('mobileMenu').classList.toggle('hidden');
-        });
 
         function fetchCSV(url) {
             return new Promise((resolve, reject) => {
-                Papa.parse(url, { download: true, header: true, skipEmptyLines: true,
+                Papa.parse(url, {
+                    download: true, header: true, skipEmptyLines: true,
                     complete: results => resolve(results.data),
                     error: err => reject(err)
                 });
@@ -113,37 +169,158 @@
 
         async function initData() {
             try {
-                allData = await fetchCSV(URL_MODELS);
-                document.getElementById('loadingText').classList.add('hidden');
+                const [rawAll, comparisons] = await Promise.all([
+                    fetchCSV(URL_MODELS),
+                    fetchCSV(URL_COMPARISONS)
+                ]);
 
-                document.querySelectorAll('.filter-btn').forEach(btn => {
+                allModelsData = rawAll.filter(r => r['record_type'] === 'model' || !r['record_type']);
+                allConceptsData = rawAll.filter(r => r['record_type'] === 'ai_concept');
+                allComparisonsData = comparisons;
+
+                // 移除 loading 提示
+                ['loadingText', 'loadingConcepts', 'loadingComparisons'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.remove();
+                });
+
+                // 動態生成公司過濾按鈕
+                const companies = [...new Set(allModelsData.map(m => m['company']).filter(Boolean))].sort();
+                const companyBtnsContainer = document.getElementById('companyFilterBtns');
+                companies.forEach(company => {
+                    const btn = document.createElement('button');
+                    btn.className = 'company-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap';
+                    btn.dataset.filterCompany = company;
+                    btn.textContent = company;
+                    companyBtnsContainer.appendChild(btn);
+                });
+
+                // 綁定公司過濾按鈕 (單選，點已選中時取消篩選)
+                document.querySelectorAll('.company-filter-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        document.querySelectorAll('.filter-btn').forEach(b => {
-                            b.classList.remove('bg-blue-600', 'bg-purple-600', 'text-white');
+                        const isActive = e.target.classList.contains('bg-orange-500');
+                        const isAll = e.target.dataset.filterCompany === 'ALL';
+                        const target = (isActive && !isAll)
+                            ? document.querySelector('.company-filter-btn[data-filter-company="ALL"]')
+                            : e.target;
+                        document.querySelectorAll('.company-filter-btn').forEach(b => {
+                            b.classList.remove('bg-orange-500', 'text-white', 'shadow-sm');
                             b.classList.add('bg-white', 'text-gray-600');
                         });
-                        const isConceptFilter = e.target.dataset.filter === 'ai_concept';
-                        e.target.classList.remove('bg-white', 'text-gray-600');
-                        e.target.classList.add(isConceptFilter ? 'bg-purple-600' : 'bg-blue-600', 'text-white');
-
-                        currentFilter = e.target.dataset.filter;
-                        renderAll();
+                        target.classList.remove('bg-white', 'text-gray-600');
+                        target.classList.add('bg-orange-500', 'text-white', 'shadow-sm');
+                        currentCompanyFilter = target.dataset.filterCompany;
+                        renderModels();
                     });
                 });
 
-                document.getElementById('searchInput').addEventListener('input', (e) => {
-                    currentSearchTerm = e.target.value.toLowerCase();
-                    renderAll();
+                // 綁定類型過濾按鈕 (單選，點已選中時取消篩選)
+                document.querySelectorAll('.type-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const isActive = e.target.classList.contains('bg-orange-500');
+                        const isAll = e.target.dataset.filterType === 'ALL';
+                        const target = (isActive && !isAll)
+                            ? document.querySelector('.type-filter-btn[data-filter-type="ALL"]')
+                            : e.target;
+                        document.querySelectorAll('.type-filter-btn').forEach(b => {
+                            b.classList.remove('bg-orange-500', 'text-white');
+                            b.classList.add('bg-white', 'text-gray-600');
+                        });
+                        target.classList.remove('bg-white', 'text-gray-600');
+                        target.classList.add('bg-orange-500', 'text-white');
+                        currentTypeFilter = target.dataset.filterType;
+                        renderModels();
+                    });
                 });
 
-                renderAll();
+                // 綁定分類過濾按鈕 (單選，點已選中時取消篩選)
+                document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const isActive = e.target.classList.contains('bg-orange-500');
+                        const isAll = e.target.dataset.filterCat === 'ALL';
+                        const target = (isActive && !isAll)
+                            ? document.querySelector('.cat-filter-btn[data-filter-cat="ALL"]')
+                            : e.target;
+                        document.querySelectorAll('.cat-filter-btn').forEach(b => {
+                            b.classList.remove('bg-orange-500', 'text-white');
+                            b.classList.add('bg-white', 'text-gray-600');
+                        });
+                        target.classList.remove('bg-white', 'text-gray-600');
+                        target.classList.add('bg-orange-500', 'text-white');
+                        currentCategoryFilter = target.dataset.filterCat;
+                        renderModels();
+                    });
+                });
+
+                // 綁定模態過濾按鈕 (多選 toggle)
+                document.querySelectorAll('.mod-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const mod = e.target.dataset.filterMod;
+                        if (selectedModalities.has(mod)) {
+                            selectedModalities.delete(mod);
+                            e.target.classList.remove('bg-orange-500', 'text-white');
+                            e.target.classList.add('bg-white', 'text-gray-600');
+                        } else {
+                            selectedModalities.add(mod);
+                            e.target.classList.remove('bg-white', 'text-gray-600');
+                            e.target.classList.add('bg-orange-500', 'text-white');
+                        }
+                        renderModels();
+                    });
+                });
+
+                // 綁定搜尋事件
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    currentSearchTerm = e.target.value.toLowerCase();
+                    renderCurrent();
+                });
+
+                // 初次渲染
+                renderModels();
+
             } catch (error) {
-                document.getElementById('loadingText').innerHTML = "讀取資料失敗，請檢查網址與網路連線。";
+                console.error(error);
+                ['loadingText', 'loadingConcepts', 'loadingComparisons'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.innerHTML = '讀取資料失敗，請檢查網址與網路連線。';
+                });
             }
         }
 
+        // Tab 切換
+        function switchTab(tab) {
+            currentTab = tab;
+            currentSearchTerm = '';
+            document.getElementById('searchInput').value = '';
+
+            // 更新 Tab 按鈕樣式
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.tab === tab) {
+                    btn.classList.add('bg-white', 'text-blue-900', 'shadow');
+                    btn.classList.remove('text-white', 'hover:bg-white/20');
+                } else {
+                    btn.classList.remove('bg-white', 'text-blue-900', 'shadow');
+                    btn.classList.add('text-white', 'hover:bg-white/20');
+                }
+            });
+
+            // 顯示/隱藏各 Tab 內容
+            document.getElementById('tab-models').classList.toggle('hidden', tab !== 'models');
+            document.getElementById('tab-concepts').classList.toggle('hidden', tab !== 'concepts');
+            document.getElementById('tab-comparisons').classList.toggle('hidden', tab !== 'comparisons');
+
+            renderCurrent();
+        }
+
+        function renderCurrent() {
+            if (currentTab === 'models') renderModels();
+            else if (currentTab === 'concepts') renderConcepts();
+            else if (currentTab === 'comparisons') renderComparisons();
+        }
+
+        // 輔助：文字轉列表
         function formatList(text, iconSVG) {
-            if(!text) return '';
+            if (!text) return '';
             const items = text.split('\n').filter(i => i.trim() !== '');
             return items.map(item => `
                 <li class="flex items-start text-sm text-gray-600 mb-1">
@@ -153,168 +330,345 @@
             `).join('');
         }
 
-        function renderConceptCard(concept) {
-            // Deduplicate related models (same concept appears in multiple weeks)
-            const relatedModels = concept['key_features']
-                ? [...new Set(concept['key_features'].split('\n').map(m => m.trim()).filter(Boolean))]
-                : [];
-            const relatedChips = relatedModels.map(m =>
-                `<span class="inline-block bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded-full mr-1 mb-1">${m}</span>`
-            ).join('');
+        // ===== Tab 1: 模型 =====
+        function renderModels() {
+            const container = document.getElementById('modelsContainer');
+            container.innerHTML = '';
 
-            return `
-                <div class="bg-white rounded-2xl shadow border border-purple-100 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col h-full">
-                    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-5">
-                        <div class="flex items-start justify-between gap-2">
-                            <h3 class="text-lg font-bold text-white leading-snug">${concept['model_name']}</h3>
-                            <span class="flex-shrink-0 bg-white/20 text-white text-xs font-semibold px-2.5 py-1 rounded-full">概念</span>
-                        </div>
-                        <p class="text-purple-100 text-xs mt-2 leading-relaxed">${concept['best_for']}</p>
-                    </div>
-                    <div class="p-5 flex-grow flex flex-col">
-                        <p class="text-gray-700 text-sm leading-relaxed mb-4">${concept['description']}</p>
-                        ${concept['cons'] ? `
-                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
-                            <div class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1.5">💡 實際範例</div>
-                            <p class="text-sm text-gray-700 leading-relaxed">${concept['cons']}</p>
-                        </div>
-                        ` : ''}
-                        ${relatedChips ? `
-                        <div class="mt-auto pt-3 border-t border-gray-100">
-                            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">相關模型</div>
-                            <div class="flex flex-wrap">${relatedChips}</div>
-                        </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `;
-        }
+            let filtered = allModelsData.filter(model => {
+                const searchStr = `${model['model_name']} ${model['company']} ${model['description']} ${model['key_features']}`.toLowerCase();
+                const matchSearch = searchStr.includes(currentSearchTerm);
+                const matchType = currentTypeFilter === 'ALL' || model['type'] === currentTypeFilter;
+                const matchCategory = currentCategoryFilter === 'ALL' || model['category'] === currentCategoryFilter;
+                const matchCompany = currentCompanyFilter === 'ALL' || model['company'] === currentCompanyFilter;
+                const modelModalities = (model['supported_modalities'] || '').split('\n').filter(Boolean);
+                const matchModality = selectedModalities.size === 0 ||
+                    [...selectedModalities].some(m => modelModalities.includes(m));
+                return matchSearch && matchType && matchCategory && matchCompany && matchModality;
+            });
 
-        function renderModelCard(model) {
-            const isCommercial = model['type'] === 'commercial';
-            const typeBadge = isCommercial
-                ? `<span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded">Commercial</span>`
-                : `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded">Open Source</span>`;
-
-            let featuresHtml = '';
-            if(model['key_features']) {
-                const features = model['key_features'].split('\n').filter(f => f.trim() !== '');
-                featuresHtml = features.map(f => `<span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-sm mr-1.5 mb-1.5">${f}</span>`).join('');
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的模型 🥲</div>`;
+                return;
             }
 
             const prosIcon = `<svg class="w-4 h-4 text-green-500 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
             const consIcon = `<svg class="w-4 h-4 text-red-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
 
-            return `
-                <div class="bg-white rounded-2xl shadow border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
-                    <div class="p-6 border-b border-gray-100">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">${model['company']}</p>
-                                <h3 class="text-xl font-bold text-gray-900 mt-1">${model['model_name']}</h3>
+            const CATEGORY_MAP = {
+                'chat':      { label: '💬 Chat 對話',  cls: 'bg-indigo-100 text-indigo-800' },
+                'image-gen': { label: '🖼 圖片生成',   cls: 'bg-violet-100 text-violet-800' },
+                'video-gen': { label: '🎬 影片生成',   cls: 'bg-pink-100 text-pink-800' },
+                'audio':     { label: '🎵 音樂/語音',  cls: 'bg-amber-100 text-amber-800' },
+                'agent':     { label: '🤖 AI Agent',   cls: 'bg-slate-100 text-slate-700' },
+                'search':    { label: '🔍 搜尋',       cls: 'bg-yellow-100 text-yellow-800' },
+            };
+            const MODALITY_MAP = {
+                'text':   '📝 文字',
+                'vision': '👁 視覺',
+                'audio':  '🔊 音訊',
+                'video':  '🎞 影片',
+            };
+
+            filtered.forEach(model => {
+                const isCommercial = model['type'] === 'commercial';
+                const typeBadge = isCommercial
+                    ? `<span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded">Commercial</span>`
+                    : `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded">Open Source</span>`;
+
+                const catInfo = CATEGORY_MAP[model['category']] || { label: model['category'], cls: 'bg-gray-100 text-gray-700' };
+                const categoryBadge = `<span class="${catInfo.cls} text-xs font-bold px-2.5 py-1 rounded">${catInfo.label}</span>`;
+
+                let modalitiesHtml = '';
+                if (model['supported_modalities']) {
+                    const mods = model['supported_modalities'].split('\n').filter(Boolean);
+                    modalitiesHtml = mods.map(m => {
+                        const label = MODALITY_MAP[m] || m;
+                        return `<span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full mr-1 mb-1">${label}</span>`;
+                    }).join('');
+                }
+
+                let featuresHtml = '';
+                if (model['key_features']) {
+                    const features = model['key_features'].split('\n').filter(f => f.trim() !== '');
+                    featuresHtml = features.map(f => `<span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-sm mr-1.5 mb-1.5">${f}</span>`).join('');
+                }
+
+                const prosHtml = formatList(model['pros'], prosIcon);
+                const consHtml = formatList(model['cons'], consIcon);
+
+                container.innerHTML += `
+                    <div class="bg-white rounded-2xl shadow border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
+                        <div class="p-5 sm:p-6 border-b border-gray-100">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">${model['company']}</p>
+                                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mt-1">${model['model_name']}</h3>
+                                </div>
+                                <div class="flex flex-col items-end gap-1 shrink-0 ml-2">
+                                    ${typeBadge}
+                                    ${categoryBadge}
+                                </div>
                             </div>
-                            ${typeBadge}
+                            <p class="text-xs text-gray-400 mb-4">發布日期: ${model['release_date']}</p>
+                            <p class="text-gray-700 text-sm leading-relaxed">${model['description']}</p>
                         </div>
-                        <p class="text-xs text-gray-400 mb-4">發布日期: ${model['release_date']}</p>
-                        <p class="text-gray-700 text-sm leading-relaxed">${model['description']}</p>
-                    </div>
-                    <div class="p-5 flex-grow bg-gray-50/50">
-                        <div class="mb-4">
-                            <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Key Features</h4>
-                            <div>${featuresHtml}</div>
+
+                        <div class="p-4 sm:p-5 flex-grow bg-gray-50/50">
+                            ${modalitiesHtml ? `<div class="mb-3">
+                                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">輸入模態</h4>
+                                <div>${modalitiesHtml}</div>
+                            </div>` : ''}
+                            <div class="mb-4">
+                                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Key Features</h4>
+                                <div>${featuresHtml}</div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Pros 優點</h4>
+                                    <ul>${prosHtml}</ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Cons 限制</h4>
+                                    <ul>${consHtml}</ul>
+                                </div>
+                            </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Pros 優點</h4>
-                                <ul>${formatList(model['pros'], prosIcon)}</ul>
+
+                        <div class="p-4 sm:p-5 bg-blue-50/30 border-t border-gray-100 mt-auto">
+                            <div class="mb-3">
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">🎯 Best For (最適合)</span>
+                                <p class="text-sm text-gray-800 font-medium">${model['best_for']}</p>
                             </div>
                             <div>
-                                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Cons 限制</h4>
-                                <ul>${formatList(model['cons'], consIcon)}</ul>
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">💰 Pricing (計費方式)</span>
+                                <p class="text-sm text-orange-800 bg-orange-100 inline-block px-2 py-0.5 rounded">${model['pricing']}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="p-5 bg-blue-50/30 border-t border-gray-100 mt-auto">
-                        <div class="mb-3">
-                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">🎯 Best For (最適合)</span>
-                            <p class="text-sm text-gray-800 font-medium">${model['best_for']}</p>
-                        </div>
-                        <div>
-                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">💰 Pricing (計費方式)</span>
-                            <p class="text-sm text-blue-800 bg-blue-100 inline-block px-2 py-0.5 rounded">${model['pricing']}</p>
-                        </div>
-                    </div>
-                </div>
-            `;
+                `;
+            });
         }
 
-        function renderAll() {
-            const conceptsSection = document.getElementById('conceptsSection');
-            const modelsSection = document.getElementById('modelsSection');
-            const conceptsContainer = document.getElementById('conceptsContainer');
-            const modelsContainer = document.getElementById('modelsContainer');
+        // ===== Tab 2: AI 相關名詞 =====
+        function renderConcepts() {
+            const container = document.getElementById('conceptsContainer');
+            container.innerHTML = '';
 
-            const showConcepts = currentFilter === 'ALL' || currentFilter === 'ai_concept';
-            const showModels = currentFilter === 'ALL' || currentFilter === 'commercial' || currentFilter === 'open-source';
-
-            // Filter data
-            const filteredConcepts = allData.filter(row => {
-                if (row['record_type'] !== 'ai_concept') return false;
-                if (currentFilter !== 'ALL' && currentFilter !== 'ai_concept') return false;
-                if (currentSearchTerm) {
-                    const h = `${row['model_name']} ${row['description']} ${row['best_for']} ${row['cons']}`.toLowerCase();
-                    return h.includes(currentSearchTerm);
-                }
-                return true;
+            let filtered = allConceptsData.filter(c => {
+                const searchStr = `${c['model_name'] || c['term']} ${c['company'] || c['short']} ${c['description']} ${c['financial_use_case']}`.toLowerCase();
+                return searchStr.includes(currentSearchTerm);
             });
 
-            // Deduplicate concepts by name (keep first occurrence)
-            const seenConcepts = new Set();
-            const uniqueConcepts = filteredConcepts.filter(c => {
-                if (seenConcepts.has(c['model_name'])) return false;
-                seenConcepts.add(c['model_name']);
-                return true;
-            });
-
-            const filteredModels = allData.filter(row => {
-                if (row['record_type'] !== 'model') return false;
-                if (!showModels) return false;
-                if (currentFilter === 'commercial' || currentFilter === 'open-source') {
-                    if (row['type'] !== currentFilter) return false;
-                }
-                if (currentSearchTerm) {
-                    const h = `${row['model_name']} ${row['company']} ${row['description']} ${row['key_features']}`.toLowerCase();
-                    return h.includes(currentSearchTerm);
-                }
-                return true;
-            });
-
-            // Render concepts
-            if (showConcepts && uniqueConcepts.length > 0) {
-                conceptsSection.classList.remove('hidden');
-                conceptsContainer.innerHTML = uniqueConcepts.map(renderConceptCard).join('');
-            } else {
-                conceptsSection.classList.add('hidden');
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的名詞 🥲</div>`;
+                return;
             }
 
-            // Render models
-            if (showModels) {
-                modelsSection.classList.remove('hidden');
-                if (filteredModels.length === 0) {
-                    modelsContainer.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的模型 🥲</div>`;
+            filtered.forEach(concept => {
+                // related_models 存在 key_features 欄位
+                let relatedTagsHtml = '';
+                const relatedRaw = concept['key_features'] || concept['related_models'];
+                if (relatedRaw) {
+                    const models = relatedRaw.split(/[\n,]/).map(m => m.trim()).filter(Boolean);
+                    relatedTagsHtml = models.map(m =>
+                        `<span class="inline-block bg-blue-50 text-blue-700 border border-blue-200 text-xs px-2 py-0.5 rounded-full mr-1 mb-1">${m}</span>`
+                    ).join('');
+                }
+
+                // example 存在 cons 欄位
+                const exampleRaw = concept['cons'] || concept['example'];
+                const exampleHtml = exampleRaw
+                    ? `<div class="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                           <p class="text-xs font-bold text-amber-700 mb-1">💡 實際案例</p>
+                           <p class="text-sm text-amber-900 leading-relaxed">${exampleRaw}</p>
+                       </div>`
+                    : '';
+
+                const financeConceptHtml = concept['financial_use_case']
+                    ? `<div class="mt-3 px-3 py-2.5 bg-blue-50 rounded-lg border border-blue-100">
+                           <p class="text-xs font-bold text-blue-700 mb-1">🏦 金融業應用情境</p>
+                           <p class="text-sm text-blue-900 leading-relaxed">${concept['financial_use_case']}</p>
+                       </div>`
+                    : '';
+
+                // short 存在 best_for 欄位
+                const shortDesc = concept['best_for'] || concept['company'] || concept['short'] || '';
+
+                container.innerHTML += `
+                    <div class="bg-white rounded-2xl shadow border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
+                        <div class="p-5 sm:p-6 border-b border-gray-100">
+                            <div class="flex items-start justify-between gap-2">
+                                <h3 class="text-base sm:text-lg font-bold text-gray-900 leading-snug">${concept['model_name'] || concept['term']}</h3>
+                                <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2 py-1 rounded flex-shrink-0">名詞</span>
+                            </div>
+                            <p class="text-sm text-blue-700 font-medium mt-1">${shortDesc}</p>
+                        </div>
+
+                        <div class="p-4 sm:p-5 flex-grow">
+                            <p class="text-gray-700 text-sm leading-relaxed">${concept['description']}</p>
+                            ${exampleHtml}
+                            ${financeConceptHtml}
+                        </div>
+
+                        ${relatedTagsHtml ? `
+                        <div class="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-gray-100 pt-3">
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">相關模型</p>
+                            <div>${relatedTagsHtml}</div>
+                        </div>` : ''}
+                    </div>
+                `;
+            });
+        }
+
+        // ===== Tab 3: 相似名詞比較 =====
+
+        function parseItemsDetails(text) {
+            const lines = text.split('\n').filter(l => l.trim() !== '');
+            const sections = [];
+            const keys = [];
+            let current = null;
+
+            lines.forEach(line => {
+                if (line.startsWith('【')) {
+                    current = { name: line.trim(), items: {} };
+                    sections.push(current);
                 } else {
-                    modelsContainer.innerHTML = filteredModels.map(renderModelCard).join('');
+                    const idx = line.indexOf('：');
+                    if (idx > -1 && current) {
+                        const k = line.slice(0, idx).trim();
+                        const v = line.slice(idx + 1).trim();
+                        current.items[k] = v;
+                        if (!keys.includes(k)) keys.push(k);
+                    }
                 }
-            } else {
-                modelsSection.classList.add('hidden');
+            });
+            return { sections, keys };
+        }
+
+        const KEY_ICONS = {
+            '是什麼': `<svg class="w-3.5 h-3.5 text-gray-500 inline mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-4m0-4h.01"/></svg>`,
+            '優勢':   `<svg class="w-3.5 h-3.5 text-green-500 inline mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`,
+            '劣勢':   `<svg class="w-3.5 h-3.5 text-red-400 inline mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`,
+            '適合':   `<svg class="w-3.5 h-3.5 text-red-600 inline mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>`,
+        };
+
+        function buildVSColumns(sections, keys) {
+            if (!sections.length || !keys.length) return '';
+
+            const palette = [
+                { header: 'bg-blue-700',  label: 'text-blue-700',  border: 'border-blue-200',  bg: 'bg-white' },
+                { header: 'bg-slate-700', label: 'text-slate-700', border: 'border-slate-200', bg: 'bg-white' },
+                { header: 'bg-orange-500',  label: 'text-blue-700',  border: 'border-blue-200',  bg: 'bg-white' },
+                { header: 'bg-slate-600', label: 'text-slate-600', border: 'border-slate-200', bg: 'bg-white' },
+            ];
+
+            const cols = sections.map((s, i) => {
+                const c = palette[i % palette.length];
+                const rows = keys.map(key => {
+                    const icon = KEY_ICONS[key] || '';
+                    return `
+                    <div>
+                        <p class="text-xs font-bold ${c.label} mb-1 flex items-center">${icon}${key}</p>
+                        <p class="text-sm text-gray-700 leading-relaxed">${s.items[key] || '—'}</p>
+                    </div>`;
+                }).join('');
+                return `
+                    <div class="rounded-xl border-2 ${c.border} ${c.bg} overflow-hidden shadow-sm">
+                        <div class="${c.header} text-white px-4 py-2.5 text-sm font-bold">${s.name}</div>
+                        <div class="p-4 space-y-4">${rows}</div>
+                    </div>`;
+            }).join('');
+
+            const gridCols = sections.length >= 3 ? 'grid-cols-1 sm:grid-cols-3'
+                           : sections.length === 2 ? 'grid-cols-1 sm:grid-cols-2'
+                           : 'grid-cols-1';
+            return `<div class="grid ${gridCols} gap-4 mt-4">${cols}</div>`;
+        }
+
+        function formatCompTitle(title) {
+            // Split on " vs " (case-insensitive), highlight each noun term
+            const parts = title.split(/(\s+vs\s+)/i);
+            return parts.map(part => {
+                if (/^\s+vs\s+$/i.test(part)) {
+                    return `<span class="text-gray-400 font-normal text-sm">${part.trim()}</span>`;
+                }
+                return `<span class="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded font-extrabold">${part}</span>`;
+            }).join(' ');
+        }
+
+        function renderComparisons() {
+            const container = document.getElementById('comparisonsContainer');
+            container.innerHTML = '';
+
+            let filtered = allComparisonsData.filter(c => {
+                const searchStr = `${c['title']} ${c['summary']} ${c['key_difference']}`.toLowerCase();
+                return searchStr.includes(currentSearchTerm);
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-500 py-10 text-lg">找不到符合條件的比較 🥲</div>`;
+                return;
             }
 
-            // If nothing at all
-            if (!showConcepts && !showModels) {
-                modelsSection.classList.remove('hidden');
-                modelsContainer.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的內容 🥲</div>`;
-            }
+            filtered.forEach(comp => {
+                let tableHtml = '';
+                if (comp['items_details']) {
+                    const { sections, keys } = parseItemsDetails(comp['items_details']);
+                    tableHtml = buildVSColumns(sections, keys);
+                }
+
+                const keyDiffHtml = comp['key_difference'] ? `
+                    <div class="mt-4 px-4 py-3 bg-amber-50 rounded-lg border border-amber-200">
+                        <p class="text-xs font-bold text-amber-700 mb-1">🔑 核心差異</p>
+                        <p class="text-sm text-amber-900 leading-relaxed">${comp['key_difference']}</p>
+                    </div>` : '';
+
+                const financeHtml = comp['financial_use_case'] ? `
+                    <div class="mt-3 px-4 py-3 bg-blue-50 rounded-lg border border-blue-100">
+                        <p class="text-xs font-bold text-blue-700 mb-1">🏦 金融業應用情境</p>
+                        <p class="text-sm text-blue-900 leading-relaxed">${comp['financial_use_case']}</p>
+                    </div>` : '';
+
+                const uid = Math.random().toString(36).slice(2);
+                container.innerHTML += `
+                    <article class="border-b border-gray-200 last:border-b-0">
+                        <button onclick="toggleComp('${uid}')"
+                            class="w-full text-left py-5 flex items-start justify-between gap-3 group">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <h3 class="text-base sm:text-lg font-bold text-gray-900 leading-snug flex items-center gap-1.5 flex-wrap">${formatCompTitle(comp['title'])}</h3>
+                                    <span class="bg-orange-100 text-orange-800 text-xs font-bold px-2 py-0.5 rounded flex-shrink-0">比較</span>
+                                    <span class="text-xs text-gray-400">${comp['日期'] || ''}</span>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-1 leading-relaxed">${comp['summary'] || ''}</p>
+                            </div>
+                            <svg id="chevron-${uid}" class="flex-shrink-0 w-5 h-5 text-gray-400 transition-transform duration-200 mt-0.5"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div id="body-${uid}" class="hidden pb-5">
+                            ${tableHtml}
+                            ${keyDiffHtml}
+                            ${financeHtml}
+                        </div>
+                    </article>
+                `;
+            });
         }
+
+        function toggleComp(uid) {
+            const body = document.getElementById('body-' + uid);
+            const chevron = document.getElementById('chevron-' + uid);
+            const isHidden = body.classList.toggle('hidden');
+            chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
+        }
+
+        // 綁定 Tab 按鈕
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+        });
 
         window.addEventListener('DOMContentLoaded', initData);
     </script>

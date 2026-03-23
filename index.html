@@ -24,9 +24,9 @@
             <h1 class="text-2xl font-bold tracking-wider">AI 情報站</h1>
             <!-- Desktop nav -->
             <div class="hidden md:flex space-x-6 font-medium">
-                <a href="index.html" class="hover:text-blue-300 border-b-2 border-white pb-1">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-blue-300 transition-colors">Global Financial AI Watch</a>
-                <a href="docs.html" class="hover:text-blue-300 transition-colors">AI Model Docs</a>
+                <a href="index.html" class="hover:text-orange-300 border-b-2 border-white pb-1">AI Trend Weekly</a>
+                <a href="watch.html" class="hover:text-orange-300 transition-colors">Global Financial AI Watch</a>
+                <a href="docs.html" class="hover:text-orange-300 transition-colors">AI Model Docs</a>
             </div>
             <!-- Hamburger button -->
             <button id="menuToggle" class="md:hidden flex flex-col space-y-1.5 p-2" aria-label="Menu">
@@ -36,11 +36,11 @@
             </button>
         </div>
         <!-- Mobile dropdown -->
-        <div id="mobileMenu" class="hidden md:hidden mt-3 pb-2 border-t border-blue-700">
+        <div id="mobileMenu" class="hidden md:hidden mt-3 pb-2 border-t border-blue-800">
             <div class="max-w-7xl mx-auto flex flex-col space-y-3 pt-3 px-2">
-                <a href="index.html" class="hover:text-blue-300 border-b-2 border-white pb-1 inline-block">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-blue-300">Global Financial AI Watch</a>
-                <a href="docs.html" class="hover:text-blue-300">AI Model Docs</a>
+                <a href="index.html" class="hover:text-orange-300 border-b-2 border-white pb-1 inline-block">AI Trend Weekly</a>
+                <a href="watch.html" class="hover:text-orange-300">Global Financial AI Watch</a>
+                <a href="docs.html" class="hover:text-orange-300">AI Model Docs</a>
             </div>
         </div>
     </nav>
@@ -48,39 +48,44 @@
     <!-- 主要內容區 -->
     <main class="max-w-7xl mx-auto p-4 sm:p-6 my-6">
 
-        <!-- 頂部 Header Banner (對齊參考圖的紅色 Banner，但使用你的藍色系) -->
-        <div class="bg-gradient-to-r from-blue-900 to-indigo-800 text-white p-8 rounded-xl shadow-lg mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center relative overflow-hidden">
+        <!-- 頂部 Header Banner -->
+        <div class="bg-gradient-to-r from-blue-900 to-blue-700 text-white p-8 rounded-xl shadow-lg mb-8 relative overflow-hidden">
             <!-- 裝飾用背景 -->
             <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mt-20 -mr-20 pointer-events-none"></div>
-            
-            <div class="relative z-10">
-                <h2 class="text-4xl font-extrabold tracking-widest uppercase mb-2">AI Trend Weekly</h2>
-                <p class="text-blue-200 text-sm tracking-wide" id="headerSubtitle">洞察·趨勢 | 載入中...</p>
-            </div>
-            <div class="mt-6 sm:mt-0 relative z-10 w-full sm:w-auto">
-                <select id="weekSelector" class="w-full sm:w-auto border-0 rounded-lg p-3 bg-white/10 text-white font-medium focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm cursor-pointer [&>option]:text-gray-800">
-                    <option value="">載入中...</option>
-                </select>
-            </div>
-        </div>
 
-        <!-- 搜尋列 -->
-        <div class="mb-6 relative max-w-2xl mx-auto">
-            <input type="text" id="newsSearchInput" placeholder="搜尋本週新聞標題或摘要關鍵字..."
-                   class="w-full pl-12 pr-10 py-3.5 rounded-full border border-gray-200 bg-white focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none shadow-sm text-sm transition-shadow">
-            <svg class="w-5 h-5 text-gray-400 absolute left-5 top-3.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
-            <button id="clearSearch" class="hidden absolute right-4 top-3.5 text-gray-400 hover:text-gray-600 p-0.5" aria-label="清除搜尋">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
+            <!-- 標題列 -->
+            <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                <div>
+                    <h2 class="text-4xl font-extrabold tracking-widest uppercase mb-2">AI Trend Weekly</h2>
+                    <p class="text-white text-sm tracking-wide" id="headerSubtitle">洞察·趨勢 | 載入中...</p>
+                </div>
+                <div class="mt-4 sm:mt-0 w-full sm:w-auto">
+                    <select id="weekSelector" class="w-full sm:w-auto border-0 rounded-lg p-3 bg-white/10 text-white font-medium focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm cursor-pointer [&>option]:text-gray-800">
+                        <option value="">載入中...</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 搜尋列（在 banner 內） -->
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <div class="relative bg-white rounded-full shadow-sm">
+                    <input type="text" id="newsSearchInput" placeholder="搜尋本週新聞標題或摘要關鍵字..."
+                           class="w-full pl-12 pr-10 py-3.5 rounded-full border-0 bg-transparent focus:outline-none text-sm text-gray-700">
+                    <svg class="w-5 h-5 text-gray-400 absolute left-5 top-3.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <button id="clearSearch" class="hidden absolute right-4 top-3.5 text-gray-400 hover:text-gray-600 p-0.5" aria-label="清除搜尋">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
         <div id="searchResultCount" class="hidden mb-6 text-center text-sm text-gray-500 font-medium"></div>
 
         <!-- 區塊一：本週總結 (對齊參考圖的寬版 Summary) -->
-        <div id="summarySection" class="bg-white p-6 sm:p-8 rounded-xl shadow-sm border-t-4 border-blue-600 mb-8">
+        <div id="summarySection" class="bg-white p-6 sm:p-8 rounded-xl shadow-sm border-t-4 border-orange-500 mb-8">
             <h3 class="text-xl font-bold text-blue-900 mb-4 flex items-center">
                 <span class="text-2xl mr-2">📋</span>
                 本週趨勢摘要 (Executive Summary)
@@ -317,16 +322,16 @@
                 const summary = highlightText(news['summary'], searchTerm);
                 
                 // 完全依照要求補上的閱讀原文 HTML 結構
-                // const exactReadMoreHtml = news['url'] ? `<a href="${news['url']}" target="_blank" class="text-xs text-blue-500 hover:underline mt-1 inline-block">閱讀原文 &rarr;</a>` : '';
+                // const exactReadMoreHtml = news['url'] ? `<a href="${news['url']}" target="_blank" class="text-xs text-red-600 hover:underline mt-1 inline-block">閱讀原文 &rarr;</a>` : '';
                 // 取得該筆新聞在當週陣列中的原始索引，用來對應下方的深度文章
                 const originalIndex = weekNews.indexOf(news);
                 
                 // 將「閱讀原文」改成「了解更多」，並加上點擊切換文章與滾動的動作
-                const exactReadMoreHtml = `<button onclick="showArticleDetail(${originalIndex}); document.getElementById('articlesSplitView').scrollIntoView({ behavior: 'smooth', block: 'start' });" class="text-xs text-blue-500 hover:underline mt-1 inline-block text-left cursor-pointer transition-colors">了解更多 &rarr;</button>`;
+                const exactReadMoreHtml = `<button onclick="showArticleDetail(${originalIndex}); document.getElementById('articlesSplitView').scrollIntoView({ behavior: 'smooth', block: 'start' });" class="text-xs text-orange-500 hover:underline mt-1 inline-block text-left cursor-pointer transition-colors">了解更多 &rarr;</button>`;
 
                 const newsCard = `
                     <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-200 flex flex-col h-full relative overflow-hidden group">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-300 to-indigo-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-orange-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                         <h4 class="text-base font-bold text-gray-800 mb-3 leading-snug">${title}</h4>
                         <ul class="text-gray-600 text-sm mb-4 space-y-1.5 flex-1 list-disc pl-4">
                             <li>${summary}</li>
@@ -387,8 +392,8 @@
         //         const num = String(index + 1).padStart(2, '0');
         //         return `
         //         <div class="article-list-item cursor-pointer p-4 bg-white rounded-xl border border-gray-200 hover:border-blue-400 hover:shadow-md transition-all flex flex-col gap-2 relative overflow-hidden group" data-index="${index}" onclick="showArticleDetail(${index})">
-        //             <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 opacity-0 group-[.active]:opacity-100 transition-opacity"></div>
-        //             <div class="text-blue-600 font-extrabold text-lg">${num}.</div>
+        //             <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 opacity-0 group-[.active]:opacity-100 transition-opacity"></div>
+        //             <div class="text-blue-700 font-extrabold text-lg">${num}.</div>
         //             <h4 class="font-bold text-gray-800 text-sm leading-snug group-[.active]:text-blue-800 transition-colors">${art['title']}</h4>
         //             <p class="text-xs text-gray-500 line-clamp-2 mt-1 leading-relaxed">${art['highlight'] || ''}</p>
         //         </div>
@@ -413,8 +418,8 @@
 
                 return `
                 <div class="article-list-item cursor-pointer p-4 bg-white rounded-xl border border-gray-200 hover:border-blue-400 hover:shadow-md transition-all flex flex-col gap-2 relative overflow-hidden group flex-shrink-0 h-auto" data-index="${index}" onclick="showArticleDetail(${index})">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 opacity-0 group-[.active]:opacity-100 transition-opacity"></div>
-                    <div class="text-blue-600 font-extrabold text-lg">${num}.</div>
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 opacity-0 group-[.active]:opacity-100 transition-opacity"></div>
+                    <div class="text-blue-700 font-extrabold text-lg">${num}.</div>
                     <h4 class="font-bold text-gray-800 text-sm leading-snug group-[.active]:text-blue-800 transition-colors">${displayTitle}</h4>
                     <p class="text-xs text-gray-500 line-clamp-2 mt-1 leading-relaxed">${displayHighlightText}</p>
                 </div>
@@ -462,7 +467,7 @@
             const detailPointsFormatted = article['detail_points']
                 ? article['detail_points'].split('\n').filter(p => p.trim()).map(point => `
                     <li class="flex items-start gap-2 text-sm text-gray-700 leading-relaxed mb-3">
-                        <svg class="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                         <span>${highlightText(point, currentSearchTerm)}</span>
@@ -496,7 +501,7 @@
                     <div class="mb-8">
                         <h3 class="flex items-center text-gray-800 font-bold text-base mb-3">
                             <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center mr-2 flex-shrink-0">
-                                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
@@ -510,8 +515,8 @@
                     <!-- 關鍵細節 -->
                     <div class="mb-8">
                         <h3 class="flex items-center text-gray-800 font-bold text-base mb-3">
-                            <div class="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center mr-2 flex-shrink-0">
-                                <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center mr-2 flex-shrink-0">
+                                <svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                                 </svg>
                             </div>
@@ -523,9 +528,9 @@
                     </div>
 
                     <!-- 策略解讀 -->
-                    <div class="mb-8 bg-blue-50 rounded-xl p-5 border-l-4 border-blue-500">
-                        <h3 class="flex items-center text-blue-800 font-bold text-base mb-3">
-                            <div class="w-7 h-7 bg-blue-500 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                    <div class="mb-8 bg-orange-50 rounded-xl p-5 border-l-4 border-orange-500">
+                        <h3 class="flex items-center text-orange-800 font-bold text-base mb-3">
+                            <div class="w-7 h-7 bg-orange-500 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
                                 <span class="text-white text-sm leading-none">💡</span>
                             </div>
                             PM Insight
@@ -569,7 +574,7 @@
                     <!-- 閱讀原始文章按鈕 -->
                     ${article['url'] ? `
                     <div class="text-right pt-4 border-t border-gray-100 mt-auto">
-                        <a href="${article['url']}" target="_blank" class="inline-flex items-center justify-center border border-gray-300 text-gray-600 hover:text-blue-600 hover:border-blue-400 hover:bg-blue-50 px-5 py-2.5 rounded-lg text-sm font-medium transition-all shadow-sm">
+                        <a href="${article['url']}" target="_blank" class="inline-flex items-center justify-center border border-gray-300 text-gray-600 hover:text-blue-700 hover:border-blue-400 hover:bg-blue-50 px-5 py-2.5 rounded-lg text-sm font-medium transition-all shadow-sm">
                             閱讀原始文章 
                             <svg class="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                         </a>
