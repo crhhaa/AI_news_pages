@@ -100,10 +100,20 @@
 
         <!-- 區塊三：深度文章區 - 左右分割設計 (對齊參考圖下半部) -->
         <div class="flex flex-col lg:flex-row gap-6 mb-20" id="articlesSplitView">
-            
+
             <!-- 左側：文章列表選單 -->
-            <div class="w-full lg:w-1/3 flex flex-col gap-3 max-h-[800px] overflow-y-auto custom-scrollbar pr-2 pb-4" id="articleListPane">
-                <p class="text-gray-500 text-center py-4">載入中...</p>
+            <div class="w-full lg:w-1/3 flex-shrink-0">
+                <!-- 手機版折疊按鈕 -->
+                <button id="articleListToggle" class="lg:hidden w-full flex justify-between items-center bg-white px-5 py-3.5 rounded-xl shadow-sm border border-gray-200 mb-2 font-semibold text-blue-900 text-sm" aria-expanded="false">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+                        深度文章目錄
+                    </span>
+                    <svg id="articleListToggleIcon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div class="hidden lg:flex flex-col gap-3 max-h-[800px] overflow-y-auto custom-scrollbar pr-2 pb-4" id="articleListPane">
+                    <p class="text-gray-500 text-center py-4">載入中...</p>
+                </div>
             </div>
 
             <!-- 右側：文章詳細內容 -->
@@ -133,6 +143,18 @@
         // Hamburger menu
         document.getElementById('menuToggle').addEventListener('click', () => {
             document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        // 手機版文章目錄折疊
+        document.getElementById('articleListToggle').addEventListener('click', () => {
+            const pane = document.getElementById('articleListPane');
+            const icon = document.getElementById('articleListToggleIcon');
+            const btn = document.getElementById('articleListToggle');
+            const isHidden = pane.classList.toggle('hidden');
+            if (!isHidden) pane.classList.add('flex', 'flex-col');
+            else pane.classList.remove('flex', 'flex-col');
+            icon.style.transform = isHidden ? '' : 'rotate(180deg)';
+            btn.setAttribute('aria-expanded', String(!isHidden));
         });
 
         // Search input events
@@ -586,7 +608,15 @@
             document.getElementById('articleDetailPane').innerHTML = detailPaneHtml;
 
             if(window.innerWidth < 1024) {
-                document.getElementById('articlesSplitView').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // 選文章後自動收起目錄
+                const pane = document.getElementById('articleListPane');
+                const icon = document.getElementById('articleListToggleIcon');
+                const btn = document.getElementById('articleListToggle');
+                pane.classList.add('hidden');
+                pane.classList.remove('flex', 'flex-col');
+                icon.style.transform = '';
+                btn.setAttribute('aria-expanded', 'false');
+                document.getElementById('articleDetailPane').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
