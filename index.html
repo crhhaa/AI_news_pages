@@ -297,12 +297,33 @@
             return `洞察·趨勢 | ${dateStr.substring(0,4)} 年 ${dateStr.substring(4,6)} 月`;
         }
 
+        // 分割標的，忽略括號內的分隔符
+        function splitTargets(str) {
+            const results = [];
+            let depth = 0;
+            let current = '';
+            for (const ch of str) {
+                if (ch === '（' || ch === '(') { depth++; current += ch; }
+                else if (ch === '）' || ch === ')') { depth--; current += ch; }
+                else if (depth === 0 && /[、,，]/.test(ch)) {
+                    const t = current.trim();
+                    if (t) results.push(t);
+                    current = '';
+                } else {
+                    current += ch;
+                }
+            }
+            const t = current.trim();
+            if (t) results.push(t);
+            return results;
+        }
+
         // 解析 impact_analysis
         function parseImpactField(text) {
             if (!text) return { description: '', targets: [] };
             const parts = text.split('標的:');
             const description = parts[0].replace(/^說明[:：]\s*/, '').trim();
-            const targets = parts[1] ? parts[1].split(/[、,，]/).map(t => t.trim()).filter(Boolean) : [];
+            const targets = parts[1] ? splitTargets(parts[1]) : [];
             return { description, targets };
         }
 
