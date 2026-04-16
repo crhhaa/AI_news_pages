@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 情報站 - AI Wiki</title>
+    <title>金融科技情報站 - FinTech Wiki</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
@@ -23,11 +23,11 @@
     <!-- 導覽列 -->
     <nav class="bg-blue-900 text-white p-3 shadow-md">
         <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-2">
-            <h1 class="text-xl sm:text-2xl font-bold">AI 情報站</h1>
+            <h1 class="text-xl sm:text-2xl font-bold">金融科技情報站</h1>
             <div class="flex flex-wrap gap-x-3 gap-y-1 text-sm sm:text-base">
                 <a href="index.html" class="hover:text-orange-300">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-orange-300">Global Financial AI Watch</a>
-                <a href="docs.html" class="hover:text-orange-300 border-b-2 border-white pb-0.5">AI Wiki</a>
+                <a href="watch.html" class="hover:text-orange-300">Global FinTech Watch</a>
+                <a href="docs.html" class="hover:text-orange-300 border-b-2 border-white pb-0.5">FinTech Wiki</a>
             </div>
         </div>
     </nav>
@@ -35,7 +35,7 @@
     <!-- 頁面頭部 / 搜尋區 -->
     <header class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-8 sm:py-12 shadow-inner">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-            <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">AI Wiki</h2>
+            <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">FinTech Wiki</h2>
 
             <!-- 搜尋框 -->
             <div class="max-w-2xl mx-auto relative mb-6">
@@ -45,18 +45,22 @@
             </div>
 
             <!-- Tab 切換列 -->
-            <div class="max-w-lg mx-auto bg-white/20 rounded-xl p-1 flex">
+            <div class="max-w-2xl mx-auto bg-white/20 rounded-xl p-1 flex">
                 <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 bg-white text-blue-900 shadow" data-tab="models">
                     <span class="hidden sm:inline">AI 模型</span>
                     <span class="sm:hidden">模型</span>
                 </button>
                 <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 text-white hover:bg-white/20" data-tab="concepts">
                     <span class="hidden sm:inline">AI 相關名詞</span>
-                    <span class="sm:hidden">名詞</span>
+                    <span class="sm:hidden">AI 名詞</span>
                 </button>
                 <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 text-white hover:bg-white/20" data-tab="comparisons">
                     <span class="hidden sm:inline">相似名詞比較</span>
                     <span class="sm:hidden">比較</span>
+                </button>
+                <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 text-white hover:bg-white/20" data-tab="security">
+                    <span class="hidden sm:inline">資安術語</span>
+                    <span class="sm:hidden">資安</span>
                 </button>
             </div>
         </div>
@@ -109,6 +113,14 @@
                         <button class="mod-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-filter-mod="video">🎞 影片</button>
                     </div>
                 </div>
+                <!-- 排序 -->
+                <div class="overflow-x-auto pb-1">
+                    <div class="flex items-center gap-2 min-w-max px-1">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap w-10 shrink-0">排序</span>
+                        <button class="sort-btn active bg-orange-500 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold shadow-sm transition whitespace-nowrap" data-sort="date-desc">最新優先</button>
+                        <button class="sort-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sort="date-asc">最舊優先</button>
+                    </div>
+                </div>
             </div>
 
             <!-- 模型卡片網格 -->
@@ -140,21 +152,48 @@
             </div>
         </div>
 
+        <!-- ===== Tab 4: 資安術語 ===== -->
+        <div id="tab-security" class="hidden">
+            <!-- 分類篩選 -->
+            <div class="mb-6 overflow-x-auto pb-1">
+                <div class="flex items-center gap-2 min-w-max px-1">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap w-10 shrink-0">分類</span>
+                    <button class="sec-cat-btn active bg-orange-500 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold shadow-sm transition whitespace-nowrap" data-sec-cat="ALL">全部</button>
+                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="網路安全">🛡 網路安全</button>
+                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="密碼學">🔐 密碼學</button>
+                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="身份驗證">🪪 身份驗證</button>
+                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="合規">📋 合規</button>
+                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="資料保護">🗄 資料保護</button>
+                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="網路基礎">🌐 網路基礎</button>
+                </div>
+            </div>
+            <div id="securityContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 pb-20">
+                <div class="col-span-full text-center text-gray-500 py-10" id="loadingSecurity">
+                    <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    正在讀取資安術語資料...
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <script>
         const URL_MODELS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRR9-fSj7w0hofgshYNJ7t3O1uGrC4tG0i9bdhzxAAT2sa_-y74V6dEKrsrO7S2Uafwcxz4-GSxORve/pub?output=csv';
         const URL_COMPARISONS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ42IpI7XqI3KkLaprtqIaeK91mj7JvkXrXfyGmDStnNkrCvmDCFoYufGYbBoyoivklC0VhZRfMmU5O/pub?output=csv';
+        const URL_SECURITY = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-8i3BkYL-uBDqICAYWNbEiRmxJRztXQmlcN2r4NSZFUb3kmQb6tcdcZRcDRHjUONvlcqNHz1cMFKI/pub?output=csv'; // 待建立 Google Sheet 後填入 published CSV 網址
 
         let allModelsData = [];
         let allConceptsData = [];
         let allComparisonsData = [];
+        let allSecurityData = [];
+        let currentSecCatFilter = 'ALL';
         let currentTab = 'models';
         let currentTypeFilter = 'ALL';
         let currentCategoryFilter = 'ALL';
         let currentCompanyFilter = 'ALL';
         let selectedModalities = new Set();
         let currentSearchTerm = '';
+        let currentSort = 'date-desc';
 
         function fetchCSV(url) {
             return new Promise((resolve, reject) => {
@@ -168,17 +207,24 @@
 
         async function initData() {
             try {
-                const [rawAll, comparisons] = await Promise.all([
+                const [modelsResult, comparisonsResult, securityResult] = await Promise.allSettled([
                     fetchCSV(URL_MODELS),
-                    fetchCSV(URL_COMPARISONS)
+                    fetchCSV(URL_COMPARISONS),
+                    URL_SECURITY ? fetchCSV(URL_SECURITY) : Promise.resolve([])
                 ]);
+
+                const rawAll      = modelsResult.status      === 'fulfilled' ? modelsResult.value      : [];
+                const comparisons = comparisonsResult.status === 'fulfilled' ? comparisonsResult.value : [];
+                allSecurityData   = securityResult.status    === 'fulfilled' ? securityResult.value    : [];
+
+                if (securityResult.status === 'rejected') console.warn('資安術語資料載入失敗:', securityResult.reason);
 
                 allModelsData = rawAll.filter(r => r['record_type'] === 'model' || !r['record_type']);
                 allConceptsData = rawAll.filter(r => r['record_type'] === 'ai_concept');
                 allComparisonsData = comparisons;
 
                 // 移除 loading 提示
-                ['loadingText', 'loadingConcepts', 'loadingComparisons'].forEach(id => {
+                ['loadingText', 'loadingConcepts', 'loadingComparisons', 'loadingSecurity'].forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.remove();
                 });
@@ -268,6 +314,20 @@
                     });
                 });
 
+                // 綁定排序按鈕
+                document.querySelectorAll('.sort-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        currentSort = e.target.dataset.sort;
+                        document.querySelectorAll('.sort-btn').forEach(b => {
+                            b.classList.remove('bg-orange-500', 'text-white', 'shadow-sm');
+                            b.classList.add('bg-white', 'text-gray-600');
+                        });
+                        e.target.classList.remove('bg-white', 'text-gray-600');
+                        e.target.classList.add('bg-orange-500', 'text-white', 'shadow-sm');
+                        renderModels();
+                    });
+                });
+
                 // 綁定搜尋事件
                 document.getElementById('searchInput').addEventListener('input', (e) => {
                     currentSearchTerm = e.target.value.toLowerCase();
@@ -277,9 +337,23 @@
                 // 初次渲染
                 renderModels();
 
+                // 綁定資安術語分類篩選
+                document.querySelectorAll('.sec-cat-btn').forEach(btn => {
+                    btn.addEventListener('click', e => {
+                        document.querySelectorAll('.sec-cat-btn').forEach(b => {
+                            b.classList.remove('bg-orange-500', 'text-white', 'shadow-sm');
+                            b.classList.add('bg-white', 'text-gray-600');
+                        });
+                        e.target.classList.remove('bg-white', 'text-gray-600');
+                        e.target.classList.add('bg-orange-500', 'text-white', 'shadow-sm');
+                        currentSecCatFilter = e.target.dataset.secCat;
+                        renderSecurityTerms();
+                    });
+                });
+
             } catch (error) {
                 console.error(error);
-                ['loadingText', 'loadingConcepts', 'loadingComparisons'].forEach(id => {
+                ['loadingText', 'loadingConcepts', 'loadingComparisons', 'loadingSecurity'].forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.innerHTML = '讀取資料失敗，請檢查網址與網路連線。';
                 });
@@ -307,6 +381,7 @@
             document.getElementById('tab-models').classList.toggle('hidden', tab !== 'models');
             document.getElementById('tab-concepts').classList.toggle('hidden', tab !== 'concepts');
             document.getElementById('tab-comparisons').classList.toggle('hidden', tab !== 'comparisons');
+            document.getElementById('tab-security').classList.toggle('hidden', tab !== 'security');
 
             renderCurrent();
         }
@@ -315,6 +390,7 @@
             if (currentTab === 'models') renderModels();
             else if (currentTab === 'concepts') renderConcepts();
             else if (currentTab === 'comparisons') renderComparisons();
+            else if (currentTab === 'security') renderSecurityTerms();
         }
 
         // 輔助：文字轉列表
@@ -344,6 +420,13 @@
                 const matchModality = selectedModalities.size === 0 ||
                     [...selectedModalities].some(m => modelModalities.includes(m));
                 return matchSearch && matchType && matchCategory && matchCompany && matchModality;
+            });
+
+            // 排序
+            filtered.sort((a, b) => {
+                const da = a['release_date'] || '';
+                const db = b['release_date'] || '';
+                return currentSort === 'date-asc' ? da.localeCompare(db) : db.localeCompare(da);
             });
 
             if (filtered.length === 0) {
@@ -646,6 +729,83 @@
                             ${financeHtml}
                         </div>
                     </article>
+                `;
+            });
+        }
+
+        // ===== Tab 4: 資安術語 =====
+        function renderSecurityTerms() {
+            const container = document.getElementById('securityContainer');
+            container.innerHTML = '';
+
+            if (!URL_SECURITY) {
+                container.innerHTML = `<div class="col-span-full text-center text-gray-400 py-16">
+                    <p class="text-4xl mb-4">🔒</p>
+                    <p class="text-lg font-semibold mb-2">資安術語資料尚未設定</p>
+                    <p class="text-sm">請先建立 Google Sheet 並將 URL 填入 URL_SECURITY 常數</p>
+                </div>`;
+                return;
+            }
+
+            const SEC_CAT_MAP = {
+                '網路安全': { cls: 'bg-red-100 text-red-800',    icon: '🛡' },
+                '密碼學':   { cls: 'bg-purple-100 text-purple-800', icon: '🔐' },
+                '身份驗證': { cls: 'bg-blue-100 text-blue-800',  icon: '🪪' },
+                '合規':     { cls: 'bg-green-100 text-green-800', icon: '📋' },
+                '資料保護': { cls: 'bg-amber-100 text-amber-800', icon: '🗄' },
+                '網路基礎': { cls: 'bg-sky-100 text-sky-800',    icon: '🌐' },
+            };
+
+            let filtered = allSecurityData.filter(t => {
+                const searchStr = `${t['term']} ${t['aliases'] || t['short'] || ''} ${t['description']} ${t['finance_relevance'] || t['financial_use_case'] || ''}`.toLowerCase();
+                const matchSearch = searchStr.includes(currentSearchTerm);
+                const matchCat = currentSecCatFilter === 'ALL' || t['category'] === currentSecCatFilter;
+                return matchSearch && matchCat;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的術語 🥲</div>`;
+                return;
+            }
+
+            filtered.forEach(term => {
+                const catInfo = SEC_CAT_MAP[term['category']] || { cls: 'bg-gray-100 text-gray-700', icon: '📌' };
+                const categoryBadge = `<span class="${catInfo.cls} text-xs font-bold px-2.5 py-1 rounded">${catInfo.icon} ${term['category'] || '其他'}</span>`;
+
+                const relatedTagsHtml = (term['related_terms'] || '').split(/[\n,]/).map(t => t.trim()).filter(Boolean)
+                    .map(t => `<span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full mr-1 mb-1">${t}</span>`).join('');
+
+                const exampleHtml = term['example']
+                    ? `<div class="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                           <p class="text-xs font-bold text-amber-700 mb-1">💡 實際案例</p>
+                           <p class="text-sm text-amber-900 leading-relaxed">${term['example']}</p>
+                       </div>` : '';
+
+                const financeVal = term['finance_relevance'] || term['financial_use_case'] || '';
+                const financeHtml = financeVal
+                    ? `<div class="mt-3 px-3 py-2.5 bg-blue-50 rounded-lg border border-blue-100">
+                           <p class="text-xs font-bold text-blue-700 mb-1">🏦 金融業應用情境</p>
+                           <p class="text-sm text-blue-900 leading-relaxed">${financeVal}</p>
+                       </div>` : '';
+
+                const aliasVal = term['aliases'] || term['short'] || '';
+
+                container.innerHTML += `
+                    <div class="bg-white rounded-2xl shadow border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
+                        <div class="p-5 sm:p-6 border-b border-gray-100">
+                            <div class="flex items-start justify-between gap-2 mb-1">
+                                <h3 class="text-base sm:text-lg font-bold text-gray-900 leading-snug">${term['term']}</h3>
+                                ${categoryBadge}
+                            </div>
+                            <p class="text-sm text-blue-700 font-medium">${aliasVal}</p>
+                        </div>
+                        <div class="p-4 sm:p-5 flex-grow">
+                            <p class="text-gray-700 text-sm leading-relaxed">${term['description'] || ''}</p>
+                            ${exampleHtml}
+                            ${financeHtml}
+                            ${relatedTagsHtml ? `<div class="mt-3"><p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">相關術語</p>${relatedTagsHtml}</div>` : ''}
+                        </div>
+                    </div>
                 `;
             });
         }

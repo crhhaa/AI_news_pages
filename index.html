@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 情報站 - AI Trend Weekly</title>
+    <title>金融科技情報站 - AI Trend Weekly</title>
     <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 引入 PapaParse 用於讀取 CSV -->
@@ -21,12 +21,12 @@
     <!-- 導覽列 -->
     <nav class="bg-blue-900 text-white p-4 shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-wider">AI 情報站</h1>
+            <h1 class="text-2xl font-bold tracking-wider">金融科技情報站</h1>
             <!-- Desktop nav -->
             <div class="hidden md:flex space-x-6 font-medium">
                 <a href="index.html" class="hover:text-orange-300 border-b-2 border-white pb-1">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-orange-300 transition-colors">Global Financial AI Watch</a>
-                <a href="docs.html" class="hover:text-orange-300 transition-colors">AI Wiki</a>
+                <a href="watch.html" class="hover:text-orange-300 transition-colors">Global FinTech Watch</a>
+                <a href="docs.html" class="hover:text-orange-300 transition-colors">FinTech Wiki</a>
             </div>
             <!-- Hamburger button -->
             <button id="menuToggle" class="md:hidden flex flex-col space-y-1.5 p-2" aria-label="Menu">
@@ -39,8 +39,8 @@
         <div id="mobileMenu" class="hidden md:hidden mt-3 pb-2 border-t border-blue-800">
             <div class="max-w-7xl mx-auto flex flex-col space-y-3 pt-3 px-2">
                 <a href="index.html" class="hover:text-orange-300 border-b-2 border-white pb-1 inline-block">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-orange-300">Global Financial AI Watch</a>
-                <a href="docs.html" class="hover:text-orange-300">AI Wiki</a>
+                <a href="watch.html" class="hover:text-orange-300">Global FinTech Watch</a>
+                <a href="docs.html" class="hover:text-orange-300">FinTech Wiki</a>
             </div>
         </div>
     </nav>
@@ -517,6 +517,35 @@
                     </li>
                 `).join('') : '';
 
+            // 元大視角
+            const rawYuantaInsight = article['yuanta_insight'] || '';
+            const rawYuantaEntities = article['yuanta_entities'] || '';
+            let displayYuantaBlock = '';
+            if (rawYuantaInsight) {
+                const yuantaEntitiesList = rawYuantaEntities.split(',').map(s => s.trim()).filter(Boolean);
+                const yuantaChips = yuantaEntitiesList.map(e =>
+                    `<span class="inline-block bg-blue-100 text-blue-700 rounded-full px-3 py-1 text-xs font-semibold">${e}</span>`
+                ).join('');
+                // 每個子公司（以 ／ 分隔）各自換行
+                const yuantaLines = rawYuantaInsight
+                    .split(/\s*／\s*/)
+                    .filter(Boolean)
+                    .map(line => highlightText(line.replace(/【(.*?)】/g, '<span class="font-bold text-blue-700">【$1】</span>'), currentSearchTerm))
+                    .join('<br class="mb-1">');
+                displayYuantaBlock = `
+                    <div class="mb-8 bg-blue-50 rounded-xl p-5 border-l-4 border-blue-500">
+                        <h3 class="flex items-center text-blue-800 font-bold text-base mb-3">
+                            <div class="w-7 h-7 bg-blue-500 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                <span class="text-white text-sm leading-none">🏛️</span>
+                            </div>
+                            元大視角
+                        </h3>
+                        ${yuantaChips ? `<div class="flex flex-wrap gap-2 mb-3">${yuantaChips}</div>` : ''}
+                        <div class="text-gray-700 text-sm leading-relaxed">${yuantaLines}</div>
+                    </div>
+                `;
+            }
+
             // Impact Analysis
             const benefited = parseImpactField(article['impact_analysis_benefited']);
             const damaged = parseImpactField(article['impact_analysis_damaged']);
@@ -582,6 +611,9 @@
                             ${displayPmInsight}
                         </div>
                     </div>
+
+                    <!-- 元大視角 -->
+                    ${displayYuantaBlock}
 
                     <!-- 產業連動與標的 -->
                     <div class="mb-8">
