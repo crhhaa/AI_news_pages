@@ -272,7 +272,12 @@
                     const option = document.createElement('option');
                     option.value = date;
                     const y = date.substring(0,4), m = date.substring(4,6), d = date.substring(6,8);
-                    option.textContent = `${y} 年 ${m} 月 ${d} 日 當週`;
+                    const startDate = new Date(`${y}-${m}-${d}`);
+                    const endDate = new Date(startDate);
+                    endDate.setDate(endDate.getDate() + 6);
+                    const em = String(endDate.getMonth() + 1).padStart(2, '0');
+                    const ed = String(endDate.getDate()).padStart(2, '0');
+                    option.textContent = `${y} 年 ${m} 月 ${d} ~ ${ed} 日`;
                     selector.appendChild(option);
                 });
 

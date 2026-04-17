@@ -50,6 +50,7 @@
                 <button class="domain-filter-btn bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm transition whitespace-nowrap" data-domain="ALL">全部</button>
                 <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="AI">🤖 AI</button>
                 <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="數位平台">📱 數位平台</button>
+                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="行動APP">📲 行動APP</button>
                 <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="區塊鏈">🔗 區塊鏈</button>
                 <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="資安">🔒 資安</button>
                 <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="監理政策">⚖️ 監理政策</button>
@@ -247,11 +248,12 @@
         }
 
         const domainBadgeMap = {
-            'AI':     { bg: 'bg-blue-100',   text: 'text-blue-700',   label: '🤖 AI' },
-            '數位平台': { bg: 'bg-purple-100', text: 'text-purple-700', label: '📱 數位平台' },
-            '區塊鏈':  { bg: 'bg-teal-100',   text: 'text-teal-700',   label: '🔗 區塊鏈' },
-            '資安':    { bg: 'bg-red-100',    text: 'text-red-700',    label: '🔒 資安' },
-            '監理政策': { bg: 'bg-green-100',  text: 'text-green-700',  label: '⚖️ 監理政策' },
+            'AI':     { bg: 'bg-blue-100',    text: 'text-blue-700',    label: '🤖 AI' },
+            '數位平台': { bg: 'bg-purple-100',  text: 'text-purple-700',  label: '📱 數位平台' },
+            '行動APP':  { bg: 'bg-pink-100',    text: 'text-pink-700',    label: '📲 行動APP' },
+            '區塊鏈':  { bg: 'bg-teal-100',    text: 'text-teal-700',    label: '🔗 區塊鏈' },
+            '資安':    { bg: 'bg-red-100',     text: 'text-red-700',     label: '🔒 資安' },
+            '監理政策': { bg: 'bg-green-100',   text: 'text-green-700',   label: '⚖️ 監理政策' },
         };
 
         function buildCard(news, domestic) {
