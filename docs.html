@@ -50,17 +50,13 @@
                     <span class="hidden sm:inline">AI 模型</span>
                     <span class="sm:hidden">模型</span>
                 </button>
-                <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 text-white hover:bg-white/20" data-tab="concepts">
-                    <span class="hidden sm:inline">AI 相關名詞</span>
-                    <span class="sm:hidden">AI 名詞</span>
+                <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 text-white hover:bg-white/20" data-tab="wiki">
+                    <span class="hidden sm:inline">知識百科</span>
+                    <span class="sm:hidden">百科</span>
                 </button>
                 <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 text-white hover:bg-white/20" data-tab="comparisons">
                     <span class="hidden sm:inline">相似名詞比較</span>
                     <span class="sm:hidden">比較</span>
-                </button>
-                <button class="tab-btn flex-1 py-2 px-2 rounded-lg text-sm sm:text-base font-semibold transition-all duration-200 text-white hover:bg-white/20" data-tab="security">
-                    <span class="hidden sm:inline">資安術語</span>
-                    <span class="sm:hidden">資安</span>
                 </button>
             </div>
         </div>
@@ -132,12 +128,25 @@
             </div>
         </div>
 
-        <!-- ===== Tab 2: AI 相關名詞 ===== -->
-        <div id="tab-concepts" class="hidden">
-            <div id="conceptsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 pb-20">
-                <div class="col-span-full text-center text-gray-500 py-10" id="loadingConcepts">
+        <!-- ===== Tab 2: 知識百科 ===== -->
+        <div id="tab-wiki" class="hidden">
+            <!-- 分類篩選 -->
+            <div class="mb-6 overflow-x-auto pb-1">
+                <div class="flex items-center gap-2 min-w-max px-1">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap w-10 shrink-0">分類</span>
+                    <button class="wiki-cat-btn active bg-orange-500 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold shadow-sm transition whitespace-nowrap" data-wiki-cat="ALL">全部</button>
+                    <button class="wiki-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-wiki-cat="AI">🤖 AI</button>
+                    <button class="wiki-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-wiki-cat="資安相關">🛡 資安相關</button>
+                    <button class="wiki-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-wiki-cat="IT 基礎設施">🖥 IT 基礎設施</button>
+                    <button class="wiki-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-wiki-cat="區塊鏈">⛓ 區塊鏈</button>
+                    <button class="wiki-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-wiki-cat="自動化工具">⚙️ 自動化工具</button>
+                    <button class="wiki-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-wiki-cat="其他">📌 其他</button>
+                </div>
+            </div>
+            <div id="wikiContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 pb-20">
+                <div class="col-span-full text-center text-gray-500 py-10" id="loadingWiki">
                     <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    正在讀取 AI 名詞資料...
+                    正在讀取知識百科資料...
                 </div>
             </div>
         </div>
@@ -152,41 +161,18 @@
             </div>
         </div>
 
-        <!-- ===== Tab 4: 資安術語 ===== -->
-        <div id="tab-security" class="hidden">
-            <!-- 分類篩選 -->
-            <div class="mb-6 overflow-x-auto pb-1">
-                <div class="flex items-center gap-2 min-w-max px-1">
-                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap w-10 shrink-0">分類</span>
-                    <button class="sec-cat-btn active bg-orange-500 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold shadow-sm transition whitespace-nowrap" data-sec-cat="ALL">全部</button>
-                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="網路安全">🛡 網路安全</button>
-                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="密碼學">🔐 密碼學</button>
-                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="身份驗證">🪪 身份驗證</button>
-                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="合規">📋 合規</button>
-                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="資料保護">🗄 資料保護</button>
-                    <button class="sec-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-sec-cat="網路基礎">🌐 網路基礎</button>
-                </div>
-            </div>
-            <div id="securityContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 pb-20">
-                <div class="col-span-full text-center text-gray-500 py-10" id="loadingSecurity">
-                    <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    正在讀取資安術語資料...
-                </div>
-            </div>
-        </div>
 
     </main>
 
     <script>
-        const URL_MODELS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRR9-fSj7w0hofgshYNJ7t3O1uGrC4tG0i9bdhzxAAT2sa_-y74V6dEKrsrO7S2Uafwcxz4-GSxORve/pub?output=csv';
+        const URL_MODELS      = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRR9-fSj7w0hofgshYNJ7t3O1uGrC4tG0i9bdhzxAAT2sa_-y74V6dEKrsrO7S2Uafwcxz4-GSxORve/pub?output=csv';
+        const URL_WIKI        = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-8i3BkYL-uBDqICAYWNbEiRmxJRztXQmlcN2r4NSZFUb3kmQb6tcdcZRcDRHjUONvlcqNHz1cMFKI/pub?output=csv'; // 待建立知識百科 Google Sheet 後填入 published CSV 網址
         const URL_COMPARISONS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ42IpI7XqI3KkLaprtqIaeK91mj7JvkXrXfyGmDStnNkrCvmDCFoYufGYbBoyoivklC0VhZRfMmU5O/pub?output=csv';
-        const URL_SECURITY = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-8i3BkYL-uBDqICAYWNbEiRmxJRztXQmlcN2r4NSZFUb3kmQb6tcdcZRcDRHjUONvlcqNHz1cMFKI/pub?output=csv'; // 待建立 Google Sheet 後填入 published CSV 網址
 
         let allModelsData = [];
-        let allConceptsData = [];
+        let allWikiData = [];
         let allComparisonsData = [];
-        let allSecurityData = [];
-        let currentSecCatFilter = 'ALL';
+        let currentWikiCatFilter = 'ALL';
         let currentTab = 'models';
         let currentTypeFilter = 'ALL';
         let currentCategoryFilter = 'ALL';
@@ -207,24 +193,20 @@
 
         async function initData() {
             try {
-                const [modelsResult, comparisonsResult, securityResult] = await Promise.allSettled([
+                const [modelsResult, wikiResult, comparisonsResult] = await Promise.allSettled([
                     fetchCSV(URL_MODELS),
-                    fetchCSV(URL_COMPARISONS),
-                    URL_SECURITY ? fetchCSV(URL_SECURITY) : Promise.resolve([])
+                    URL_WIKI ? fetchCSV(URL_WIKI) : Promise.resolve([]),
+                    fetchCSV(URL_COMPARISONS)
                 ]);
 
-                const rawAll      = modelsResult.status      === 'fulfilled' ? modelsResult.value      : [];
-                const comparisons = comparisonsResult.status === 'fulfilled' ? comparisonsResult.value : [];
-                allSecurityData   = securityResult.status    === 'fulfilled' ? securityResult.value    : [];
+                const rawModels   = modelsResult.status      === 'fulfilled' ? modelsResult.value      : [];
+                allWikiData       = wikiResult.status        === 'fulfilled' ? wikiResult.value        : [];
+                allComparisonsData = comparisonsResult.status === 'fulfilled' ? comparisonsResult.value : [];
 
-                if (securityResult.status === 'rejected') console.warn('資安術語資料載入失敗:', securityResult.reason);
-
-                allModelsData = rawAll.filter(r => r['record_type'] === 'model' || !r['record_type']);
-                allConceptsData = rawAll.filter(r => r['record_type'] === 'ai_concept');
-                allComparisonsData = comparisons;
+                allModelsData = rawModels.filter(r => r['record_type'] === 'model' || !r['record_type']);
 
                 // 移除 loading 提示
-                ['loadingText', 'loadingConcepts', 'loadingComparisons', 'loadingSecurity'].forEach(id => {
+                ['loadingText', 'loadingWiki', 'loadingComparisons'].forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.remove();
                 });
@@ -337,23 +319,23 @@
                 // 初次渲染
                 renderModels();
 
-                // 綁定資安術語分類篩選
-                document.querySelectorAll('.sec-cat-btn').forEach(btn => {
+                // 綁定知識百科分類篩選
+                document.querySelectorAll('.wiki-cat-btn').forEach(btn => {
                     btn.addEventListener('click', e => {
-                        document.querySelectorAll('.sec-cat-btn').forEach(b => {
+                        document.querySelectorAll('.wiki-cat-btn').forEach(b => {
                             b.classList.remove('bg-orange-500', 'text-white', 'shadow-sm');
                             b.classList.add('bg-white', 'text-gray-600');
                         });
                         e.target.classList.remove('bg-white', 'text-gray-600');
                         e.target.classList.add('bg-orange-500', 'text-white', 'shadow-sm');
-                        currentSecCatFilter = e.target.dataset.secCat;
-                        renderSecurityTerms();
+                        currentWikiCatFilter = e.target.dataset.wikiCat;
+                        renderWiki();
                     });
                 });
 
             } catch (error) {
                 console.error(error);
-                ['loadingText', 'loadingConcepts', 'loadingComparisons', 'loadingSecurity'].forEach(id => {
+                ['loadingText', 'loadingWiki', 'loadingComparisons'].forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.innerHTML = '讀取資料失敗，請檢查網址與網路連線。';
                 });
@@ -379,18 +361,16 @@
 
             // 顯示/隱藏各 Tab 內容
             document.getElementById('tab-models').classList.toggle('hidden', tab !== 'models');
-            document.getElementById('tab-concepts').classList.toggle('hidden', tab !== 'concepts');
+            document.getElementById('tab-wiki').classList.toggle('hidden', tab !== 'wiki');
             document.getElementById('tab-comparisons').classList.toggle('hidden', tab !== 'comparisons');
-            document.getElementById('tab-security').classList.toggle('hidden', tab !== 'security');
 
             renderCurrent();
         }
 
         function renderCurrent() {
             if (currentTab === 'models') renderModels();
-            else if (currentTab === 'concepts') renderConcepts();
+            else if (currentTab === 'wiki') renderWiki();
             else if (currentTab === 'comparisons') renderComparisons();
-            else if (currentTab === 'security') renderSecurityTerms();
         }
 
         // 輔助：文字轉列表
@@ -532,65 +512,70 @@
             });
         }
 
-        // ===== Tab 2: AI 相關名詞 =====
-        function renderConcepts() {
-            const container = document.getElementById('conceptsContainer');
+        // ===== Tab 2: 知識百科 =====
+        const WIKI_CAT_MAP = {
+            'AI':         { cls: 'bg-indigo-100 text-indigo-800',  icon: '🤖' },
+            '資安相關':   { cls: 'bg-red-100 text-red-800',        icon: '🛡' },
+            'IT 基礎設施':{ cls: 'bg-sky-100 text-sky-800',        icon: '🖥' },
+            '區塊鏈':     { cls: 'bg-teal-100 text-teal-800',      icon: '⛓' },
+            '自動化工具': { cls: 'bg-amber-100 text-amber-800',    icon: '⚙️' },
+            '其他':       { cls: 'bg-gray-100 text-gray-700',      icon: '📌' },
+        };
+
+        function renderWiki() {
+            const container = document.getElementById('wikiContainer');
             container.innerHTML = '';
 
-            let filtered = allConceptsData.filter(c => {
-                const searchStr = `${c['model_name'] || c['term']} ${c['company'] || c['short']} ${c['description']} ${c['financial_use_case']}`.toLowerCase();
-                return searchStr.includes(currentSearchTerm);
-            });
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的名詞 🥲</div>`;
+            if (!URL_WIKI) {
+                container.innerHTML = `<div class="col-span-full text-center text-gray-400 py-16">
+                    <p class="text-4xl mb-4">📚</p>
+                    <p class="text-lg font-semibold mb-2">知識百科資料尚未設定</p>
+                    <p class="text-sm">請建立 Google Sheet 並將 URL 填入 <code class="bg-gray-100 px-1 rounded">URL_WIKI</code> 常數</p>
+                </div>`;
                 return;
             }
 
-            filtered.forEach(concept => {
-                // related_models 存在 key_features 欄位
-                let relatedTagsHtml = '';
-                const relatedRaw = concept['key_features'] || concept['related_models'];
-                if (relatedRaw) {
-                    const models = relatedRaw.split(/[\n,]/).map(m => m.trim()).filter(Boolean);
-                    relatedTagsHtml = models.map(m =>
-                        `<span class="inline-block bg-blue-50 text-blue-700 border border-blue-200 text-xs px-2 py-0.5 rounded-full mr-1 mb-1">${m}</span>`
-                    ).join('');
-                }
+            let filtered = allWikiData.filter(t => {
+                const searchStr = `${t['term'] || ''} ${t['aliases'] || ''} ${t['description'] || ''} ${t['finance_relevance'] || t['financial_use_case'] || ''}`.toLowerCase();
+                const matchSearch = searchStr.includes(currentSearchTerm);
+                const matchCat = currentWikiCatFilter === 'ALL' || t['category'] === currentWikiCatFilter;
+                return matchSearch && matchCat;
+            });
 
-                // example 存在 cons 欄位
-                const exampleRaw = concept['cons'] || concept['example'];
-                const exampleHtml = exampleRaw
-                    ? `<div class="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-3">
-                           <p class="text-xs font-bold text-amber-700 mb-1">💡 實際案例</p>
-                           <p class="text-sm text-amber-900 leading-relaxed">${exampleRaw}</p>
-                       </div>`
-                    : '';
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的詞條 🥲</div>`;
+                return;
+            }
 
-                const financeConceptHtml = concept['financial_use_case']
+            filtered.forEach(term => {
+                const catInfo = WIKI_CAT_MAP[term['category']] || { cls: 'bg-gray-100 text-gray-700', icon: '📌' };
+                const categoryBadge = `<span class="${catInfo.cls} text-xs font-bold px-2.5 py-1 rounded">${catInfo.icon} ${term['category'] || '其他'}</span>`;
+
+                const relatedTagsHtml = (term['related_terms'] || '').split(/[\n,]/).map(t => t.trim()).filter(Boolean)
+                    .map(t => `<span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full mr-1 mb-1">${t}</span>`).join('');
+
+                const financeVal = term['finance_relevance'] || term['financial_use_case'] || '';
+                const financeHtml = financeVal
                     ? `<div class="mt-3 px-3 py-2.5 bg-blue-50 rounded-lg border border-blue-100">
                            <p class="text-xs font-bold text-blue-700 mb-1">🏦 金融業應用情境</p>
-                           <p class="text-sm text-blue-900 leading-relaxed">${concept['financial_use_case']}</p>
-                       </div>`
-                    : '';
+                           <p class="text-sm text-blue-900 leading-relaxed">${financeVal}</p>
+                       </div>` : '';
 
-                // short 存在 best_for 欄位
-                const shortDesc = concept['best_for'] || concept['company'] || concept['short'] || '';
+                const aliasVal = term['aliases'] || '';
 
                 container.innerHTML += `
                     <div class="bg-white rounded-2xl shadow border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
                         <div class="p-5 sm:p-6 border-b border-gray-100">
-                            <div class="flex items-start justify-between gap-2">
-                                <h3 class="text-base sm:text-lg font-bold text-gray-900 leading-snug">${concept['model_name'] || concept['term']}</h3>
-                                <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2 py-1 rounded flex-shrink-0">名詞</span>
+                            <div class="flex items-start justify-between gap-2 mb-1">
+                                <h3 class="text-base sm:text-lg font-bold text-gray-900 leading-snug">${term['term'] || ''}</h3>
+                                ${categoryBadge}
                             </div>
-                            <p class="text-sm text-blue-700 font-medium mt-1">${shortDesc}</p>
+                            <p class="text-sm text-blue-700 font-medium">${aliasVal}</p>
                         </div>
-
                         <div class="p-4 sm:p-5 flex-grow">
-                            <p class="text-gray-700 text-sm leading-relaxed">${concept['description']}</p>
-                            ${exampleHtml}
-                            ${financeConceptHtml}
+                            <p class="text-gray-700 text-sm leading-relaxed">${term['description'] || ''}</p>
+                            ${financeHtml}
+                            ${relatedTagsHtml ? `<div class="mt-3"><p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">相關術語</p>${relatedTagsHtml}</div>` : ''}
                         </div>
                     </div>
                 `;
@@ -733,82 +718,6 @@
             });
         }
 
-        // ===== Tab 4: 資安術語 =====
-        function renderSecurityTerms() {
-            const container = document.getElementById('securityContainer');
-            container.innerHTML = '';
-
-            if (!URL_SECURITY) {
-                container.innerHTML = `<div class="col-span-full text-center text-gray-400 py-16">
-                    <p class="text-4xl mb-4">🔒</p>
-                    <p class="text-lg font-semibold mb-2">資安術語資料尚未設定</p>
-                    <p class="text-sm">請先建立 Google Sheet 並將 URL 填入 URL_SECURITY 常數</p>
-                </div>`;
-                return;
-            }
-
-            const SEC_CAT_MAP = {
-                '網路安全': { cls: 'bg-red-100 text-red-800',    icon: '🛡' },
-                '密碼學':   { cls: 'bg-purple-100 text-purple-800', icon: '🔐' },
-                '身份驗證': { cls: 'bg-blue-100 text-blue-800',  icon: '🪪' },
-                '合規':     { cls: 'bg-green-100 text-green-800', icon: '📋' },
-                '資料保護': { cls: 'bg-amber-100 text-amber-800', icon: '🗄' },
-                '網路基礎': { cls: 'bg-sky-100 text-sky-800',    icon: '🌐' },
-            };
-
-            let filtered = allSecurityData.filter(t => {
-                const searchStr = `${t['term']} ${t['aliases'] || t['short'] || ''} ${t['description']} ${t['finance_relevance'] || t['financial_use_case'] || ''}`.toLowerCase();
-                const matchSearch = searchStr.includes(currentSearchTerm);
-                const matchCat = currentSecCatFilter === 'ALL' || t['category'] === currentSecCatFilter;
-                return matchSearch && matchCat;
-            });
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的術語 🥲</div>`;
-                return;
-            }
-
-            filtered.forEach(term => {
-                const catInfo = SEC_CAT_MAP[term['category']] || { cls: 'bg-gray-100 text-gray-700', icon: '📌' };
-                const categoryBadge = `<span class="${catInfo.cls} text-xs font-bold px-2.5 py-1 rounded">${catInfo.icon} ${term['category'] || '其他'}</span>`;
-
-                const relatedTagsHtml = (term['related_terms'] || '').split(/[\n,]/).map(t => t.trim()).filter(Boolean)
-                    .map(t => `<span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full mr-1 mb-1">${t}</span>`).join('');
-
-                const exampleHtml = term['example']
-                    ? `<div class="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-3">
-                           <p class="text-xs font-bold text-amber-700 mb-1">💡 實際案例</p>
-                           <p class="text-sm text-amber-900 leading-relaxed">${term['example']}</p>
-                       </div>` : '';
-
-                const financeVal = term['finance_relevance'] || term['financial_use_case'] || '';
-                const financeHtml = financeVal
-                    ? `<div class="mt-3 px-3 py-2.5 bg-blue-50 rounded-lg border border-blue-100">
-                           <p class="text-xs font-bold text-blue-700 mb-1">🏦 金融業應用情境</p>
-                           <p class="text-sm text-blue-900 leading-relaxed">${financeVal}</p>
-                       </div>` : '';
-
-                const aliasVal = term['aliases'] || term['short'] || '';
-
-                container.innerHTML += `
-                    <div class="bg-white rounded-2xl shadow border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
-                        <div class="p-5 sm:p-6 border-b border-gray-100">
-                            <div class="flex items-start justify-between gap-2 mb-1">
-                                <h3 class="text-base sm:text-lg font-bold text-gray-900 leading-snug">${term['term']}</h3>
-                                ${categoryBadge}
-                            </div>
-                            <p class="text-sm text-blue-700 font-medium">${aliasVal}</p>
-                        </div>
-                        <div class="p-4 sm:p-5 flex-grow">
-                            <p class="text-gray-700 text-sm leading-relaxed">${term['description'] || ''}</p>
-                            ${exampleHtml}
-                            ${financeHtml}
-                            ${relatedTagsHtml ? `<div class="mt-3"><p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">相關術語</p>${relatedTagsHtml}</div>` : ''}
-                        </div>
-                    </div>
-                `;
-            });
-        }
 
         function toggleComp(uid) {
             const body = document.getElementById('body-' + uid);
