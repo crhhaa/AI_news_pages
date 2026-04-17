@@ -20,31 +20,28 @@
 
     <!-- 導覽列 -->
     <nav class="bg-blue-900 text-white p-4 shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-wider">金融科技情報站</h1>
-            <!-- Desktop nav -->
-            <div class="hidden md:flex space-x-6 font-medium">
-                <a href="index.html" class="hover:text-orange-300 border-b-2 border-white pb-1">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-orange-300 transition-colors">Global FinTech Watch</a>
-                <a href="docs.html" class="hover:text-orange-300 transition-colors">FinTech Wiki</a>
-                <a href="report.html" class="hover:text-orange-300 transition-colors">AI Monthly Report</a>
-            </div>
-            <!-- Hamburger button -->
-            <button id="menuToggle" class="md:hidden flex flex-col space-y-1.5 p-2" aria-label="Menu">
-                <span class="block w-6 h-0.5 bg-white"></span>
-                <span class="block w-6 h-0.5 bg-white"></span>
-                <span class="block w-6 h-0.5 bg-white"></span>
-            </button>
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold tracking-wider">金融科技情報站</h1>
+        <div class="hidden md:flex space-x-6 font-medium text-sm">
+          <a href="index.html" class="hover:text-orange-300 transition-colors">AI Trend Weekly</a>
+          <a href="watch.html" class="hover:text-orange-300 transition-colors">Global FinTech Watch</a>
+          <a href="report.html" class="hover:text-orange-300 transition-colors">AI Monthly Report</a>
+          <a href="docs.html" class="hover:text-orange-300 transition-colors">FinTech Wiki</a>
         </div>
-        <!-- Mobile dropdown -->
-        <div id="mobileMenu" class="hidden md:hidden mt-3 pb-2 border-t border-blue-800">
-            <div class="max-w-7xl mx-auto flex flex-col space-y-3 pt-3 px-2">
-                <a href="index.html" class="hover:text-orange-300 border-b-2 border-white pb-1 inline-block">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-orange-300">Global FinTech Watch</a>
-                <a href="docs.html" class="hover:text-orange-300">FinTech Wiki</a>
-                <a href="report.html" class="hover:text-orange-300">AI 月報</a>
-            </div>
+        <button id="menuToggle" class="md:hidden flex flex-col space-y-1.5 p-2" aria-label="Menu">
+          <span class="block w-6 h-0.5 bg-white"></span>
+          <span class="block w-6 h-0.5 bg-white"></span>
+          <span class="block w-6 h-0.5 bg-white"></span>
+        </button>
+      </div>
+      <div id="mobileMenu" class="hidden md:hidden mt-3 pb-2 border-t border-blue-800">
+        <div class="max-w-7xl mx-auto flex flex-col space-y-3 pt-3 px-2 text-sm">
+          <a href="index.html" class="hover:text-orange-300">AI Trend Weekly</a>
+          <a href="watch.html" class="hover:text-orange-300">Global FinTech Watch</a>
+          <a href="docs.html" class="hover:text-orange-300">FinTech Wiki</a>
+          <a href="report.html" class="hover:text-orange-300">AI Monthly Report</a>
         </div>
+      </div>
     </nav>
 
     <!-- 主要內容區 -->
@@ -128,6 +125,10 @@
         </div>
 
     </main>
+
+    <footer class="bg-blue-900 text-blue-200 text-center py-6 text-xs mt-8">
+      <p class="mt-1 text-blue-400">元大金控 數位金融部 · 內部參考用途</p>
+    </footer>
 
     <script>
         // === 請將以下三個網址替換為你真實發佈的 CSV 網址 ===
