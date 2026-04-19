@@ -391,13 +391,28 @@
             if (currentMonthFilter !== 'ALL') {
                 data = data.filter(row => (row['publish_date'] || '').substring(0, 7) === currentMonthFilter);
             }
-            // 集團篩選（全部用 entities）
+            // // 集團篩選（全部用 entities）
+            // if (currentGroupFilter !== 'ALL') {
+            //     const groupEnts = new Set(GROUP_MAP[currentGroupFilter] || []);
+            //     data = data.filter(row => {
+            //         const ents = (row['entities'] || '').split(',').map(s => s.trim());
+            //         return ents.some(e => groupEnts.has(e));
+            //     });
+            // }
+            // 集團篩選（國際用 location；其餘用 entities）
             if (currentGroupFilter !== 'ALL') {
-                const groupEnts = new Set(GROUP_MAP[currentGroupFilter] || []);
-                data = data.filter(row => {
-                    const ents = (row['entities'] || '').split(',').map(s => s.trim());
-                    return ents.some(e => groupEnts.has(e));
-                });
+                if (currentGroupFilter === '國際') {
+                    data = data.filter(row => {
+                        const loc = (row['location'] || '').toLowerCase();
+                        return !['taipei', 'taiwan'].includes(loc);
+                    });
+                } else {
+                    const groupEnts = new Set(GROUP_MAP[currentGroupFilter] || []);
+                    data = data.filter(row => {
+                        const ents = (row['entities'] || '').split(',').map(s => s.trim());
+                        return ents.some(e => groupEnts.has(e));
+                    });
+                }
             }
             // 業別篩選（全部用 entities；集團+業別取交集）
             if (currentTypeFilter !== 'ALL') {
