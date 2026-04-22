@@ -89,15 +89,10 @@
                 <span class="text-2xl mr-2">📋</span>
                 本週趨勢摘要 (Executive Summary)
             </h3>
-            <p id="summaryText" class="text-gray-700 leading-relaxed text-base sm:text-lg">資料載入中...</p>
+            <div id="summaryText" class="text-gray-700 leading-relaxed text-base sm:text-lg space-y-2">資料載入中...</div>
         </div>
 
-        <!-- 區塊二：新聞亮點 (對齊參考圖的 3 欄卡片設計) -->
-        <div id="relatedNewsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <!-- 卡片會由 JS 動態生成 -->
-        </div>
-
-        <!-- 區塊三：深度文章區 - 左右分割設計 (對齊參考圖下半部) -->
+        <!-- 區塊二：深度文章區 - 左右分割設計 (對齊參考圖下半部) -->
         <div class="flex flex-col lg:flex-row gap-6 mb-20" id="articlesSplitView">
 
             <!-- 左側：文章列表選單 -->
@@ -139,7 +134,6 @@
         let allData = { summary: [], news: [], articles: [] };
         let availableDates = [];
         let currentSearchTerm = '';
-        let currentWeekNews = [];
         let currentWeekArticles = [];
         let currentSelectedDate = '';
 
@@ -185,13 +179,11 @@
             
             // 取得需要操作的區塊
             const summarySection = document.getElementById('summarySection');
-            const relatedNewsContainer = document.getElementById('relatedNewsContainer');
             const searchResultCount = document.getElementById('searchResultCount');
 
             if (currentSearchTerm) {
-                // 搜尋時：隱藏本週摘要與 Related News，專注顯示「所有深度文章」的搜尋結果
+                // 搜尋時：隱藏本週摘要，專注顯示「所有深度文章」的搜尋結果
                 summarySection.style.display = 'none';
-                relatedNewsContainer.style.display = 'none';
                 searchResultCount.classList.remove('hidden');
 
                 const term = currentSearchTerm.toLowerCase();
@@ -205,9 +197,8 @@
                 searchResultCount.textContent = `在所有深度文章中找到 ${currentWeekArticles.length} 筆結果`;
 
             } else {
-                // 清空搜尋時：恢復顯示本週摘要與 Related News
+                // 清空搜尋時：恢復顯示本週摘要
                 summarySection.style.display = 'block';
-                relatedNewsContainer.style.display = 'grid'; // 恢復網格排版
                 searchResultCount.classList.add('hidden');
                 
                 // 恢復顯示當週深度文章
@@ -253,7 +244,7 @@
         async function initData() {
             try {
                 if(URL_SUMMARY.includes('YOUR_')) {
-                    document.getElementById('summaryText').innerText = "請先在程式碼中替換真實的 Google Sheet CSV 網址哦！";
+                    document.getElementById('summaryText').innerHTML = '<div>請先在程式碼中替換真實的 Google Sheet CSV 網址哦！</div>';
                     return;
                 }
 
@@ -291,11 +282,11 @@
                 if (availableDates.length > 0) {
                     renderPage(availableDates[0]);
                 } else {
-                    document.getElementById('summaryText').innerText = "找不到資料，請檢查試算表內容。";
+                    document.getElementById('summaryText').innerHTML = '<div>找不到資料，請檢查試算表內容。</div>';
                 }
 
             } catch (error) {
-                document.getElementById('summaryText').innerText = "讀取資料失敗，請檢查網址與網路連線。";
+                document.getElementById('summaryText').innerHTML = '<div>讀取資料失敗，請檢查網址與網路連線。</div>';
             }
         }
 
@@ -343,59 +334,6 @@
             return text.replace(regex, '<mark class="bg-yellow-200 rounded px-0.5">$1</mark>');
         }
 
-        // 渲染上方的新聞卡片 (3欄設計)
-        function renderNewsCards(weekNews, selectedDate, searchTerm) {
-            const newsContainer = document.getElementById('relatedNewsContainer');
-            const searchResultCount = document.getElementById('searchResultCount');
-            newsContainer.innerHTML = '';
-
-            const isGlobalSearch = searchTerm && weekNews === allData.news;
-            let filtered = weekNews;
-
-            if (searchTerm) {
-                const term = searchTerm.toLowerCase();
-                filtered = weekNews.filter(news => `${news['title']} ${news['summary']}`.toLowerCase().includes(term));
-                searchResultCount.classList.remove('hidden');
-                searchResultCount.textContent = isGlobalSearch 
-                    ? `找到 ${filtered.length} 筆結果（跨所有週次）` 
-                    : `找到 ${filtered.length} 筆結果（本週）`;
-            } else {
-                searchResultCount.classList.add('hidden');
-            }
-
-            if (filtered.length === 0) {
-                newsContainer.innerHTML = `<div class="col-span-full text-center text-gray-500 py-8">無相關新聞資料</div>`;
-                return;
-            }
-
-            filtered.forEach((news) => {
-                const title = highlightText(news['title'], searchTerm);
-                const summary = highlightText(news['summary'], searchTerm);
-                
-                // 完全依照要求補上的閱讀原文 HTML 結構
-                // const exactReadMoreHtml = news['url'] ? `<a href="${news['url']}" target="_blank" class="text-xs text-red-600 hover:underline mt-1 inline-block">閱讀原文 &rarr;</a>` : '';
-                // 取得該筆新聞在當週陣列中的原始索引，用來對應下方的深度文章
-                const originalIndex = weekNews.indexOf(news);
-                
-                // 將「閱讀原文」改成「了解更多」，並加上點擊切換文章與滾動的動作
-                const exactReadMoreHtml = `<button onclick="showArticleDetail(${originalIndex}); document.getElementById('articlesSplitView').scrollIntoView({ behavior: 'smooth', block: 'start' });" class="text-xs text-orange-500 hover:underline mt-1 inline-block text-left cursor-pointer transition-colors">了解更多 &rarr;</button>`;
-
-                const newsCard = `
-                    <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-200 flex flex-col h-full relative overflow-hidden group">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-orange-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                        <h4 class="text-base font-bold text-gray-800 mb-3 leading-snug">${title}</h4>
-                        <ul class="text-gray-600 text-sm mb-4 space-y-1.5 flex-1 list-disc pl-4">
-                            <li>${summary}</li>
-                        </ul>
-                        <div class="mt-auto pt-3 border-t border-gray-100">
-                            ${exactReadMoreHtml}
-                        </div>
-                    </div>
-                `;
-                newsContainer.innerHTML += newsCard;
-            });
-        }
-
         // 主頁面渲染
         function renderPage(selectedDate) {
             currentSelectedDate = selectedDate;
@@ -409,14 +347,20 @@
 
             // 1. Summary
             const weekSummary = allData.summary.find(row => row['日期'] === selectedDate);
-            document.getElementById('summaryText').innerText = weekSummary ? weekSummary['summary_text'] : "本週無總結資料。";
+            const summaryEl = document.getElementById('summaryText');
+            if (weekSummary && weekSummary['summary_text']) {
+                summaryEl.innerHTML = weekSummary['summary_text'].split('\n').filter(l => l.trim()).map(line => {
+                    const t = line.trim();
+                    if (t.startsWith('•')) {
+                        return `<div class="flex items-start gap-2"><span class="flex-shrink-0">•</span><span>${t.substring(1).trim()}</span></div>`;
+                    }
+                    return `<div>${t}</div>`;
+                }).join('');
+            } else {
+                summaryEl.innerHTML = '<div>本週無總結資料。</div>';
+            }
 
-            // 2. News Cards
-            const weekNews = allData.news.filter(row => row['日期'] === selectedDate);
-            currentWeekNews = weekNews;
-            renderNewsCards(weekNews, selectedDate, '');
-
-            // 3. Articles (Split View)
+            // 2. Articles (Split View)
             currentWeekArticles = allData.articles.filter(row => row['日期'] === selectedDate);
             renderArticleList();
             

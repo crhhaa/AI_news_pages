@@ -46,36 +46,44 @@
             <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
                 <h2 class="text-xl font-semibold text-gray-700">Global FinTech Watch</h2>
             </div>
+            <!-- 市場篩選 -->
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span class="text-sm font-medium text-gray-600 whitespace-nowrap">🌍 市場：</span>
+                <button class="market-filter-btn bg-rose-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm transition whitespace-nowrap" data-market="ALL">全部</button>
+                <button class="market-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-rose-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-market="DOMESTIC">🇹🇼 國內市場</button>
+                <button class="market-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-rose-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-market="GLOBAL">🌐 國際市場</button>
+            </div>
             <!-- 領域篩選 -->
             <div class="flex flex-wrap items-center gap-2 mb-3">
                 <span class="text-sm font-medium text-gray-600 whitespace-nowrap">🏷️ 篩選領域：</span>
                 <button class="domain-filter-btn bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm transition whitespace-nowrap" data-domain="ALL">全部</button>
                 <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="AI">🤖 AI</button>
-                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="數位平台">📱 數位平台</button>
-                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="行動APP">📲 行動APP</button>
+                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="行動App">📲 行動App</button>
+                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="支付工具">💳 支付工具</button>
+                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="信用貸款">🏦 信用貸款</button>
+                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="數位帳戶">🏧 數位帳戶</button>
+                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="智能客服">🤝 智能客服</button>
+                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="智能理財">📈 智能理財</button>
                 <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="區塊鏈">🔗 區塊鏈</button>
-                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="資安">🔒 資安</button>
+                <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="資訊安全">🔒 資訊安全</button>
                 <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="監理政策">⚖️ 監理政策</button>
             </div>
             <!-- 集團篩選 -->
             <div class="flex flex-wrap items-center gap-2 mb-3">
                 <span class="text-sm font-medium text-gray-600 whitespace-nowrap">🏢 集團：</span>
                 <button class="group-filter-btn bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm transition whitespace-nowrap" data-group="ALL">全部</button>
+                <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="元大">元大</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="國泰">國泰</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="富邦">富邦</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="中信">中信</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="玉山">玉山</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="永豐">永豐</button>
-                <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="元大">元大</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="兆豐">兆豐</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="第一">第一</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="台新">台新</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="合庫">合庫</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="華南">華南</button>
-                <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="開發">開發</button>
-                <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="台灣銀行">台灣銀行</button>
-                <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="土地銀行">土地銀行</button>
-                <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="國際">國際</button>
+                <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="凱基">凱基</button>
             </div>
             <!-- 業別篩選 -->
             <div class="flex flex-wrap items-center gap-2 mb-3">
@@ -88,22 +96,6 @@
                 <button class="type-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-teal-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-type="投信">投信</button>
                 <button class="type-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-teal-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-type="投顧">投顧</button>
                 <button class="type-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-teal-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-type="期貨">期貨</button>
-                <button class="type-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-teal-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-type="創投">創投</button>
-            </div>
-            <!-- 元大視角篩選 -->
-            <div class="flex flex-wrap items-center gap-2 mb-3">
-                <span class="text-sm font-medium text-gray-600 whitespace-nowrap">🏛️ 元大視角：</span>
-                <button class="yuanta-filter-btn bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm transition whitespace-nowrap" data-yuanta="ALL">全部</button>
-                <button class="yuanta-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-yuanta="元大金控">元大金控</button>
-                <button class="yuanta-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-yuanta="元大銀行">元大銀行</button>
-                <button class="yuanta-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-yuanta="元大投信">元大投信</button>
-                <button class="yuanta-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-yuanta="元大投顧">元大投顧</button>
-                <button class="yuanta-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-yuanta="元大證券">元大證券</button>
-                <button class="yuanta-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-yuanta="元大期貨">元大期貨</button>
-                <button class="yuanta-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-yuanta="元大人壽">元大人壽</button>
-                <button class="yuanta-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-yuanta="元大創投">元大創投</button>
-                <button class="yuanta-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-yuanta="元大國際資產(AMC)">元大國際資產</button>
-                <button class="yuanta-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-yuanta="元大證金">元大證金</button>
             </div>
             <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
                 <div class="flex items-center gap-2">
@@ -163,35 +155,29 @@
 
     <script>
         const URL_FINANCE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSIk2DNeHriB4uTPLwvkQpPE8S-saggIUIIB1sidpnEfu-Tuf9oTqVqBEa0SW8dssXPFHiYznLmnxvh/pub?output=csv';
-        const URL_FINTECH = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzpNhe3I59MkynD4xp6Qe1DmCrUzL-qxOO7yQuspXxQ9MZ_0IOE9m3xi5h4DAVv_vR_P-kQgGYKlCN/pub?output=csv'; // 待建立 Google Sheet 後填入 published CSV 網址
+        const URL_FINTECH = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzpNhe3I59MkynD4xp6Qe1DmCrUzL-qxOO7yQuspXxQ9MZ_0IOE9m3xi5h4DAVv_vR_P-kQgGYKlCN/pub?output=csv';
 
         let allFinanceData = [];
-        let currentMonthFilter  = 'ALL';
-        let currentDomainFilter = 'ALL';
-        let currentGroupFilter  = 'ALL';
-        let currentTypeFilter   = 'ALL';
-        let currentYuantaFilter = 'ALL';
-        let currentSearchTerm   = '';
+        let currentMarketFilter  = 'ALL';
+        let currentMonthFilter   = 'ALL';
+        let currentDomainFilter  = 'ALL';
+        let currentGroupFilter   = 'ALL';
+        let currentTypeFilter    = 'ALL';
+        let currentSearchTerm    = '';
 
         const GROUP_MAP = {
+            '元大': ['元大金控','元大銀行','元大投信','元大投顧','元大證券','元大期貨','元大人壽','元大創投','元大國際資產(AMC)','元大證金'],
             '國泰': ['國泰金控','國泰人壽','國泰世華銀行','國泰投信','國泰證券'],
             '富邦': ['富邦金控','台北富邦銀行','富邦人壽','富邦證券','富邦投信'],
             '中信': ['中信金控','中國信託商業銀行','台灣人壽','中信證券','中信投信'],
             '玉山': ['玉山金控','玉山銀行','玉山證券'],
             '永豐': ['永豐金控','永豐銀行','永豐金證券'],
-            '元大': ['元大金控','元大銀行','元大投信','元大投顧','元大證券','元大期貨','元大人壽','元大創投','元大國際資產(AMC)','元大證金'],
             '兆豐': ['兆豐金控','兆豐銀行','兆豐證券','兆豐投信'],
             '第一': ['第一金控','第一銀行','第一金證券','第一金投信'],
             '台新': ['台新金控','台新銀行','台新人壽','台新證券','台新投信'],
             '合庫': ['合庫金控','合作金庫銀行','合庫證券','合庫投信'],
             '華南': ['華南金控','華南銀行','華南永昌證券'],
-            '開發': ['開發金控','凱基銀行','凱基證券','凱基投信'],
-            '台灣銀行': ['台灣銀行'],
-            '土地銀行': ['土地銀行'],
-            '國際': ['JPMorgan Chase','Goldman Sachs','Mastercard','Visa','Bank of England','FCA',
-                     'Federal Reserve','FDIC','FinCEN','OFAC','US Treasury','Anthropic','OpenAI',
-                     'Huawei','J. Safra Sarasin','Saxo Bank','Pimco','SoftBank','Standard Chartered',
-                     'WorkFusion','UiPath','Gen Digital','Feedzai','中國銀聯'],
+            '凱基': ['開發金控','凱基銀行','凱基證券','凱基投信'],
         };
 
         const TYPE_MAP = {
@@ -202,14 +188,20 @@
             '投信': ['國泰投信','富邦投信','中信投信','元大投信','兆豐投信','第一金投信','台新投信','合庫投信','凱基投信'],
             '投顧': ['元大投顧'],
             '期貨': ['元大期貨'],
-            '創投': ['元大創投'],
+        };
+
+        // Backward compat: map new domain names to old values that may exist in data
+        const DOMAIN_ALIASES = {
+            '行動App': ['行動App', '行動APP'],
+            '資訊安全': ['資訊安全', '資安'],
+            '支付工具': ['支付工具', '數位平台'],
         };
 
         // 通用 toggle helper：若點同一個值則取消（回 ALL），否則選新值
         function makeToggleHandler(btnClass, activeClasses, inactiveClasses, currentRef, setter) {
             document.querySelectorAll(btnClass).forEach(btn => {
                 btn.addEventListener('click', e => {
-                    const val = Object.values(e.target.dataset)[0];
+                    const val = Object.values(e.currentTarget.dataset)[0];
                     const next = (val !== 'ALL' && val === currentRef()) ? 'ALL' : val;
                     setter(next);
                     document.querySelectorAll(btnClass).forEach(b => {
@@ -254,11 +246,18 @@
         }
 
         const domainBadgeMap = {
-            'AI':     { bg: 'bg-blue-100',    text: 'text-blue-700',    label: '🤖 AI' },
-            '數位平台': { bg: 'bg-purple-100',  text: 'text-purple-700',  label: '📱 數位平台' },
-            '行動APP':  { bg: 'bg-pink-100',    text: 'text-pink-700',    label: '📲 行動APP' },
-            '區塊鏈':  { bg: 'bg-teal-100',    text: 'text-teal-700',    label: '🔗 區塊鏈' },
-            '資安':    { bg: 'bg-red-100',     text: 'text-red-700',     label: '🔒 資安' },
+            'AI':       { bg: 'bg-blue-100',    text: 'text-blue-700',    label: '🤖 AI' },
+            '行動App':  { bg: 'bg-pink-100',    text: 'text-pink-700',    label: '📲 行動App' },
+            '行動APP':  { bg: 'bg-pink-100',    text: 'text-pink-700',    label: '📲 行動App' },
+            '支付工具': { bg: 'bg-purple-100',  text: 'text-purple-700',  label: '💳 支付工具' },
+            '數位平台': { bg: 'bg-purple-100',  text: 'text-purple-700',  label: '💳 支付工具' },
+            '信用貸款': { bg: 'bg-orange-100',  text: 'text-orange-700',  label: '🏦 信用貸款' },
+            '數位帳戶': { bg: 'bg-indigo-100',  text: 'text-indigo-700',  label: '🏧 數位帳戶' },
+            '智能客服': { bg: 'bg-cyan-100',    text: 'text-cyan-700',    label: '🤝 智能客服' },
+            '智能理財': { bg: 'bg-emerald-100', text: 'text-emerald-700', label: '📈 智能理財' },
+            '區塊鏈':   { bg: 'bg-teal-100',    text: 'text-teal-700',    label: '🔗 區塊鏈' },
+            '資訊安全': { bg: 'bg-red-100',     text: 'text-red-700',     label: '🔒 資訊安全' },
+            '資安':     { bg: 'bg-red-100',     text: 'text-red-700',     label: '🔒 資訊安全' },
             '監理政策': { bg: 'bg-green-100',   text: 'text-green-700',   label: '⚖️ 監理政策' },
         };
 
@@ -274,7 +273,6 @@
             const domain = news['domain_category'] || 'AI';
             const badge = domainBadgeMap[domain] || { bg: 'bg-gray-100', text: 'text-gray-600', label: domain };
 
-            // entities chips (prefer entities over main_company)
             const entitiesStr = news['entities'] || '';
             const entitiesList = entitiesStr ? entitiesStr.split(',').map(s => s.trim()).filter(Boolean) : [];
             let entityDisplay = '';
@@ -325,7 +323,6 @@
                 if (URL_FINTECH) fetches.push(fetchCSV(URL_FINTECH));
                 const results = await Promise.all(fetches);
 
-                // AI 金融新聞補上 domain_category
                 const aiNews = results[0].map(row => ({ ...row, domain_category: row['domain_category'] || 'AI' }));
                 const fintechNews = results[1] ? results[1] : [];
                 allFinanceData = [...aiNews, ...fintechNews];
@@ -363,15 +360,14 @@
                     renderTimeline();
                 });
 
-                // 篩選按鈕（點已選的 → 取消）
+                makeToggleHandler('.market-filter-btn', ['bg-rose-600','text-white'],   ['bg-white','text-gray-600'],
+                    () => currentMarketFilter,  v => { currentMarketFilter  = v; });
                 makeToggleHandler('.domain-filter-btn', ['bg-orange-500','text-white'], ['bg-white','text-gray-600'],
                     () => currentDomainFilter, v => { currentDomainFilter = v; });
                 makeToggleHandler('.group-filter-btn',  ['bg-indigo-600','text-white'], ['bg-white','text-gray-600'],
                     () => currentGroupFilter,  v => { currentGroupFilter  = v; });
                 makeToggleHandler('.type-filter-btn',   ['bg-teal-600','text-white'],   ['bg-white','text-gray-600'],
                     () => currentTypeFilter,   v => { currentTypeFilter   = v; });
-                makeToggleHandler('.yuanta-filter-btn', ['bg-blue-600','text-white'],   ['bg-white','text-gray-600'],
-                    () => currentYuantaFilter, v => { currentYuantaFilter = v; });
 
                 renderTimeline();
 
@@ -385,35 +381,33 @@
             container.innerHTML = '';
 
             let data = allFinanceData;
-            if (currentDomainFilter !== 'ALL') {
-                data = data.filter(row => (row['domain_category'] || 'AI') === currentDomainFilter);
+
+            // 市場篩選
+            if (currentMarketFilter === 'DOMESTIC') {
+                data = data.filter(row => isDomesticNews(row));
+            } else if (currentMarketFilter === 'GLOBAL') {
+                data = data.filter(row => !isDomesticNews(row));
             }
+
+            // 領域篩選（向下相容舊值）
+            if (currentDomainFilter !== 'ALL') {
+                const targets = DOMAIN_ALIASES[currentDomainFilter] || [currentDomainFilter];
+                data = data.filter(row => targets.includes(row['domain_category'] || 'AI'));
+            }
+
             if (currentMonthFilter !== 'ALL') {
                 data = data.filter(row => (row['publish_date'] || '').substring(0, 7) === currentMonthFilter);
             }
-            // // 集團篩選（全部用 entities）
-            // if (currentGroupFilter !== 'ALL') {
-            //     const groupEnts = new Set(GROUP_MAP[currentGroupFilter] || []);
-            //     data = data.filter(row => {
-            //         const ents = (row['entities'] || '').split(',').map(s => s.trim());
-            //         return ents.some(e => groupEnts.has(e));
-            //     });
-            // }
-            // 集團篩選（國際用 location；其餘用 entities）
+
+            // 集團篩選（用 entities）
             if (currentGroupFilter !== 'ALL') {
-                if (currentGroupFilter === '國際') {
-                    data = data.filter(row => {
-                        const loc = (row['location'] || '').toLowerCase();
-                        return !['taipei', 'taiwan'].includes(loc);
-                    });
-                } else {
-                    const groupEnts = new Set(GROUP_MAP[currentGroupFilter] || []);
-                    data = data.filter(row => {
-                        const ents = (row['entities'] || '').split(',').map(s => s.trim());
-                        return ents.some(e => groupEnts.has(e));
-                    });
-                }
+                const groupEnts = new Set(GROUP_MAP[currentGroupFilter] || []);
+                data = data.filter(row => {
+                    const ents = (row['entities'] || '').split(',').map(s => s.trim());
+                    return ents.some(e => groupEnts.has(e));
+                });
             }
+
             // 業別篩選（全部用 entities；集團+業別取交集）
             if (currentTypeFilter !== 'ALL') {
                 const typeEnts = new Set(TYPE_MAP[currentTypeFilter] || []);
@@ -424,13 +418,7 @@
                     return ents.some(e => typeEnts.has(e) && (!groupEnts || groupEnts.has(e)));
                 });
             }
-            // 元大視角篩選（用 yuanta_entities）
-            if (currentYuantaFilter !== 'ALL') {
-                data = data.filter(row => {
-                    const ye = (row['yuanta_entities'] || '').split(',').map(s => s.trim());
-                    return ye.includes(currentYuantaFilter);
-                });
-            }
+
             if (currentSearchTerm) {
                 const term = currentSearchTerm.toLowerCase();
                 data = data.filter(row => {
@@ -461,7 +449,6 @@
                 const domesticHTML = domestic.map(n => buildCard(n, true)).join('');
                 const globalHTML   = global.map(n => buildCard(n, false)).join('');
 
-                // Dot color cycles for visual variety
                 const dotColors = ['bg-amber-600', 'bg-slate-500', 'bg-amber-500', 'bg-slate-600'];
                 const dotColor = dotColors[groupIndex % dotColors.length];
 
@@ -490,14 +477,14 @@
                         ${domestic.length > 0 ? `
                             <div class="mb-2 flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span>
-                                <span class="text-xs font-bold text-green-700 uppercase tracking-wide">台灣市場</span>
+                                <span class="text-xs font-bold text-green-700 uppercase tracking-wide">🇹🇼 台灣市場</span>
                             </div>
                             ${domesticHTML}
                         ` : ''}
                         ${global.length > 0 ? `
                             <div class="mb-2 flex items-center gap-2 mt-3">
                                 <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
-                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wide">國際市場</span>
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wide">🌐 國際市場</span>
                             </div>
                             ${globalHTML}
                         ` : ''}
