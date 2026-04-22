@@ -271,7 +271,7 @@
                     endDate.setDate(endDate.getDate() + 6);
                     const em = String(endDate.getMonth() + 1).padStart(2, '0');
                     const ed = String(endDate.getDate()).padStart(2, '0');
-                    option.textContent = `${y} 年 ${m} 月 ${d} ~ ${ed} 日`;
+                    option.textContent = `${y} 年 ${m} 月 ${d} ~ ${em} 月 ${ed} 日`;
                     selector.appendChild(option);
                 });
 
