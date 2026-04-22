@@ -177,11 +177,11 @@
             '台新': ['台新金控','台新銀行','台新人壽','台新證券','台新投信'],
             '合庫': ['合庫金控','合作金庫銀行','合庫證券','合庫投信'],
             '華南': ['華南金控','華南銀行','華南永昌證券'],
-            '凱基': ['開發金控','凱基銀行','凱基證券','凱基投信'],
+            '凱基': ['開發金控','凱基銀行','凱基證券','凱基投信','凱基金控'],
         };
 
         const TYPE_MAP = {
-            '金控': ['國泰金控','富邦金控','中信金控','玉山金控','永豐金控','元大金控','兆豐金控','第一金控','台新金控','合庫金控','華南金控','開發金控'],
+            '金控': ['國泰金控','富邦金控','中信金控','玉山金控','永豐金控','元大金控','兆豐金控','第一金控','台新金控','合庫金控','華南金控','開發金控','凱基金控'],
             '銀行': ['國泰世華銀行','台北富邦銀行','中國信託商業銀行','玉山銀行','永豐銀行','元大銀行','兆豐銀行','第一銀行','台新銀行','合作金庫銀行','華南銀行','凱基銀行','台灣銀行','土地銀行'],
             '人壽': ['國泰人壽','富邦人壽','台灣人壽','元大人壽','台新人壽'],
             '證券': ['國泰證券','富邦證券','中信證券','玉山證券','永豐金證券','元大證券','兆豐證券','第一金證券','台新證券','合庫證券','華南永昌證券','凱基證券'],
@@ -197,7 +197,7 @@
             '支付工具': ['支付工具', '數位平台'],
         };
 
-        // 通用 toggle helper：若點同一個值則取消（回 ALL），否則選新值
+        // 單選 toggle helper（市場、業別）
         function makeToggleHandler(btnClass, activeClasses, inactiveClasses, currentRef, setter) {
             document.querySelectorAll(btnClass).forEach(btn => {
                 btn.addEventListener('click', e => {
@@ -207,6 +207,33 @@
                     document.querySelectorAll(btnClass).forEach(b => {
                         const bVal = Object.values(b.dataset)[0];
                         const active = (next === 'ALL') ? bVal === 'ALL' : bVal === next;
+                        b.classList.toggle(activeClasses[0], active);
+                        b.classList.toggle(activeClasses[1], active);
+                        b.classList.toggle('shadow-sm', active);
+                        b.classList.toggle(inactiveClasses[0], !active);
+                        b.classList.toggle(inactiveClasses[1], !active);
+                        b.classList.toggle('border', !active);
+                        b.classList.toggle('border-gray-300', !active);
+                    });
+                    renderTimeline();
+                });
+            });
+        }
+
+        // 多選 toggle helper（領域、集團）：可同時選多個，ALL 清空選擇
+        function makeMultiToggleHandler(btnClass, activeClasses, inactiveClasses, currentSet) {
+            document.querySelectorAll(btnClass).forEach(btn => {
+                btn.addEventListener('click', e => {
+                    const val = Object.values(e.currentTarget.dataset)[0];
+                    if (val === 'ALL') {
+                        currentSet.clear();
+                    } else {
+                        if (currentSet.has(val)) currentSet.delete(val);
+                        else currentSet.add(val);
+                    }
+                    document.querySelectorAll(btnClass).forEach(b => {
+                        const bVal = Object.values(b.dataset)[0];
+                        const active = bVal === 'ALL' ? currentSet.size === 0 : currentSet.has(bVal);
                         b.classList.toggle(activeClasses[0], active);
                         b.classList.toggle(activeClasses[1], active);
                         b.classList.toggle('shadow-sm', active);
@@ -270,8 +297,9 @@
                 .map(line => line.replace(/【(.*?)】/g, '<span class="font-bold text-blue-700">【$1】</span>'))
                 .join('<br>');
             const accentText = domestic ? 'text-green-700' : 'text-amber-700';
-            const domain = news['domain_category'] || 'AI';
-            const badge = domainBadgeMap[domain] || { bg: 'bg-gray-100', text: 'text-gray-600', label: domain };
+            const domainRaw = news['domain_category'] || 'AI';
+            const domainList = domainRaw.split(',').map(s => s.trim()).filter(Boolean);
+            const badges = domainList.map(d => domainBadgeMap[d] || { bg: 'bg-gray-100', text: 'text-gray-600', label: d });
 
             const entitiesStr = news['entities'] || '';
             const entitiesList = entitiesStr ? entitiesStr.split(',').map(s => s.trim()).filter(Boolean) : [];
@@ -286,8 +314,8 @@
                 <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-5 mb-4">
                     <div class="flex justify-between items-center mb-3">
                         <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium">${news['publish_date']}</span>
-                        <div class="flex items-center gap-2">
-                            <span class="${badge.bg} ${badge.text} text-xs px-2 py-0.5 rounded-full font-semibold">${badge.label}</span>
+                        <div class="flex items-center gap-1.5 flex-wrap justify-end">
+                            ${badges.map(b => `<span class="${b.bg} ${b.text} text-xs px-2 py-0.5 rounded-full font-semibold">${b.label}</span>`).join('')}
                             <span class="text-xs text-gray-400 font-medium">${loc}</span>
                         </div>
                     </div>
@@ -389,33 +417,45 @@
                 data = data.filter(row => !isDomesticNews(row));
             }
 
-            // 領域篩選（向下相容舊值）
+            // 領域篩選（單選；支援文章多分類逗號分隔；向下相容舊值）
             if (currentDomainFilter !== 'ALL') {
-                const targets = DOMAIN_ALIASES[currentDomainFilter] || [currentDomainFilter];
-                data = data.filter(row => targets.includes(row['domain_category'] || 'AI'));
+                data = data.filter(row => {
+                    const rawDomains = (row['domain_category'] || 'AI').split(',').map(s => s.trim());
+                    const expanded = new Set(rawDomains);
+                    rawDomains.forEach(d => {
+                        Object.entries(DOMAIN_ALIASES).forEach(([key, vals]) => {
+                            if (vals.includes(d)) expanded.add(key);
+                        });
+                    });
+                    const targets = new Set(DOMAIN_ALIASES[currentDomainFilter] || []);
+                    targets.add(currentDomainFilter);
+                    return [...targets].some(t => expanded.has(t));
+                });
             }
 
             if (currentMonthFilter !== 'ALL') {
                 data = data.filter(row => (row['publish_date'] || '').substring(0, 7) === currentMonthFilter);
             }
 
-            // 集團篩選（用 entities）
+            // 集團篩選（單選）
             if (currentGroupFilter !== 'ALL') {
-                const groupEnts = new Set(GROUP_MAP[currentGroupFilter] || []);
                 data = data.filter(row => {
                     const ents = (row['entities'] || '').split(',').map(s => s.trim());
+                    const groupEnts = new Set(GROUP_MAP[currentGroupFilter] || []);
                     return ents.some(e => groupEnts.has(e));
                 });
             }
 
-            // 業別篩選（全部用 entities；集團+業別取交集）
+            // 業別篩選（與已選集團取交集；無集團選擇時全量比對）
             if (currentTypeFilter !== 'ALL') {
                 const typeEnts = new Set(TYPE_MAP[currentTypeFilter] || []);
-                const groupEnts = currentGroupFilter !== 'ALL'
-                    ? new Set(GROUP_MAP[currentGroupFilter] || []) : null;
                 data = data.filter(row => {
                     const ents = (row['entities'] || '').split(',').map(s => s.trim());
-                    return ents.some(e => typeEnts.has(e) && (!groupEnts || groupEnts.has(e)));
+                    if (currentGroupFilter !== 'ALL') {
+                        const groupEnts = new Set(GROUP_MAP[currentGroupFilter] || []);
+                        return ents.some(e => typeEnts.has(e) && groupEnts.has(e));
+                    }
+                    return ents.some(e => typeEnts.has(e));
                 });
             }
 
