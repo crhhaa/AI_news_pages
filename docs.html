@@ -761,6 +761,11 @@
             btn.addEventListener('click', () => switchTab(btn.dataset.tab));
         });
 
+        // 綁定手機版漢堡選單開關
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
         window.addEventListener('DOMContentLoaded', initData);
     </script>
 </body>
