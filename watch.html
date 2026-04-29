@@ -43,15 +43,12 @@
 
         <!-- 控制區 -->
         <div class="mb-8 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-            <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
+            <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between mb-5">
                 <h2 class="text-xl font-semibold text-gray-700">Global FinTech Watch</h2>
-            </div>
-            <!-- 市場篩選 -->
-            <div class="flex flex-wrap items-center gap-2 mb-3">
-                <span class="text-sm font-medium text-gray-600 whitespace-nowrap">🌍 市場：</span>
-                <button class="market-filter-btn bg-rose-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm transition whitespace-nowrap" data-market="ALL">全部</button>
-                <button class="market-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-rose-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-market="DOMESTIC">🇹🇼 國內市場</button>
-                <button class="market-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-rose-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-market="GLOBAL">🌐 國際市場</button>
+                <div class="flex items-center gap-1 bg-gray-100 rounded-xl p-1 flex-shrink-0">
+                    <button class="market-tab px-4 py-1.5 rounded-lg text-sm font-semibold transition-all" data-market="DOMESTIC">🇹🇼 台灣市場</button>
+                    <button class="market-tab px-4 py-1.5 rounded-lg text-sm font-semibold transition-all" data-market="GLOBAL">🌐 國際市場</button>
+                </div>
             </div>
             <!-- 領域篩選 -->
             <div class="flex flex-wrap items-center gap-2 mb-3">
@@ -69,7 +66,7 @@
                 <button class="domain-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-domain="監理政策">⚖️ 監理政策</button>
             </div>
             <!-- 集團篩選 -->
-            <div class="flex flex-wrap items-center gap-2 mb-3">
+            <div id="groupFilterRow" class="flex flex-wrap items-center gap-2 mb-3">
                 <span class="text-sm font-medium text-gray-600 whitespace-nowrap">🏢 集團：</span>
                 <button class="group-filter-btn bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm transition whitespace-nowrap" data-group="ALL">全部</button>
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="元大">元大</button>
@@ -86,7 +83,7 @@
                 <button class="group-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-group="凱基">凱基</button>
             </div>
             <!-- 業別篩選 -->
-            <div class="flex flex-wrap items-center gap-2 mb-3">
+            <div id="typeFilterRow" class="flex flex-wrap items-center gap-2 mb-3">
                 <span class="text-sm font-medium text-gray-600 whitespace-nowrap">🏦 業別：</span>
                 <button class="type-filter-btn bg-teal-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm transition whitespace-nowrap" data-type="ALL">全部</button>
                 <button class="type-filter-btn bg-white text-gray-600 border border-gray-300 hover:bg-teal-50 px-3 py-1 rounded-full text-xs font-semibold transition whitespace-nowrap" data-type="金控">金控</button>
@@ -119,30 +116,7 @@
             </div>
         </div>
 
-        <!-- 雙欄標題 (桌機) -->
-        <div class="hidden md:grid grid-cols-[1fr_60px_1fr] gap-0 mb-6">
-            <div class="bg-white rounded-xl border border-gray-200 border-t-4 border-t-green-500 shadow-sm px-5 py-4 text-center">
-                <h2 class="text-lg font-bold text-gray-800">🇹🇼 台灣市場 (TAIWAN)</h2>
-            </div>
-            <div></div>
-            <div class="bg-white rounded-xl border border-gray-200 border-t-4 border-t-amber-500 shadow-sm px-5 py-4 text-center">
-                <h2 class="text-lg font-bold text-gray-800">🌐 國際市場 (GLOBAL)</h2>
-            </div>
-        </div>
-
-        <!-- 手機版圖例 -->
-        <div class="flex md:hidden items-center gap-6 mb-6 px-2">
-            <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
-                <span class="text-sm text-gray-600 font-medium">🇹🇼 台灣市場</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
-                <span class="text-sm text-gray-600 font-medium">🌐 國際市場</span>
-            </div>
-        </div>
-
-        <!-- 時間軸內容 -->
+        <!-- 卡片列表 -->
         <div id="timelineContainer">
             <!-- 由 JS 動態生成 -->
         </div>
@@ -158,7 +132,7 @@
         const URL_FINTECH = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzpNhe3I59MkynD4xp6Qe1DmCrUzL-qxOO7yQuspXxQ9MZ_0IOE9m3xi5h4DAVv_vR_P-kQgGYKlCN/pub?output=csv';
 
         let allFinanceData = [];
-        let currentMarketFilter  = 'ALL';
+        let currentMarketFilter  = 'DOMESTIC';
         let currentMonthFilter   = 'ALL';
         let currentDomainFilter  = 'ALL';
         let currentGroupFilter   = 'ALL';
@@ -272,6 +246,22 @@
             return isTaiwan && !isChina;
         }
 
+        const DOMAIN_BAR_COLORS = {
+            'AI':       'bg-blue-400',
+            '行動App':  'bg-pink-400',
+            '行動APP':  'bg-pink-400',
+            '支付工具': 'bg-purple-400',
+            '數位平台': 'bg-purple-400',
+            '信用貸款': 'bg-orange-400',
+            '數位帳戶': 'bg-indigo-400',
+            '智能客服': 'bg-cyan-400',
+            '智能理財': 'bg-emerald-400',
+            '區塊鏈':   'bg-teal-400',
+            '資訊安全': 'bg-red-400',
+            '資安':     'bg-red-400',
+            '監理政策': 'bg-green-400',
+        };
+
         const domainBadgeMap = {
             'AI':       { bg: 'bg-blue-100',    text: 'text-blue-700',    label: '🤖 AI' },
             '行動App':  { bg: 'bg-pink-100',    text: 'text-pink-700',    label: '📲 行動App' },
@@ -289,55 +279,138 @@
         };
 
         function buildCard(news, domestic) {
-            const loc = news['location'] || (domestic ? 'Taiwan' : 'Global');
-            let insight = (news['pm_insight'] || '').replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-amber-700">$1</span>');
-            let yuantaInsight = (news['yuanta_insight'] || '')
+            const dateStr = news['publish_date'] || '';
+            const day = dateStr.length >= 10 ? dateStr.substring(8, 10) : '';
+
+            let insight = (news['pm_insight'] || '').replace(/\*\*(.*?)\*\*/g, '<strong class="text-amber-700">$1</strong>');
+            const yuantaLines = (news['yuanta_insight'] || '')
                 .split(/\s*／\s*/)
                 .filter(Boolean)
-                .map(line => line.replace(/【(.*?)】/g, '<span class="font-bold text-blue-700">【$1】</span>'))
-                .join('<br>');
-            const accentText = domestic ? 'text-green-700' : 'text-amber-700';
-            const domainRaw = news['domain_category'] || 'AI';
-            const domainList = domainRaw.split(',').map(s => s.trim()).filter(Boolean);
-            const badges = domainList.map(d => domainBadgeMap[d] || { bg: 'bg-gray-100', text: 'text-gray-600', label: d });
+                .map(line => line.replace(/【(.*?)】/g, '<span class="font-bold text-blue-700">【$1】</span>'));
 
-            const entitiesStr = news['entities'] || '';
+            const accentText = domestic ? 'text-green-700' : 'text-amber-700';
+            const domainRaw  = news['domain_category'] || 'AI';
+            const domainList = domainRaw.split(',').map(s => s.trim()).filter(Boolean);
+            const badges     = domainList.map(d => domainBadgeMap[d] || { bg: 'bg-gray-100', text: 'text-gray-600', label: d });
+            const barColor   = DOMAIN_BAR_COLORS[domainList[0]] || 'bg-gray-300';
+
+            const entitiesStr  = news['entities'] || '';
             const entitiesList = entitiesStr ? entitiesStr.split(',').map(s => s.trim()).filter(Boolean) : [];
-            let entityDisplay = '';
+            let entityBadges = '';
             if (entitiesList.length > 0) {
-                entityDisplay = `<div class="flex flex-wrap gap-1 mb-2">${entitiesList.map(e => `<span class="text-xs font-semibold ${accentText} bg-gray-50 border border-gray-200 px-2 py-0.5 rounded-full">${e}</span>`).join('')}</div>`;
+                entityBadges = entitiesList.map(e =>
+                    `<span class="text-xs font-semibold ${accentText} bg-gray-50 border border-gray-200 px-2 py-0.5 rounded-full">${e}</span>`
+                ).join('');
             } else if (news['main_company']) {
-                entityDisplay = `<div class="text-xs font-bold uppercase tracking-widest ${accentText} mb-2">${news['main_company']}</div>`;
+                entityBadges = `<span class="text-xs font-semibold ${accentText} bg-gray-50 border border-gray-200 px-2 py-0.5 rounded-full">${news['main_company']}</span>`;
             }
 
+            const hasInsight = !!(insight || yuantaLines.length > 0);
+
             return `
-                <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-5 mb-4">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium">${news['publish_date']}</span>
-                        <div class="flex items-center gap-1.5 flex-wrap justify-end">
-                            ${badges.map(b => `<span class="${b.bg} ${b.text} text-xs px-2 py-0.5 rounded-full font-semibold">${b.label}</span>`).join('')}
-                            <span class="text-xs text-gray-400 font-medium">${loc}</span>
+                <div class="flex gap-4 py-5 last:pb-6">
+                    <div class="flex-shrink-0 w-9 text-right pt-1">
+                        <span class="text-3xl font-black leading-none select-none" style="color:#e5e7eb;">${day}</span>
+                    </div>
+                    <div class="flex-shrink-0 w-0.5 self-stretch rounded-full ${barColor} opacity-50"></div>
+                    <div class="flex-1 min-w-0 ${hasInsight ? 'grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 items-start' : ''}">
+                        <!-- 左：新聞本體 -->
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base leading-snug mb-2">${news['title']}</h3>
+                            <div class="flex flex-wrap gap-1.5 mb-1">
+                                ${badges.map(b => `<span class="${b.bg} ${b.text} text-xs px-2 py-0.5 rounded-full font-semibold">${b.label}</span>`).join('')}
+                            </div>
+                            ${entityBadges ? `<div class="flex flex-wrap gap-1.5 mb-2">${entityBadges}</div>` : '<div class="mb-2"></div>'}
+                            <p class="text-sm text-gray-600 leading-relaxed mb-3">${news['summary']}</p>
+                            <div class="flex items-center gap-3 text-xs text-gray-400">
+                                ${news['source_name'] ? `<span>${news['source_name']}</span>` : ''}
+                                ${news['url'] ? `<a href="${news['url']}" target="_blank" class="text-orange-500 hover:underline font-medium">閱讀原文 →</a>` : ''}
+                            </div>
                         </div>
+                        <!-- 右：PM + 元大視角 -->
+                        ${hasInsight ? `
+                        <div class="space-y-2 md:border-l md:border-gray-100 md:pl-6">
+                            ${insight ? `
+                            <div class="bg-amber-50 rounded-lg px-3 py-2.5">
+                                <p class="text-sm font-bold text-amber-600 mb-1.5">💡 PM insight</p>
+                                <p class="text-sm text-gray-700 leading-relaxed">${insight}</p>
+                            </div>
+                            ` : ''}
+                            ${yuantaLines.length > 0 ? `
+                            <div class="bg-blue-50 rounded-lg px-3 py-2.5">
+                                <p class="text-sm font-bold text-blue-700 mb-2">🏛️ 元大</p>
+                                <div class="space-y-2">
+                                    ${yuantaLines.map(line => `<p class="text-sm text-gray-700 leading-relaxed">${line}</p>`).join('')}
+                                </div>
+                            </div>
+                            ` : ''}
+                        </div>
+                        ` : ''}
                     </div>
-                    ${entityDisplay}
-                    <h3 class="font-bold text-gray-900 text-base leading-snug mb-2">${news['title']}</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed mb-4">${news['summary']}</p>
-                    ${insight ? `
-                    <div class="border-l-4 border-amber-400 bg-amber-50 rounded-r-lg px-4 py-3 mb-3">
-                        <div class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">💡 PM Insight</div>
-                        <p class="text-sm text-gray-700 leading-relaxed">${insight}</p>
-                    </div>
-                    ` : ''}
-                    ${yuantaInsight ? `
-                    <div class="border-l-4 border-blue-400 bg-blue-50 rounded-r-lg px-4 py-3 mb-3">
-                        <div class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">🏛️ 元大視角</div>
-                        <p class="text-sm text-gray-700 leading-relaxed">${yuantaInsight}</p>
-                    </div>
-                    ` : ''}
-                    ${news['source_name'] ? `<div class="text-xs text-gray-400 mt-2">Source: ${news['source_name']}</div>` : ''}
-                    ${news['url'] ? `<a href="${news['url']}" target="_blank" class="text-xs text-orange-500 hover:underline mt-1 inline-block">閱讀原文 &rarr;</a>` : ''}
                 </div>
             `;
+        }
+
+        function formatMonth(ym) {
+            if (!ym) return '';
+            const [y, m] = ym.split('-');
+            return `${y} 年 ${parseInt(m, 10)} 月`;
+        }
+
+        function updateFilterRowVisibility() {
+            const groupRow = document.getElementById('groupFilterRow');
+            const typeRow  = document.getElementById('typeFilterRow');
+            const isGlobal = currentMarketFilter === 'GLOBAL';
+            if (groupRow) groupRow.style.display = isGlobal ? 'none' : '';
+            if (typeRow)  typeRow.style.display  = isGlobal ? 'none' : '';
+        }
+
+        function initMarketTabs() {
+            const tabs = document.querySelectorAll('.market-tab');
+            function setActiveTab(val) {
+                tabs.forEach(t => {
+                    const active = t.dataset.market === val;
+                    t.classList.toggle('bg-white',      active);
+                    t.classList.toggle('shadow-sm',     active);
+                    t.classList.toggle('text-blue-900', active);
+                    t.classList.toggle('text-gray-500', !active);
+                });
+            }
+            setActiveTab(currentMarketFilter);
+            tabs.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const val = btn.dataset.market;
+                    if (val === currentMarketFilter) return;
+                    currentMarketFilter = val;
+                    if (val === 'GLOBAL') {
+                        currentGroupFilter = 'ALL';
+                        currentTypeFilter  = 'ALL';
+                        document.querySelectorAll('.group-filter-btn').forEach(b => {
+                            const isAll = b.dataset.group === 'ALL';
+                            b.classList.toggle('bg-indigo-600',   isAll);
+                            b.classList.toggle('text-white',      isAll);
+                            b.classList.toggle('shadow-sm',       isAll);
+                            b.classList.toggle('bg-white',        !isAll);
+                            b.classList.toggle('text-gray-600',   !isAll);
+                            b.classList.toggle('border',          !isAll);
+                            b.classList.toggle('border-gray-300', !isAll);
+                        });
+                        document.querySelectorAll('.type-filter-btn').forEach(b => {
+                            const isAll = b.dataset.type === 'ALL';
+                            b.classList.toggle('bg-teal-600',     isAll);
+                            b.classList.toggle('text-white',      isAll);
+                            b.classList.toggle('shadow-sm',       isAll);
+                            b.classList.toggle('bg-white',        !isAll);
+                            b.classList.toggle('text-gray-600',   !isAll);
+                            b.classList.toggle('border',          !isAll);
+                            b.classList.toggle('border-gray-300', !isAll);
+                        });
+                    }
+                    setActiveTab(val);
+                    updateFilterRowVisibility();
+                    renderTimeline();
+                });
+            });
         }
 
         async function initData() {
@@ -388,8 +461,9 @@
                     renderTimeline();
                 });
 
-                makeToggleHandler('.market-filter-btn', ['bg-rose-600','text-white'],   ['bg-white','text-gray-600'],
-                    () => currentMarketFilter,  v => { currentMarketFilter  = v; });
+                initMarketTabs();
+                updateFilterRowVisibility();
+
                 makeToggleHandler('.domain-filter-btn', ['bg-orange-500','text-white'], ['bg-white','text-gray-600'],
                     () => currentDomainFilter, v => { currentDomainFilter = v; });
                 makeToggleHandler('.group-filter-btn',  ['bg-indigo-600','text-white'], ['bg-white','text-gray-600'],
@@ -473,61 +547,26 @@
                 return;
             }
 
-            // Group by date
-            const groups = {};
-            const groupOrder = [];
+            // Group by month
+            const monthGroups = {};
+            const monthOrder  = [];
             data.forEach(news => {
-                const date = news['publish_date'] || '';
-                if (!groups[date]) { groups[date] = []; groupOrder.push(date); }
-                groups[date].push(news);
+                const month = (news['publish_date'] || '').substring(0, 7);
+                if (!monthGroups[month]) { monthGroups[month] = []; monthOrder.push(month); }
+                monthGroups[month].push(news);
             });
 
-            groupOrder.forEach((date, groupIndex) => {
-                const domestic = groups[date].filter(n => isDomesticNews(n));
-                const global   = groups[date].filter(n => !isDomesticNews(n));
-
-                const domesticHTML = domestic.map(n => buildCard(n, true)).join('');
-                const globalHTML   = global.map(n => buildCard(n, false)).join('');
-
-                const dotColors = ['bg-amber-600', 'bg-slate-500', 'bg-amber-500', 'bg-slate-600'];
-                const dotColor = dotColors[groupIndex % dotColors.length];
-
+            monthOrder.forEach(month => {
+                const cards = monthGroups[month];
                 container.innerHTML += `
-                    <!-- Desktop two-column row -->
-                    <div class="hidden md:grid grid-cols-[1fr_60px_1fr] gap-0 mb-2">
-                        <!-- Taiwan column -->
-                        <div>${domesticHTML || ''}</div>
-
-                        <!-- Center timeline -->
-                        <div class="flex flex-col items-center">
-                            <div class="w-0.5 bg-gray-300 flex-1 ${groupIndex === 0 ? 'mt-3' : ''}"></div>
-                            <div class="w-5 h-5 rounded-full ${dotColor} border-4 border-white shadow-md flex-shrink-0 my-1"></div>
-                            <div class="w-0.5 bg-gray-300 flex-1"></div>
+                    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm mb-6 overflow-hidden">
+                        <div class="bg-gray-50 border-b border-gray-100 px-6 py-3 flex items-center justify-between">
+                            <span class="text-sm font-bold text-gray-700">${formatMonth(month)}</span>
+                            <span class="text-xs text-gray-400 bg-white border border-gray-200 px-2.5 py-0.5 rounded-full">${cards.length} 則</span>
                         </div>
-
-                        <!-- Global column -->
-                        <div>${globalHTML || ''}</div>
-                    </div>
-
-                    <!-- Mobile: stacked with date header -->
-                    <div class="md:hidden mb-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-gray-200 text-gray-500 text-xs px-3 py-1 rounded-full">📅 ${date}</span>
+                        <div class="divide-y divide-gray-100 px-6">
+                            ${cards.map(n => buildCard(n, isDomesticNews(n))).join('')}
                         </div>
-                        ${domestic.length > 0 ? `
-                            <div class="mb-2 flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span>
-                                <span class="text-xs font-bold text-green-700 uppercase tracking-wide">🇹🇼 台灣市場</span>
-                            </div>
-                            ${domesticHTML}
-                        ` : ''}
-                        ${global.length > 0 ? `
-                            <div class="mb-2 flex items-center gap-2 mt-3">
-                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
-                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wide">🌐 國際市場</span>
-                            </div>
-                            ${globalHTML}
-                        ` : ''}
                     </div>
                 `;
             });
