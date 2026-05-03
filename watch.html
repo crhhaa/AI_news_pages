@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>金融科技情報站 - Global FinTech Watch</title>
+    <title>金融科技情報站 - 全球金融科技觀測</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
@@ -13,29 +13,67 @@
 <body class="bg-gray-100 text-gray-800 font-sans">
 
     <!-- 導覽列 -->
-    <nav class="bg-blue-900 text-white p-4 shadow-md sticky top-0 z-50" style="position:sticky;top:0;z-index:50;background:#1e3a8a;color:#fff;">
-      <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <h1 class="text-xl font-bold tracking-wider">金融科技情報站</h1>
-        <div class="hidden md:flex space-x-6 font-medium text-sm">
-          <a href="index.html" class="hover:text-orange-300 transition-colors">AI Trend Weekly</a>
-          <a href="watch.html" class="hover:text-orange-300 transition-colors">Global FinTech Watch</a>
-          <a href="report.html" class="hover:text-orange-300 transition-colors">AI Monthly Report</a>
-          <a href="docs.html" class="hover:text-orange-300 transition-colors">FinTech Wiki</a>
+    <nav class="text-white sticky top-0 z-50" style="background:linear-gradient(135deg,#0f2460 0%,#1e3a8a 50%,#1e40af 100%);box-shadow:0 2px 20px rgba(0,0,0,0.25);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-between h-14">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-2.5 flex-shrink-0 group">
+                    <div class="w-7 h-7 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-400 transition-colors">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm font-bold tracking-widest group-hover:text-orange-300 transition-colors">金融科技情報站</span>
+                </a>
+
+                <!-- Desktop nav links -->
+                <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+                    <a href="index.html" class="text-white/75 hover:text-orange-300 transition-colors flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                        AI 趨勢
+                    </a>
+                    <a href="watch.html" class="text-orange-300 flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        全球金融科技觀測
+                    </a>
+                    <a href="docs.html" class="text-white/75 hover:text-orange-300 transition-colors flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        知識庫
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="menuToggle" class="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
         </div>
-        <button id="menuToggle" class="md:hidden flex flex-col space-y-1.5 p-2" aria-label="Menu">
-          <span class="block w-6 h-0.5 bg-white"></span>
-          <span class="block w-6 h-0.5 bg-white"></span>
-          <span class="block w-6 h-0.5 bg-white"></span>
-        </button>
-      </div>
-      <div id="mobileMenu" class="hidden md:hidden mt-3 pb-2 border-t border-blue-800">
-        <div class="max-w-7xl mx-auto flex flex-col space-y-3 pt-3 px-2 text-sm">
-          <a href="index.html" class="hover:text-orange-300">AI Trend Weekly</a>
-          <a href="watch.html" class="hover:text-orange-300">Global FinTech Watch</a>
-          <a href="report.html" class="hover:text-orange-300">AI Monthly Report</a>
-          <a href="docs.html" class="hover:text-orange-300">FinTech Wiki</a>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 py-3 space-y-1 text-sm">
+                <a href="index.html" class="flex items-center gap-2.5 text-white/70 hover:text-white py-2.5 transition-colors">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    AI 趨勢
+                </a>
+                <a href="watch.html" class="flex items-center gap-2.5 text-orange-300 py-2.5 font-semibold">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    全球金融科技觀測
+                </a>
+                <a href="docs.html" class="flex items-center gap-2.5 text-white/70 hover:text-white py-2.5 transition-colors">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    金融科技知識庫
+                </a>
+            </div>
         </div>
-      </div>
     </nav>
 
     <!-- 主要內容區 -->
@@ -44,7 +82,7 @@
         <!-- 控制區 -->
         <div class="mb-8 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
             <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between mb-5">
-                <h2 class="text-xl font-semibold text-gray-700">Global FinTech Watch</h2>
+                <h2 class="text-xl font-semibold text-gray-700">全球金融科技觀測</h2>
                 <div class="flex items-center gap-1 bg-gray-100 rounded-xl p-1 flex-shrink-0">
                     <button class="market-tab px-4 py-1.5 rounded-lg text-sm font-semibold transition-all" data-market="DOMESTIC">🇹🇼 台灣市場</button>
                     <button class="market-tab px-4 py-1.5 rounded-lg text-sm font-semibold transition-all" data-market="GLOBAL">🌐 國際市場</button>
@@ -120,11 +158,12 @@
         <div id="timelineContainer">
             <!-- 由 JS 動態生成 -->
         </div>
+        <div id="paginationContainer"></div>
 
     </main>
 
     <footer class="bg-blue-900 text-blue-200 text-center py-6 text-xs mt-8">
-      <p class="mt-1 text-blue-400">元大金控 數位金融部 · 內部參考用途</p>
+      <p class="mt-1 text-blue-400">元大金控 數位金融事業處 · 內部參考用途</p>
     </footer>
 
     <script>
@@ -138,6 +177,8 @@
         let currentGroupFilter   = 'ALL';
         let currentTypeFilter    = 'ALL';
         let currentSearchTerm    = '';
+        const ITEMS_PER_PAGE = 10;
+        let currentPage      = 1;
 
         const GROUP_MAP = {
             '元大': ['元大金控','元大銀行','元大投信','元大投顧','元大證券','元大期貨','元大人壽','元大創投','元大國際資產(AMC)','元大證金'],
@@ -342,13 +383,13 @@
                         <div class="space-y-2 md:border-l md:border-gray-100 md:pl-6">
                             ${insight ? `
                             <div class="bg-amber-50 rounded-lg px-3 py-2.5">
-                                <p class="text-sm font-bold text-amber-600 mb-1.5">💡 PM insight</p>
+                                <p class="text-sm font-bold text-amber-600 mb-1.5">💡 關鍵洞察</p>
                                 <p class="text-sm text-gray-700 leading-relaxed">${insight}</p>
                             </div>
                             ` : ''}
                             ${yuantaLines.length > 0 ? `
                             <div class="bg-blue-50 rounded-lg px-3 py-2.5">
-                                <p class="text-sm font-bold text-blue-700 mb-2">🏛️ 元大</p>
+                                <p class="text-sm font-bold text-blue-700 mb-2">🏛️ 元大洞察</p>
                                 <div class="space-y-2">
                                     ${yuantaLines.map(line => `<p class="text-sm text-gray-700 leading-relaxed">${line}</p>`).join('')}
                                 </div>
@@ -488,7 +529,8 @@
             }
         }
 
-        function renderTimeline() {
+        function renderTimeline(resetPage = true) {
+            if (resetPage) currentPage = 1;
             const container = document.getElementById('timelineContainer');
             container.innerHTML = '';
 
@@ -554,13 +596,34 @@
 
             if (data.length === 0) {
                 container.innerHTML = "<p class='text-center text-gray-500 py-12'>這個區間沒有資料哦！</p>";
+                renderWatchPagination(0, 0);
                 return;
             }
+
+            const totalItems = data.length;
+            const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+            if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
+
+            // Compute within-month rank before slicing (resets to 1 per month)
+            const monthTotalMap = {};
+            data.forEach(news => {
+                const m = (news['publish_date'] || '').substring(0, 7);
+                monthTotalMap[m] = (monthTotalMap[m] || 0) + 1;
+            });
+            const monthRankMap = new Map();
+            const monthCounter = {};
+            data.forEach(news => {
+                const m = (news['publish_date'] || '').substring(0, 7);
+                monthCounter[m] = (monthCounter[m] || 0) + 1;
+                monthRankMap.set(news, monthCounter[m]);
+            });
+
+            const pageData = data.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
             // Group by month
             const monthGroups = {};
             const monthOrder  = [];
-            data.forEach(news => {
+            pageData.forEach(news => {
                 const month = (news['publish_date'] || '').substring(0, 7);
                 if (!monthGroups[month]) { monthGroups[month] = []; monthOrder.push(month); }
                 monthGroups[month].push(news);
@@ -568,11 +631,17 @@
 
             monthOrder.forEach(month => {
                 const cards = monthGroups[month];
+                const minRank = Math.min(...cards.map(n => monthRankMap.get(n)));
+                const maxRank = Math.max(...cards.map(n => monthRankMap.get(n)));
+                const total   = monthTotalMap[month];
+                const rankLabel = minRank === maxRank
+                    ? `${minRank} / ${total} 則`
+                    : `${minRank}–${maxRank} / ${total} 則`;
                 container.innerHTML += `
                     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm mb-6 overflow-hidden">
                         <div class="bg-gray-50 border-b border-gray-100 px-6 py-3 flex items-center justify-between">
                             <span class="text-sm font-bold text-gray-700">${formatMonth(month)}</span>
-                            <span class="text-xs text-gray-400 bg-white border border-gray-200 px-2.5 py-0.5 rounded-full">${cards.length} 則</span>
+                            <span class="text-xs text-gray-400 bg-white border border-gray-200 px-2.5 py-0.5 rounded-full">${rankLabel}</span>
                         </div>
                         <div class="divide-y divide-gray-100 px-6">
                             ${cards.map(n => buildCard(n, isDomesticNews(n))).join('')}
@@ -580,6 +649,35 @@
                     </div>
                 `;
             });
+
+            renderWatchPagination(totalPages, totalItems);
+        }
+
+        function renderWatchPagination(totalPages, totalItems) {
+            const el = document.getElementById('paginationContainer');
+            if (!el) return;
+            if (totalPages <= 1) { el.innerHTML = ''; return; }
+            const startItem = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+            const endItem = Math.min(currentPage * ITEMS_PER_PAGE, totalItems);
+            let pages = '';
+            let s = Math.max(1, currentPage - 2), e = Math.min(totalPages, s + 4);
+            if (e - s < 4) s = Math.max(1, e - 4);
+            for (let i = s; i <= e; i++) {
+                const a = i === currentPage;
+                pages += `<button onclick="goToWatchPage(${i})" class="w-8 h-8 rounded-lg text-sm font-semibold transition ${a ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-300 hover:bg-blue-50'}">${i}</button>`;
+            }
+            el.innerHTML = `<div class="flex items-center justify-center gap-2 py-6">
+                <button onclick="goToWatchPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-sm font-semibold border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition">← 上一頁</button>
+                <div class="flex gap-1">${pages}</div>
+                <button onclick="goToWatchPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-sm font-semibold border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition">下一頁 →</button>
+                <span class="text-xs text-gray-400 ml-2">${startItem}–${endItem} / ${totalItems} 則</span>
+            </div>`;
+        }
+
+        function goToWatchPage(page) {
+            currentPage = page;
+            renderTimeline(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         window.addEventListener('DOMContentLoaded', initData);

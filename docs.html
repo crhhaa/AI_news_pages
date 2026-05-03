@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>金融科技情報站 - FinTech Wiki</title>
+    <title>金融科技情報站 - 金融科技知識庫</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
@@ -25,43 +25,81 @@
         <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-2">
             <h1 class="text-xl sm:text-2xl font-bold">金融科技情報站</h1>
             <div class="flex flex-wrap gap-x-3 gap-y-1 text-sm sm:text-base">
-                <a href="index.html" class="hover:text-orange-300">AI Trend Weekly</a>
-                <a href="watch.html" class="hover:text-orange-300">Global FinTech Watch</a>
-                <a href="docs.html" class="hover:text-orange-300 border-b-2 border-white pb-0.5">FinTech Wiki</a>
-                <a href="report.html" class="hover:text-orange-300">AI Monthly Report</a>
+                <a href="index.html" class="hover:text-orange-300">AI 趨勢週報</a>
+                <a href="watch.html" class="hover:text-orange-300">全球金融科技觀測</a>
+                <a href="docs.html" class="hover:text-orange-300 border-b-2 border-white pb-0.5">金融科技知識庫</a>
+                <a href="report.html" class="hover:text-orange-300">AI 月度專題報告</a>
             </div>
         </div>
     </nav> -->
 
-    <nav class="bg-blue-900 text-white p-4 shadow-md sticky top-0 z-50" style="position:sticky;top:0;z-index:50;background:#1e3a8a;color:#fff;">
-      <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <h1 class="text-xl font-bold tracking-wider">金融科技情報站</h1>
-        <div class="hidden md:flex space-x-6 font-medium text-sm">
-          <a href="index.html" class="hover:text-orange-300 transition-colors">AI Trend Weekly</a>
-          <a href="watch.html" class="hover:text-orange-300 transition-colors">Global FinTech Watch</a>
-          <a href="report.html" class="hover:text-orange-300 transition-colors">AI Monthly Report</a>
-          <a href="docs.html" class="hover:text-orange-300 transition-colors">FinTech Wiki</a>
+    <nav class="text-white sticky top-0 z-50" style="background:linear-gradient(135deg,#0f2460 0%,#1e3a8a 50%,#1e40af 100%);box-shadow:0 2px 20px rgba(0,0,0,0.25);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-between h-14">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-2.5 flex-shrink-0 group">
+                    <div class="w-7 h-7 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-400 transition-colors">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm font-bold tracking-widest group-hover:text-orange-300 transition-colors">金融科技情報站</span>
+                </a>
+
+                <!-- Desktop nav links -->
+                <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+                    <a href="index.html" class="text-white/75 hover:text-orange-300 transition-colors flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                        AI 趨勢
+                    </a>
+                    <a href="watch.html" class="text-white/75 hover:text-orange-300 transition-colors flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        全球金融科技觀測
+                    </a>
+                    <a href="docs.html" class="text-orange-300 flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        知識庫
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="menuToggle" class="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
         </div>
-        <button id="menuToggle" class="md:hidden flex flex-col space-y-1.5 p-2" aria-label="Menu">
-          <span class="block w-6 h-0.5 bg-white"></span>
-          <span class="block w-6 h-0.5 bg-white"></span>
-          <span class="block w-6 h-0.5 bg-white"></span>
-        </button>
-      </div>
-      <div id="mobileMenu" class="hidden md:hidden mt-3 pb-2 border-t border-blue-800">
-        <div class="max-w-7xl mx-auto flex flex-col space-y-3 pt-3 px-2 text-sm">
-          <a href="index.html" class="hover:text-orange-300">AI Trend Weekly</a>
-          <a href="watch.html" class="hover:text-orange-300">Global FinTech Watch</a>
-          <a href="report.html" class="hover:text-orange-300">AI Monthly Report</a>
-          <a href="docs.html" class="hover:text-orange-300">FinTech Wiki</a>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 py-3 space-y-1 text-sm">
+                <a href="index.html" class="flex items-center gap-2.5 text-white/70 hover:text-white py-2.5 transition-colors">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    AI 趨勢
+                </a>
+                <a href="watch.html" class="flex items-center gap-2.5 text-white/70 hover:text-white py-2.5 transition-colors">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    全球金融科技觀測
+                </a>
+                <a href="docs.html" class="flex items-center gap-2.5 text-orange-300 py-2.5 font-semibold">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    金融科技知識庫
+                </a>
+            </div>
         </div>
-      </div>
     </nav>
 
     <!-- 頁面頭部 / 搜尋區 -->
     <header class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-8 sm:py-12 shadow-inner">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-            <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">FinTech Wiki</h2>
+            <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">金融科技知識庫</h2>
 
             <!-- 搜尋框 -->
             <div class="max-w-2xl mx-auto relative mb-6">
@@ -146,12 +184,13 @@
             </div>
 
             <!-- 模型卡片網格 -->
-            <div id="modelsContainer" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 pb-20">
+            <div id="modelsContainer" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                 <div class="col-span-full text-center text-gray-500 py-10" id="loadingText">
                     <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     正在讀取 AI 模型資料...
                 </div>
             </div>
+            <div id="modelsPagination" class="pb-10"></div>
         </div>
 
         <!-- ===== Tab 2: 知識百科 ===== -->
@@ -169,29 +208,31 @@
                     <button class="wiki-cat-btn bg-white text-gray-600 border border-gray-300 hover:bg-blue-50 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap" data-wiki-cat="其他">📌 其他</button>
                 </div>
             </div>
-            <div id="wikiContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 pb-20">
+            <div id="wikiContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                 <div class="col-span-full text-center text-gray-500 py-10" id="loadingWiki">
                     <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     正在讀取知識百科資料...
                 </div>
             </div>
+            <div id="wikiPagination" class="pb-10"></div>
         </div>
 
         <!-- ===== Tab 3: 相似名詞比較 ===== -->
         <div id="tab-comparisons" class="hidden">
-            <div id="comparisonsContainer" class="flex flex-col pb-20">
+            <div id="comparisonsContainer" class="flex flex-col">
                 <div class="col-span-full text-center text-gray-500 py-10" id="loadingComparisons">
                     <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     正在讀取比較資料...
                 </div>
             </div>
+            <div id="compsPagination" class="pb-10"></div>
         </div>
 
 
     </main>
 
     <footer class="bg-blue-900 text-blue-200 text-center py-6 text-xs mt-8">
-      <p class="mt-1 text-blue-400">元大金控 數位金融部 · 內部參考用途</p>
+      <p class="mt-1 text-blue-400">元大金控 數位金融事業處 · 內部參考用途</p>
     </footer>
 
     <script>
@@ -210,6 +251,12 @@
         let selectedModalities = new Set();
         let currentSearchTerm = '';
         let currentSort = 'date-desc';
+        const MODELS_PER_PAGE = 9;
+        const WIKI_PER_PAGE   = 12;
+        const COMPS_PER_PAGE  = 15;
+        let currentModelsPage = 1;
+        let currentWikiPage   = 1;
+        let currentCompsPage  = 1;
 
         function fetchCSV(url) {
             return new Promise((resolve, reject) => {
@@ -416,7 +463,8 @@
         }
 
         // ===== Tab 1: 模型 =====
-        function renderModels() {
+        function renderModels(resetPage = true) {
+            if (resetPage) currentModelsPage = 1;
             const container = document.getElementById('modelsContainer');
             container.innerHTML = '';
 
@@ -441,8 +489,14 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的模型 🥲</div>`;
+                renderDocsPagination('modelsPagination', 0, 0, 0, MODELS_PER_PAGE, 'goToModelsPage');
                 return;
             }
+
+            const totalModelsItems = filtered.length;
+            const totalModelsPages = Math.ceil(totalModelsItems / MODELS_PER_PAGE);
+            if (currentModelsPage > totalModelsPages) currentModelsPage = Math.max(1, totalModelsPages);
+            const pageFiltered = filtered.slice((currentModelsPage - 1) * MODELS_PER_PAGE, currentModelsPage * MODELS_PER_PAGE);
 
             const prosIcon = `<svg class="w-4 h-4 text-green-500 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
             const consIcon = `<svg class="w-4 h-4 text-red-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
@@ -462,7 +516,7 @@
                 'video':  '🎞 影片',
             };
 
-            filtered.forEach(model => {
+            pageFiltered.forEach(model => {
                 const isCommercial = model['type'] === 'commercial';
                 const typeBadge = isCommercial
                     ? `<span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded">Commercial</span>`
@@ -540,6 +594,8 @@
                     </div>
                 `;
             });
+
+            renderDocsPagination('modelsPagination', currentModelsPage, totalModelsPages, totalModelsItems, MODELS_PER_PAGE, 'goToModelsPage');
         }
 
         // ===== Tab 2: 知識百科 =====
@@ -552,7 +608,8 @@
             '其他':       { cls: 'bg-gray-100 text-gray-700',      icon: '📌' },
         };
 
-        function renderWiki() {
+        function renderWiki(resetPage = true) {
+            if (resetPage) currentWikiPage = 1;
             const container = document.getElementById('wikiContainer');
             container.innerHTML = '';
 
@@ -574,10 +631,16 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 text-lg">找不到符合條件的詞條 🥲</div>`;
+                renderDocsPagination('wikiPagination', 0, 0, 0, WIKI_PER_PAGE, 'goToWikiPage');
                 return;
             }
 
-            filtered.forEach(term => {
+            const totalWikiItems = filtered.length;
+            const totalWikiPages = Math.ceil(totalWikiItems / WIKI_PER_PAGE);
+            if (currentWikiPage > totalWikiPages) currentWikiPage = Math.max(1, totalWikiPages);
+            const pageWiki = filtered.slice((currentWikiPage - 1) * WIKI_PER_PAGE, currentWikiPage * WIKI_PER_PAGE);
+
+            pageWiki.forEach(term => {
                 const catInfo = WIKI_CAT_MAP[term['category']] || { cls: 'bg-gray-100 text-gray-700', icon: '📌' };
                 const categoryBadge = `<span class="${catInfo.cls} text-xs font-bold px-2.5 py-1 rounded">${catInfo.icon} ${term['category'] || '其他'}</span>`;
 
@@ -610,6 +673,8 @@
                     </div>
                 `;
             });
+
+            renderDocsPagination('wikiPagination', currentWikiPage, totalWikiPages, totalWikiItems, WIKI_PER_PAGE, 'goToWikiPage');
         }
 
         // ===== Tab 3: 相似名詞比較 =====
@@ -688,7 +753,8 @@
             }).join(' ');
         }
 
-        function renderComparisons() {
+        function renderComparisons(resetPage = true) {
+            if (resetPage) currentCompsPage = 1;
             const container = document.getElementById('comparisonsContainer');
             container.innerHTML = '';
 
@@ -699,10 +765,16 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `<div class="text-center text-gray-500 py-10 text-lg">找不到符合條件的比較 🥲</div>`;
+                renderDocsPagination('compsPagination', 0, 0, 0, COMPS_PER_PAGE, 'goToCompsPage');
                 return;
             }
 
-            filtered.forEach(comp => {
+            const totalCompsItems = filtered.length;
+            const totalCompsPages = Math.ceil(totalCompsItems / COMPS_PER_PAGE);
+            if (currentCompsPage > totalCompsPages) currentCompsPage = Math.max(1, totalCompsPages);
+            const pageComps = filtered.slice((currentCompsPage - 1) * COMPS_PER_PAGE, currentCompsPage * COMPS_PER_PAGE);
+
+            pageComps.forEach(comp => {
                 let tableHtml = '';
                 if (comp['items_details']) {
                     const { sections, keys } = parseItemsDetails(comp['items_details']);
@@ -746,8 +818,35 @@
                     </article>
                 `;
             });
+
+            renderDocsPagination('compsPagination', currentCompsPage, totalCompsPages, totalCompsItems, COMPS_PER_PAGE, 'goToCompsPage');
         }
 
+
+        function renderDocsPagination(containerId, page, totalPages, totalItems, perPage, goFnName) {
+            const el = document.getElementById(containerId);
+            if (!el) return;
+            if (totalPages <= 1) { el.innerHTML = ''; return; }
+            const startItem = (page - 1) * perPage + 1;
+            const endItem = Math.min(page * perPage, totalItems);
+            let pages = '';
+            let s = Math.max(1, page - 2), e = Math.min(totalPages, s + 4);
+            if (e - s < 4) s = Math.max(1, e - 4);
+            for (let i = s; i <= e; i++) {
+                const a = i === page;
+                pages += `<button onclick="${goFnName}(${i})" class="w-8 h-8 rounded-lg text-sm font-semibold transition ${a ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-300 hover:bg-blue-50'}">${i}</button>`;
+            }
+            el.innerHTML = `<div class="flex items-center justify-center gap-2 py-6">
+                <button onclick="${goFnName}(${page - 1})" ${page === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-sm font-semibold border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition">← 上一頁</button>
+                <div class="flex gap-1">${pages}</div>
+                <button onclick="${goFnName}(${page + 1})" ${page === totalPages ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-sm font-semibold border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition">下一頁 →</button>
+                <span class="text-xs text-gray-400 ml-2">${startItem}–${endItem} / ${totalItems} 筆</span>
+            </div>`;
+        }
+
+        function goToModelsPage(page) { currentModelsPage = page; renderModels(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function goToWikiPage(page)   { currentWikiPage   = page; renderWiki(false);   window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function goToCompsPage(page)  { currentCompsPage  = page; renderComparisons(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
         function toggleComp(uid) {
             const body = document.getElementById('body-' + uid);
